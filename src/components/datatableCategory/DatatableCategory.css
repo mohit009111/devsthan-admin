@@ -1,0 +1,87 @@
+.datatableCategory {
+  max-width: 900px;
+  margin: 50px auto;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background-color: #f9f9f9;
+  font-family: 'Arial', sans-serif;
+}
+
+.datatableCategory h3 {
+  margin-bottom: 15px;
+  color: #333;
+  font-size: 1.5em;
+}
+
+.datatableCategory .category-add-box {
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+}
+
+.datatableCategory .category-add-box input {
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 1em;
+  transition: border-color 0.3s;
+}
+
+.datatableCategory .category-add-box input:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+.datatableCategory .category-add-box button {
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  font-size: 1em;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.datatableCategory .category-add-box button:hover {
+  background-color: #0056b3;
+}
+
+.datatableCategory .delete-button {
+  background-color: #dc3545;
+  color: white;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 4px;
+  margin-left: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.datatableCategory .delete-button:hover {
+  background-color: #c82333;
+}
+
+.datatableCategory .category-list-box ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.datatableCategory .category-list-box ul li {
+  padding: 10px;
+  margin: 5px 0;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.datatableCategory .category-list-box ul li:hover {
+  background-color: #f1f1f1;
+}
+
+.datatableCategory .category-list-box p {
+  color: #777;
+}
