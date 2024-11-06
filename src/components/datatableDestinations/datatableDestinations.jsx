@@ -20,8 +20,8 @@ const Datatable = () => {
 
   const fetchAllTours = async () => {
     try {
-      const response = await fetch(`${BASE_URL}/api/allTours`, {
-        method: "POST",
+      const response = await fetch(`${BASE_URL}/api/getAllDestinations`, {
+        method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
@@ -30,9 +30,9 @@ const Datatable = () => {
 
       const mappedData = data.map((tour, index) => ({
         id: tour.uuid || index,
-        name: tour.name,
-        location: tour.location,
-        price: tour.standardDetails.price,
+        name: tour.country.label,
+        location: tour.state.label,
+        // price: tour.standardDetails.price,
         date: tour.createdAt,
       }));
 

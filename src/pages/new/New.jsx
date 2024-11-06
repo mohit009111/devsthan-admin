@@ -5,6 +5,7 @@ import "./new.css";
 import { BASE_URL } from "../../utils/headers";
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { RotatingLines } from 'react-loader-spinner'
 import { v4 as uuidv4 } from 'uuid';
 // import { v2 as cloudinary } from 'cloudinary';
 
@@ -16,7 +17,7 @@ const NewTour = ({ title }) => {
   const [categories, setCategories] = useState([]);
   const [attributes, setAttributes] = useState([]);
   const [destinations, setDestinations] = useState("");
-  
+  const [loading, setLoading] = useState(false);
 
   const [tourData, setTourData] = useState({
     uuid: uuidv4(),
@@ -30,9 +31,10 @@ const NewTour = ({ title }) => {
     categories: [],
     attributes: [],
     languages: [""],
-    country:"",
-    city:"",
-    state:"",
+    country: "",
+    city: "",
+    state: "",
+    destinationId:"",
     availableDates: "",
     fixedDates: {
       enabled: false,
@@ -80,7 +82,7 @@ const NewTour = ({ title }) => {
           hotelName: "",
           hotelUrl: "",
           siteSeenPhotos: [],
-          transportation: false, // Ensure this is initialized
+          transportation: false, 
           carName: "",
           carPhotos: [],
           managerName: "",
@@ -581,7 +583,14 @@ const NewTour = ({ title }) => {
       [field]: value,
     }));
   };
-  
+  const handleDestinationSelect = (destinationId) => {
+    const selectedDestination = destinations.find((d) => d.state.label === destinationId);
+
+    setTourData((prevTourData) => ({
+        ...prevTourData,
+        destinationId: selectedDestination ? selectedDestination.uuid : '' // Save the uuid
+    }));
+};
   const handleItineraryChange = (index, field, value, category) => {
     if (!tourData[category] || !tourData[category].itineraries) {
       console.error(`Category "${category}" or itineraries are undefined.`);
@@ -732,7 +741,7 @@ const NewTour = ({ title }) => {
         const attributeData = await responseAttribute.json();
         const destinationData = await responseADestinations.json();
         const data = await response.json();
-       
+
         setAttributes(attributeData)
         setCategories(data);
         setDestinations(destinationData)
@@ -749,6 +758,7 @@ const NewTour = ({ title }) => {
 
     const handleSaveChanges = async () => {
       try {
+        setLoading(true);
         const formData = new FormData();
         const uploadedImageUrls = []; // Array to store uploaded image URLs
 
@@ -773,54 +783,54 @@ const NewTour = ({ title }) => {
         };
 
         // Function to append images to itineraries
-      // Function to append images to itineraries
-const appendImagesToItinerary = async (itinerary) => {
-  const uploadPhotos = async (photos, field) => {
-    if (photos) {
-      // Ensure the target field exists and is initialized as an array
-      if (!Array.isArray(itinerary[field])) {
-        itinerary[field] = [];
-      }
+        // Function to append images to itineraries
+        const appendImagesToItinerary = async (itinerary) => {
+          const uploadPhotos = async (photos, field) => {
+            if (photos) {
+              // Ensure the target field exists and is initialized as an array
+              if (!Array.isArray(itinerary[field])) {
+                itinerary[field] = [];
+              }
 
-      for (const photo of photos) {
-        if (photo instanceof File) {
-          const uploadedUrl = await uploadImageToCloudinary(photo);
-          uploadedImageUrls.push(uploadedUrl); // Store the uploaded URL
-          // Only push if the URL is a valid string
-          if (uploadedUrl) {
-            itinerary[field].push(uploadedUrl);
-          }
-        } else if (typeof photo === 'string' && photo.trim() !== '') {
-          // Push only valid URLs
-          itinerary[field].push(photo);
-        }
-      }
-    }
-  };
+              for (const photo of photos) {
+                if (photo instanceof File) {
+                  const uploadedUrl = await uploadImageToCloudinary(photo);
+                  uploadedImageUrls.push(uploadedUrl); // Store the uploaded URL
+                  // Only push if the URL is a valid string
+                  if (uploadedUrl) {
+                    itinerary[field].push(uploadedUrl);
+                  }
+                } else if (typeof photo === 'string' && photo.trim() !== '') {
+                  // Push only valid URLs
+                  itinerary[field].push(photo);
+                }
+              }
+            }
+          };
 
-  // Safely check and upload only if the fields are defined, else default to empty arrays
-  await uploadPhotos(itinerary.siteSeenPhotos?.filter(Boolean) || [], 'siteSeenPhotos'); // Filter out empty values
-  await uploadPhotos(itinerary.hotelPhotos?.filter(Boolean) || [], 'hotelPhotos'); // Filter out empty values
-  await uploadPhotos(itinerary.carPhotos?.filter(Boolean) || [], 'carPhotos'); // Filter out empty values
+          // Safely check and upload only if the fields are defined, else default to empty arrays
+          await uploadPhotos(itinerary.siteSeenPhotos?.filter(Boolean) || [], 'siteSeenPhotos'); // Filter out empty values
+          await uploadPhotos(itinerary.hotelPhotos?.filter(Boolean) || [], 'hotelPhotos'); // Filter out empty values
+          await uploadPhotos(itinerary.carPhotos?.filter(Boolean) || [], 'carPhotos'); // Filter out empty values
 
-  // Ensure meals exist, and default to empty arrays if not
-  itinerary.meals = itinerary.meals || {}; // Initialize meals object if undefined
-  itinerary.meals.breakfast = itinerary.meals.breakfast || { photos: [] }; // Ensure breakfast and photos array are initialized
-  itinerary.meals.lunch = itinerary.meals.lunch || { photos: [] }; // Ensure lunch and photos array are initialized
-  itinerary.meals.dinner = itinerary.meals.dinner || { photos: [] }; // Ensure dinner and photos array are initialized
+          // Ensure meals exist, and default to empty arrays if not
+          itinerary.meals = itinerary.meals || {}; // Initialize meals object if undefined
+          itinerary.meals.breakfast = itinerary.meals.breakfast || { photos: [] }; // Ensure breakfast and photos array are initialized
+          itinerary.meals.lunch = itinerary.meals.lunch || { photos: [] }; // Ensure lunch and photos array are initialized
+          itinerary.meals.dinner = itinerary.meals.dinner || { photos: [] }; // Ensure dinner and photos array are initialized
 
-  await uploadPhotos(itinerary.meals.breakfast.photos?.filter(Boolean) || [], 'meals.breakfast.photos');
-  await uploadPhotos(itinerary.meals.lunch.photos?.filter(Boolean) || [], 'meals.lunch.photos');
-  await uploadPhotos(itinerary.meals.dinner.photos?.filter(Boolean) || [], 'meals.dinner.photos');
+          await uploadPhotos(itinerary.meals.breakfast.photos?.filter(Boolean) || [], 'meals.breakfast.photos');
+          await uploadPhotos(itinerary.meals.lunch.photos?.filter(Boolean) || [], 'meals.lunch.photos');
+          await uploadPhotos(itinerary.meals.dinner.photos?.filter(Boolean) || [], 'meals.dinner.photos');
 
-  // Filter out any empty objects or invalid URLs from the itinerary fields
-  itinerary.siteSeenPhotos = itinerary.siteSeenPhotos?.filter(photo => typeof photo === 'string' && photo.trim() !== '') || [];
-  itinerary.hotelPhotos = itinerary.hotelPhotos?.filter(photo => typeof photo === 'string' && photo.trim() !== '') || [];
-  itinerary.carPhotos = itinerary.carPhotos?.filter(photo => typeof photo === 'string' && photo.trim() !== '') || [];
-  itinerary.meals.breakfast.photos = itinerary.meals.breakfast.photos?.filter(photo => typeof photo === 'string' && photo.trim() !== '') || [];
-  itinerary.meals.lunch.photos = itinerary.meals.lunch.photos?.filter(photo => typeof photo === 'string' && photo.trim() !== '') || [];
-  itinerary.meals.dinner.photos = itinerary.meals.dinner.photos?.filter(photo => typeof photo === 'string' && photo.trim() !== '') || [];
-};
+          // Filter out any empty objects or invalid URLs from the itinerary fields
+          itinerary.siteSeenPhotos = itinerary.siteSeenPhotos?.filter(photo => typeof photo === 'string' && photo.trim() !== '') || [];
+          itinerary.hotelPhotos = itinerary.hotelPhotos?.filter(photo => typeof photo === 'string' && photo.trim() !== '') || [];
+          itinerary.carPhotos = itinerary.carPhotos?.filter(photo => typeof photo === 'string' && photo.trim() !== '') || [];
+          itinerary.meals.breakfast.photos = itinerary.meals.breakfast.photos?.filter(photo => typeof photo === 'string' && photo.trim() !== '') || [];
+          itinerary.meals.lunch.photos = itinerary.meals.lunch.photos?.filter(photo => typeof photo === 'string' && photo.trim() !== '') || [];
+          itinerary.meals.dinner.photos = itinerary.meals.dinner.photos?.filter(photo => typeof photo === 'string' && photo.trim() !== '') || [];
+        };
 
         // Append images for standard itineraries
         if (tourData.standardDetails?.itineraries) {
@@ -976,6 +986,8 @@ const appendImagesToItinerary = async (itinerary) => {
       } catch (error) {
         console.error("Error:", error);
         toast.error(error.message);
+      } finally {
+        setLoading(false); // Stop loader after completion
       }
     };
 
@@ -2771,42 +2783,45 @@ const appendImagesToItinerary = async (itinerary) => {
             <div className="formGroup" style={{ position: "relative" }}>
               <label htmlFor="categoriesInput">Country</label>
               <div>
-  <select
-    name="country"
-    onChange={(e) => handleLocationSelect('country', e.target.value)}
-  >
-    <option value="">Select a country</option>
-    {destinations && destinations.map((d) => (
-      <option key={d.id} value={d.id}>
-        {d.country?.label}
-      </option>
-    ))}
-  </select>
+                <select
+                  name="country"
+                  onChange={(e) => handleLocationSelect('country', e.target.value)}
+                >
+                  <option value="">Select a country</option>
+                  {destinations && destinations.map((d) => (
+                    <option key={d.id} value={d.id}>
+                      {d.country?.label}
+                    </option>
+                  ))}
+                </select>
 
-  <select
+                <select
     name="state"
-    onChange={(e) => handleLocationSelect('state', e.target.value)}
-  >
+    onChange={(e) => {
+        handleLocationSelect('state', e.target.value);
+        handleDestinationSelect(e.target.value); // Call the second function
+    }}
+>
     <option value="">Select a state</option>
     {destinations && destinations.map((d) => (
-      <option key={d.id} value={d.id}>
-        {d.state?.label}
-      </option>
+        <option key={d.id} value={d.id}>
+            {d.state?.label}
+        </option>
     ))}
-  </select>
+</select>
 
-  <select
-    name="city"
-    onChange={(e) => handleLocationSelect('city', e.target.value)}
-  >
-    <option value="">Select a city</option>
-    {destinations && destinations.map((d) => (
-      <option key={d.id} value={d.id}>
-        {d.city?.label}
-      </option>
-    ))}
-  </select>
-</div>
+                <select
+                  name="city"
+                  onChange={(e) => handleLocationSelect('city', e.target.value)}
+                >
+                  <option value="">Select a city</option>
+                  {destinations && destinations.map((d) => (
+                    <option key={d.id} value={d.id}>
+                      {d.city?.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
 
 
               <div className="selectedCategories">
@@ -2976,9 +2991,24 @@ const appendImagesToItinerary = async (itinerary) => {
             {selectedTourType === "deluxe" && renderDeluxeDetails()}
             {selectedTourType === "premium" && renderPremiumDetails()}
 
+            {loading ? (
+                    <RotatingLines
+                        visible={true}
+                        height="60"
+                        width="60"
+                        color="grey"
+                        strokeWidth="5"
+                        animationDuration="0.75"
+                        ariaLabel="rotating-lines-loading"
+                        wrapperStyle={{}}
+                        wrapperClass=""
+                    />
+                ) : (
+                   <button type="submit">Submit</button>
+                )}
 
 
-            <button type="submit">Submit</button>
+            
           </form>
         </div>
       </div>
