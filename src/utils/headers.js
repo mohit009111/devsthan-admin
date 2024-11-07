@@ -1,6 +1,6 @@
 const PORT = 4000
 
-const BASE_URL=`http://localhost:${PORT}`
+const BASE_URL=`https://devsthan-backend.vercel.app`
 const VERSEL_URL="https://devsthan.vercel.app"
 
 
