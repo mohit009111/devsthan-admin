@@ -34,28 +34,33 @@ const NewTour = ({ title }) => {
     country: "",
     city: "",
     state: "",
-    destinationId:"",
+    destinationId: "",
     availableDates: "",
     fixedDates: {
       enabled: false,
       seatsAvailable: 0,
       priceChangePerPerson: 0,
     },
-    openHours: {
-      enabled: false,
-      pricePerPerson: 0,
-      groupSize: 0,
-      maxPeople: 0,
-    },
     departureDetails: "",
     knowBeforeYouGo: [""],
     additionalInfo: [""],
     bannerImage: "",
     images: [],
-
     standardDetails: {
       itineraries: [
         {
+          hotel: {
+            isIncluded: false,
+            name: "",
+            url: "",
+            categories: [],
+            images: [],
+            roomCategory: "",
+            roomImages: [],
+            location: ""
+          }
+          ,
+          photos: [],
           title: "",
           duration: "",
           meals: {
@@ -73,16 +78,15 @@ const NewTour = ({ title }) => {
               photos: []
             }
           },
-          hotelPhotos: [
+        
 
-          ],
           image: "",
           description: "",
           day: 1,
           hotelName: "",
           hotelUrl: "",
           siteSeenPhotos: [],
-          transportation: false, 
+          transportation: false,
           carName: "",
           carPhotos: [],
           managerName: "",
@@ -101,14 +105,14 @@ const NewTour = ({ title }) => {
 
       ,
 
-      inclusions: [""],
-      exclusions: [""],
+
       cancellationPolicy: "",
     },
 
     deluxeDetails: {
       itineraries: [
         {
+          photos: [],
           title: "",
           duration: "",
           meals: {
@@ -152,13 +156,13 @@ const NewTour = ({ title }) => {
 
       ,
       cancellationPolicy: "",
-      inclusions: [""],
-      exclusions: [""],
+
     },
 
     premiumDetails: {
       itineraries: [
         {
+          photos: [],
           title: "",
           duration: "",
           meals: {
@@ -202,37 +206,11 @@ const NewTour = ({ title }) => {
 
       ,
 
-      inclusions: [""],
+
       cancellationPolicy: "",
-      exclusions: [""],
+
     },
   });
-
-  // Function to handle meal photo changes
-  const handleMealPhotosChange = (e, itineraryIndex, mealType, tourDetailType) => {
-    const files = Array.from(e.target.files); // Get the uploaded files
-    setTourData((prevState) => {
-      const updatedItineraries = [...prevState[tourDetailType].itineraries];
-      const updatedItinerary = { ...updatedItineraries[itineraryIndex] };
-
-      if (!updatedItinerary.meals[mealType]) {
-        updatedItinerary.meals[mealType] = { isAvailable: true, name: "", photos: [] }; // Initialize mealType if it doesn't exist
-      }
-
-      updatedItinerary.meals[mealType].photos = [...updatedItinerary.meals[mealType].photos, ...files];
-      updatedItineraries[itineraryIndex] = updatedItinerary;
-
-      return {
-        ...prevState,
-        [tourDetailType]: {
-          ...prevState[tourDetailType],
-          itineraries: updatedItineraries,
-        },
-      };
-    });
-  };
-
-
   const handleDeleteMealPhoto = (itineraryIndex, photoIndex, mealType, tourDetailType) => {
     setTourData((prevState) => {
       const updatedItineraries = [...prevState[tourDetailType].itineraries];
@@ -265,7 +243,7 @@ const NewTour = ({ title }) => {
   const handleDeleteBanner = () => {
     setTourData((prevState) => ({
       ...prevState,
-      bannerImage: "", // Clear the banner image
+      bannerImage: "",
     }));
   };
 
@@ -527,8 +505,28 @@ const NewTour = ({ title }) => {
       [name]: value,
     }));
   };
+  const handleItineraryPhotos = (index, files, section) => {
+    const newPhotos = Array.from(files).map((file) => URL.createObjectURL(file));
 
+    setTourData((prevData) => {
+      const updatedItineraries = [...prevData[section].itineraries];
 
+      // Only add unique URLs, preventing duplicates
+      const uniquePhotos = [...updatedItineraries[index].photos, ...newPhotos].filter(
+        (value, idx, self) => self.indexOf(value) === idx
+      );
+
+      updatedItineraries[index].photos = uniquePhotos;
+
+      return {
+        ...prevData,
+        [section]: {
+          ...prevData[section],
+          itineraries: updatedItineraries,
+        },
+      };
+    });
+  };
   const addArrayField = (field, category) => {
     setTourData((prev) => ({
       ...prev,
@@ -587,10 +585,10 @@ const NewTour = ({ title }) => {
     const selectedDestination = destinations.find((d) => d.state.label === destinationId);
 
     setTourData((prevTourData) => ({
-        ...prevTourData,
-        destinationId: selectedDestination ? selectedDestination.uuid : '' // Save the uuid
+      ...prevTourData,
+      destinationId: selectedDestination ? selectedDestination.uuid : '' // Save the uuid
     }));
-};
+  };
   const handleItineraryChange = (index, field, value, category) => {
     if (!tourData[category] || !tourData[category].itineraries) {
       console.error(`Category "${category}" or itineraries are undefined.`);
@@ -608,32 +606,6 @@ const NewTour = ({ title }) => {
       },
     }));
   };
-  const removePricingArrayField = (index, field, category, itineraryIndex) => {
-    setTourData((prev) => {
-      // Clone the data
-      const updatedCategory = { ...prev[category] };
-
-      // Access the correct itinerary's pricing array
-      const updatedItineraries = [...updatedCategory.itineraries];
-      const selectedItinerary = updatedItineraries[itineraryIndex];
-
-      // Remove the pricing entry at the specified index
-      selectedItinerary[field] = selectedItinerary[field].filter((_, i) => i !== index);
-
-      // Update the selected itinerary's field (e.g., pricing)
-      updatedItineraries[itineraryIndex] = selectedItinerary;
-
-      return {
-        ...prev,
-        [category]: {
-          ...updatedCategory,
-          itineraries: updatedItineraries,
-        },
-      };
-    });
-  };
-
-
   const handleFileChange = (e) => {
     const files = Array.from(e.target.files);
     setTourData((prevState) => ({
@@ -1135,68 +1107,25 @@ const NewTour = ({ title }) => {
         </button>
       </div>
 
-      {/* Inclusions Field */}
-      <div className="formGroup">
-        <label>Inclusions</label>
-        {tourData.standardDetails.inclusions.map((item, index) => (
-          <div key={index} className="formItem">
-            <input
-              type="text"
-              value={item}
-              onChange={(e) =>
-                handleArrayChange(index, "inclusions", e.target.value, "standardDetails")
-              }
-              placeholder="Enter inclusion"
-            />
-            {tourData.standardDetails.inclusions.length > 1 && (
-              <button
-                type="button"
-                className="deleteButton"
-                onClick={() => removeArrayField(index, "inclusions", "standardDetails")}
-              >
-                Remove
-              </button>
-            )}
-          </div>
-        ))}
-        <button type="button" onClick={() => addArrayField("inclusions", "standardDetails")} className="add-more">
-          Add More Inclusions
-        </button>
-      </div>
 
-      {/* Exclusions Field */}
-      <div className="formGroup">
-        <label>Exclusions</label>
-        {tourData.standardDetails.exclusions.map((item, index) => (
-          <div key={index} className="formItem">
-            <input
-              type="text"
-              value={item}
-              onChange={(e) =>
-                handleArrayChange(index, "exclusions", e.target.value, "standardDetails")
-              }
-              placeholder="Enter exclusion"
-            />
-            {tourData.standardDetails.exclusions.length > 1 && (
-              <button
-                type="button"
-                className="deleteButton"
-                onClick={() => removeArrayField(index, "exclusions", "standardDetails")}
-              >
-                Remove
-              </button>
-            )}
-          </div>
-        ))}
-        <button type="button" onClick={() => addArrayField("exclusions", "standardDetails")} className="add-more">
-          Add More Exclusions
-        </button>
-      </div>
+
       <div className="formGroup">
         <h3>Standard Itineraries</h3>
         {tourData.standardDetails.itineraries.map((itinerary, index) => (
           <div key={index} className="itinerary">
             <label>Day {itinerary.day}</label>
+            <label>Itinerary Photos</label>
+            <input
+              type="file"
+              name="itinerary photos"
+              multiple
+              onChange={(e) => handleItineraryPhotos(index, e.target.files, "standardDetails")}
+            />
+            <div className="preview-photos">
+              {itinerary.photos.map((photo, photoIndex) => (
+                <img key={photoIndex} src={photo} alt={`Itinerary photo ${photoIndex + 1}`} width="100" />
+              ))}
+            </div>
             <input
               type="text"
               name="title"
@@ -1212,22 +1141,10 @@ const NewTour = ({ title }) => {
             />
 
             {/* Hotel Name */}
-            <input
-              type="text"
-              name="hotelName"
-              value={itinerary.hotelName}
-              onChange={(e) => handleItineraryChange(index, "hotelName", e.target.value, "standardDetails")}
-              placeholder="Enter hotel name"
-            />
+            
 
             {/* Hotel URL */}
-            <input
-              type="text"
-              name="hotelUrl"
-              value={itinerary.hotelUrl}
-              onChange={(e) => handleItineraryChange(index, "hotelUrl", e.target.value, "standardDetails")}
-              placeholder="Enter hotel URL"
-            />
+        
 
             {/* Siteseen Photos */}
             <label>Siteseen Photos</label>
@@ -1254,30 +1171,153 @@ const NewTour = ({ title }) => {
                 ))}
               </div>
             )}
-            <label>Hotel Photos</label>
-            <input
-              type="file"
-              name="hotelphotos"
-              multiple
-              onChange={(e) => handleHotelPhotoChange(e, index, "standardDetails")} // Pass index correctly
-            />
 
-            {/* Display site seen photos */}
-            {itinerary.hotelPhotos.length > 0 && (
-              <div className="photo-preview">
-                {itinerary.hotelPhotos.map((photo, photoIndex) => (
-                  <div key={photoIndex} className="photo-container">
-                    <img src={URL.createObjectURL(photo)} alt={`Hotel ${photoIndex}`} />
-                    <button
-                      className="delete-photo"
-                      onClick={() => handleDeleteHotelPhoto(index, photoIndex, "standardDetails")}
-                    >
-                      &times; {/* Delete button */}
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
+
+
+
+<label>Include Hotel</label>
+    <input
+      type="checkbox"
+      checked={itinerary.hotel.isIncluded || false}
+      onChange={(e) => {
+        const updatedItineraries = [...tourData.standardDetails.itineraries];
+        updatedItineraries[index].hotel.isIncluded = e.target.checked;
+        setTourData({
+          ...tourData,
+          standardDetails: {
+            ...tourData.standardDetails,
+            itineraries: updatedItineraries
+          }
+        });
+      }}
+    />
+
+    {/* Hotel details div, visible only if Include Hotel is checked */}
+    {itinerary.hotel.isIncluded && (
+      <div className="hotel-details">
+        <label>Hotel Name</label>
+        <input
+          type="text"
+          value={itinerary.hotel.name || ""}
+          onChange={(e) => {
+            const updatedItineraries = [...tourData.standardDetails.itineraries];
+            updatedItineraries[index].hotel.name = e.target.value;
+            setTourData({
+              ...tourData,
+              standardDetails: {
+                ...tourData.standardDetails,
+                itineraries: updatedItineraries
+              }
+            });
+          }}
+        />
+
+        <label>Hotel URL</label>
+        <input
+          type="url"
+          value={itinerary.hotel.url || ""}
+          onChange={(e) => {
+            const updatedItineraries = [...tourData.standardDetails.itineraries];
+            updatedItineraries[index].hotel.url = e.target.value;
+            setTourData({
+              ...tourData,
+              standardDetails: {
+                ...tourData.standardDetails,
+                itineraries: updatedItineraries
+              }
+            });
+          }}
+        />
+
+        <label>Hotel Categories</label>
+        <input
+          type="text"
+          value={itinerary.hotel.categories.join(", ") || ""}
+          onChange={(e) => {
+            const updatedItineraries = [...tourData.standardDetails.itineraries];
+            updatedItineraries[index].hotel.categories = e.target.value.split(", ");
+            setTourData({
+              ...tourData,
+              standardDetails: {
+                ...tourData.standardDetails,
+                itineraries: updatedItineraries
+              }
+            });
+          }}
+        />
+
+        <label>Hotel Images</label>
+        <input
+          type="file"
+          multiple
+          onChange={(e) => {
+            const files = Array.from(e.target.files);
+            const updatedItineraries = [...tourData.standardDetails.itineraries];
+            updatedItineraries[index].hotel.images = files.map((file) => URL.createObjectURL(file));
+            setTourData({
+              ...tourData,
+              standardDetails: {
+                ...tourData.standardDetails,
+                itineraries: updatedItineraries
+              }
+            });
+          }}
+        />
+
+        <label>Room Category</label>
+        <input
+          type="text"
+          value={itinerary.hotel.roomCategory || ""}
+          onChange={(e) => {
+            const updatedItineraries = [...tourData.standardDetails.itineraries];
+            updatedItineraries[index].hotel.roomCategory = e.target.value;
+            setTourData({
+              ...tourData,
+              standardDetails: {
+                ...tourData.standardDetails,
+                itineraries: updatedItineraries
+              }
+            });
+          }}
+        />
+
+        <label>Room Images</label>
+        <input
+          type="file"
+          multiple
+          onChange={(e) => {
+            const files = Array.from(e.target.files);
+            const updatedItineraries = [...tourData.standardDetails.itineraries];
+            updatedItineraries[index].hotel.roomImages = files.map((file) => URL.createObjectURL(file));
+            setTourData({
+              ...tourData,
+              standardDetails: {
+                ...tourData.standardDetails,
+                itineraries: updatedItineraries
+              }
+            });
+          }}
+        />
+
+        <label>Hotel Location</label>
+        <input
+          type="text"
+          value={itinerary.hotel.location || ""}
+          onChange={(e) => {
+            const updatedItineraries = [...tourData.standardDetails.itineraries];
+            updatedItineraries[index].hotel.location = e.target.value;
+            setTourData({
+              ...tourData,
+              standardDetails: {
+                ...tourData.standardDetails,
+                itineraries: updatedItineraries
+              }
+            });
+          }}
+        />
+      </div>
+    )}
+ 
 
             <div className="meals-checkbox">
               <label>
@@ -1629,68 +1669,24 @@ const NewTour = ({ title }) => {
         </button>
       </div>
 
-      {/* Inclusions */}
-      <div className="formGroup">
-        <label>Inclusions</label>
-        {tourData.deluxeDetails.inclusions.map((item, index) => (
-          <div key={index} className="formItem">
-            <input
-              type="text"
-              value={item}
-              onChange={(e) =>
-                handleArrayChange(index, "inclusions", e.target.value, "deluxeDetails")
-              }
-              placeholder="Enter inclusion"
-            />
-            {tourData.deluxeDetails.inclusions.length > 1 && (
-              <button
-                type="button"
-                className="deleteButton"
-                onClick={() => removeArrayField(index, "inclusions", "deluxeDetails")}
-              >
-                Remove
-              </button>
-            )}
-          </div>
-        ))}
-        <button type="button" onClick={() => addArrayField("inclusions", "deluxeDetails")} className="add-more">
-          Add More Inclusions
-        </button>
-      </div>
 
-      {/* Exclusions */}
-      <div className="formGroup">
-        <label>Exclusions</label>
-        {tourData.deluxeDetails.exclusions.map((item, index) => (
-          <div key={index} className="formItem">
-            <input
-              type="text"
-              value={item}
-              onChange={(e) =>
-                handleArrayChange(index, "exclusions", e.target.value, "deluxeDetails")
-              }
-              placeholder="Enter exclusion"
-            />
-            {tourData.deluxeDetails.exclusions.length > 1 && (
-              <button
-                type="button"
-                className="deleteButton"
-                onClick={() => removeArrayField(index, "exclusions", "deluxeDetails")}
-              >
-                Remove
-              </button>
-            )}
-          </div>
-        ))}
-        <button type="button" onClick={() => addArrayField("exclusions", "deluxeDetails")} className="add-more">
-          Add More Exclusions
-        </button>
-      </div>
       <div className="formGroup">
         <h3>Deluxe Itineraries</h3>
         {tourData.deluxeDetails.itineraries.map((itinerary, index) => (
           <div key={index} className="itinerary">
             <label>Day {itinerary.day}</label>
+            <label>Itinerary Photos</label>
+            <input
+              type="file"
+              name="itinerary photos"
+              multiple
+              onChange={(e) => handleItineraryPhotos(index, e.target.files, "deluxeDetails")}
+            />
+            <div className="preview-photos">
+              {itinerary.photos.map((photo, photoIndex) => (
+                <img key={photoIndex} src={photo} alt={`Itinerary photo ${photoIndex + 1}`} width="100" />
+              ))}
+            </div>
             <input
               type="text"
               name="title"
@@ -1706,22 +1702,8 @@ const NewTour = ({ title }) => {
             />
 
             {/* Hotel Name */}
-            <input
-              type="text"
-              name="hotelName"
-              value={itinerary.hotelName}
-              onChange={(e) => handleItineraryChange(index, "hotelName", e.target.value, "deluxeDetails")}
-              placeholder="Enter hotel name"
-            />
+           
 
-            {/* Hotel URL */}
-            <input
-              type="text"
-              name="hotelUrl"
-              value={itinerary.hotelUrl}
-              onChange={(e) => handleItineraryChange(index, "hotelUrl", e.target.value, "deluxeDetails")}
-              placeholder="Enter hotel URL"
-            />
 
 
             <div>
@@ -1753,30 +1735,7 @@ const NewTour = ({ title }) => {
             </div>
 
 
-            <label>Hotel Photos</label>
-            <input
-              type="file"
-              name="hotelphotos"
-              multiple
-              onChange={(e) => handleHotelPhotoChange(e, index, "deluxeDetails")} // Pass index correctly
-            />
-
-            {/* Display site seen photos */}
-            {itinerary.hotelPhotos.length > 0 && (
-              <div className="photo-preview">
-                {itinerary.hotelPhotos.map((photo, photoIndex) => (
-                  <div key={photoIndex} className="photo-container">
-                    <img src={URL.createObjectURL(photo)} alt={`Hotel ${photoIndex}`} />
-                    <button
-                      className="delete-photo"
-                      onClick={() => handleDeleteHotelPhoto(index, photoIndex, "deluxeDetails")}
-                    >
-                      &times; {/* Delete button */}
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
+      
 
             {/* Meals Checkboxes */}
             <div className="meals-checkbox">
@@ -2114,61 +2073,25 @@ const NewTour = ({ title }) => {
         </button>
       </div>
 
-      {/* Inclusions Field */}
-      <div className="formGroup">
-        <label>Inclusions</label>
-        {tourData.premiumDetails.inclusions.map((item, index) => (
-          <div key={index} className="formItem">
-            <input
-              type="text"
-              value={item}
-              onChange={(e) =>
-                handleArrayChange(index, "inclusions", e.target.value, "premiumDetails")
-              }
-              placeholder="Enter inclusion"
-            />
-            {tourData.premiumDetails.inclusions.length > 1 && (
-              <button type="button" onClick={() => removeArrayField(index, "inclusions", "premiumDetails")} className="deleteButton">
-                Remove
-              </button>
-            )}
-          </div>
-        ))}
-        <button type="button" onClick={() => addArrayField("inclusions", "premiumDetails")} className="add-more">
-          Add More Inclusions
-        </button>
-      </div>
 
-      {/* Exclusions Field */}
-      <div className="formGroup">
-        <label>Exclusions</label>
-        {tourData.premiumDetails.exclusions.map((item, index) => (
-          <div key={index} className="formItem">
-            <input
-              type="text"
-              value={item}
-              onChange={(e) =>
-                handleArrayChange(index, "exclusions", e.target.value, "premiumDetails")
-              }
-              placeholder="Enter exclusion"
-            />
-            {tourData.premiumDetails.exclusions.length > 1 && (
-              <button type="button" onClick={() => removeArrayField(index, "exclusions", "premiumDetails")} className="deleteButton">
-                Remove
-              </button>
-            )}
-          </div>
-        ))}
-        <button type="button" onClick={() => addArrayField("exclusions", "premiumDetails")} className="add-more">
-          Add More Exclusions
-        </button>
-      </div>
       {/* Premium Itineraries */}
       <div className="formGroup">
         <h3>Premium Itineraries</h3>
         {tourData.premiumDetails.itineraries.map((itinerary, index) => (
           <div key={index} className="itinerary">
             <label>Day {itinerary.day}</label>
+            <label>Itinerary Photos</label>
+            <input
+              type="file"
+              name="itinerary photos"
+              multiple
+              onChange={(e) => handleItineraryPhotos(index, e.target.files, "premiumDetails")}
+            />
+            <div className="preview-photos">
+              {itinerary.photos.map((photo, photoIndex) => (
+                <img key={photoIndex} src={photo} alt={`Itinerary photo ${photoIndex + 1}`} width="100" />
+              ))}
+            </div>
             <input
               type="text"
               name="title"
@@ -2211,7 +2134,7 @@ const NewTour = ({ title }) => {
               onChange={(e) => handleSiteSeenPhotoChange(e, index, "premiumDetails")}
             />
 
-            {/* Display site seen photos */}
+
             {itinerary.siteSeenPhotos.length > 0 && (
               <div className="photo-preview">
                 {itinerary.siteSeenPhotos.map((photo, photoIndex) => (
@@ -2235,7 +2158,7 @@ const NewTour = ({ title }) => {
               onChange={(e) => handleHotelPhotoChange(e, index, "premiumDetails")} // Pass index correctly
             />
 
-            {/* Display site seen photos */}
+
             {itinerary.hotelPhotos.length > 0 && (
               <div className="photo-preview">
                 {itinerary.hotelPhotos.map((photo, photoIndex) => (
@@ -2563,88 +2486,6 @@ const NewTour = ({ title }) => {
             )}
 
             <div className="formGroup">
-
-
-              <label>
-                <input
-                  type="checkbox"
-                  name="openHours"
-                  checked={tourData.openHours.enabled}
-                  onChange={(e) => {
-                    setTourData((prevState) => ({
-                      ...prevState,
-                      openHours: {
-                        ...prevState.openHours,
-                        enabled: e.target.checked,
-                      },
-                    }));
-                  }}
-                />
-                Open Hours Tour
-              </label>
-
-            </div>
-            {tourData.openHours.enabled && (
-              <div className="openHoursBox">
-                <h4>Open Hours Tour Details</h4>
-                <div className="formGroup">
-                  <label>Price Per Person</label>
-                  <input
-                    type="number"
-                    value={tourData.openHours.pricePerPerson || ''}
-                    onChange={(e) =>
-                      setTourData((prevState) => ({
-                        ...prevState,
-                        openHours: {
-                          ...prevState.openHours,
-                          pricePerPerson: e.target.value,
-                        },
-                      }))
-                    }
-                    placeholder="Enter price per person"
-                  />
-                </div>
-
-                <div className="formGroup">
-                  <label>Group Size</label>
-                  <input
-                    type="number"
-                    value={tourData.openHours.groupSize || ''}
-                    onChange={(e) =>
-                      setTourData((prevState) => ({
-                        ...prevState,
-                        openHours: {
-                          ...prevState.openHours,
-                          groupSize: e.target.value,
-                        },
-                      }))
-                    }
-                    placeholder="Enter group size"
-                  />
-                </div>
-
-                <div className="formGroup">
-                  <label>Max People</label>
-                  <input
-                    type="number"
-                    value={tourData.openHours.maxPeople || ''}
-                    onChange={(e) =>
-                      setTourData((prevState) => ({
-                        ...prevState,
-                        openHours: {
-                          ...prevState.openHours,
-                          maxPeople: e.target.value,
-                        },
-                      }))
-                    }
-                    placeholder="Enter max people"
-                  />
-                </div>
-              </div>
-            )}
-
-
-            <div className="formGroup">
               <label>Overview</label>
               <input
                 type="text"
@@ -2796,19 +2637,19 @@ const NewTour = ({ title }) => {
                 </select>
 
                 <select
-    name="state"
-    onChange={(e) => {
-        handleLocationSelect('state', e.target.value);
-        handleDestinationSelect(e.target.value); // Call the second function
-    }}
->
-    <option value="">Select a state</option>
-    {destinations && destinations.map((d) => (
-        <option key={d.id} value={d.id}>
-            {d.state?.label}
-        </option>
-    ))}
-</select>
+                  name="state"
+                  onChange={(e) => {
+                    handleLocationSelect('state', e.target.value);
+                    handleDestinationSelect(e.target.value);
+                  }}
+                >
+                  <option value="">Select a state</option>
+                  {destinations && destinations.map((d) => (
+                    <option key={d.id} value={d.id}>
+                      {d.state?.label}
+                    </option>
+                  ))}
+                </select>
 
                 <select
                   name="city"
@@ -2850,7 +2691,7 @@ const NewTour = ({ title }) => {
                 <select
                   id="categoriesInput"
                   name="attributes"
-                  value="" // Keep this empty to allow selecting multiple attributes
+                  value=""
                   onChange={(e) => handleAttributeSelect(e.target.value)}
                 >
                   <option value="">Select Attributes</option>
@@ -2862,7 +2703,7 @@ const NewTour = ({ title }) => {
                 </select>
               </div>
 
-              {/* Selected Attributes */}
+
               <div className="selectedAttributes">
                 {tourData.attributes.map((attributeId) => {
 
@@ -2906,28 +2747,6 @@ const NewTour = ({ title }) => {
                   ))}
                 </div>
               )}
-            </div>
-            <div className="formGroup">
-              <label>Group Size</label>
-              <input
-                type="text"
-                name="groupSize"
-                value={tourData.groupSize}
-                onChange={handleChange}
-                placeholder="Enter group size"
-              />
-            </div>
-
-            <div className="formGroup">
-              <label>Transportation</label>
-              <input
-                type="checkbox"
-                name="transportation"
-                checked={tourData.transportation}
-                onChange={(e) =>
-                  setTourData({ ...tourData, transportation: e.target.checked })
-                }
-              />
             </div>
 
             <div className="formGroup">
@@ -2992,23 +2811,23 @@ const NewTour = ({ title }) => {
             {selectedTourType === "premium" && renderPremiumDetails()}
 
             {loading ? (
-                    <RotatingLines
-                        visible={true}
-                        height="60"
-                        width="60"
-                        color="grey"
-                        strokeWidth="5"
-                        animationDuration="0.75"
-                        ariaLabel="rotating-lines-loading"
-                        wrapperStyle={{}}
-                        wrapperClass=""
-                    />
-                ) : (
-                   <button type="submit">Submit</button>
-                )}
+              <RotatingLines
+                visible={true}
+                height="60"
+                width="60"
+                color="grey"
+                strokeWidth="5"
+                animationDuration="0.75"
+                ariaLabel="rotating-lines-loading"
+                wrapperStyle={{}}
+                wrapperClass=""
+              />
+            ) : (
+              <button type="submit">Submit</button>
+            )}
 
 
-            
+
           </form>
         </div>
       </div>

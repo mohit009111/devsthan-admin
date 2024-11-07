@@ -7,6 +7,7 @@ import { Country, State, City } from 'country-state-city';
 import { BASE_URL } from '../../utils/headers';
 import { RotatingLines } from 'react-loader-spinner'
 import { v4 as uuidv4 } from 'uuid';
+import { toast } from 'react-toastify';
 const NewDestination = ({ title }) => {
     const [countries, setCountries] = useState([]);
     const [states, setStates] = useState([]);
@@ -100,9 +101,11 @@ const NewDestination = ({ title }) => {
                 throw new Error(`Failed to create destination: ${errorResponse.error}`);
             }
             console.log("Destination created successfully");
+            toast.success("Destination created successfully!");
 
         } catch (error) {
             console.error('Upload failed:', error);
+            toast.error(error.message);
         } finally {
             setLoading(false); // Stop loader after completion
         }
