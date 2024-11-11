@@ -28,8 +28,8 @@ const NewTour = ({ title }) => {
     duration: "",
     transportation: false,
     groupSize: "",
-    categories: [],
-    attributes: [],
+    categories: [""],
+    attributes: [""],
     languages: [""],
     country: "",
     city: "",
@@ -53,8 +53,8 @@ const NewTour = ({ title }) => {
             isIncluded: false,
             name: "",
             url: "",
-            categories: [],
-            images: [],
+            hotelCategory: "",
+            hotelImages: [""],
             roomCategory: "",
             roomImages: [],
             location: ""
@@ -78,7 +78,7 @@ const NewTour = ({ title }) => {
               photos: []
             }
           },
-        
+
 
           image: "",
           description: "",
@@ -112,6 +112,17 @@ const NewTour = ({ title }) => {
     deluxeDetails: {
       itineraries: [
         {
+          hotel: {
+            isIncluded: false,
+            name: "",
+            url: "",
+            hotelCategory: "",
+            hotelImages: [""],
+            roomCategory: "",
+            roomImages: [],
+            location: ""
+          }
+          ,
           photos: [],
           title: "",
           duration: "",
@@ -162,6 +173,17 @@ const NewTour = ({ title }) => {
     premiumDetails: {
       itineraries: [
         {
+          hotel: {
+            isIncluded: false,
+            name: "",
+            url: "",
+            hotelCategory: "",
+            hotelImages: [""],
+            roomCategory: "",
+            roomImages: [],
+            location: ""
+          }
+          ,
           photos: [],
           title: "",
           duration: "",
@@ -270,15 +292,26 @@ const NewTour = ({ title }) => {
       }));
     }
   };
+  const hotelCategoryOptions = ["Luxury", "Budget", "Boutique", "Resort", "Eco-Friendly"];
+
   const addItinerary = (category) => {
     const newItineraryIndex = tourData[category].itineraries.length;
     const newItinerary = {
       day: newItineraryIndex + 1, // Increment day number
       title: '',
       description: '',
-      hotelName: '',
-      hotelUrl: '',
-      hotelPhotos: [],
+      duration: '', // Added duration field
+      photos: [],
+      hotel: {
+        isIncluded: false,
+        name: '',
+        url: '',
+        hotelCategory: '',
+        hotelImages: [],
+        roomCategory: '',
+        roomImages: [],
+        location: ''
+      },
       siteSeenPhotos: [],
       meals: {
         breakfast: {
@@ -297,8 +330,14 @@ const NewTour = ({ title }) => {
           photos: [],
         },
       },
-      managerName: '',
+      transportation: {
+        carName: '', // New transportation details if required
+        carPhotos: [],
+      },
+      managerName: ''
     };
+
+
 
     // Update state with the new itinerary
     setTourData((prevData) => ({
@@ -1141,10 +1180,10 @@ const NewTour = ({ title }) => {
             />
 
             {/* Hotel Name */}
-            
+
 
             {/* Hotel URL */}
-        
+
 
             {/* Siteseen Photos */}
             <label>Siteseen Photos</label>
@@ -1175,149 +1214,197 @@ const NewTour = ({ title }) => {
 
 
 
-<label>Include Hotel</label>
-    <input
-      type="checkbox"
-      checked={itinerary.hotel.isIncluded || false}
-      onChange={(e) => {
-        const updatedItineraries = [...tourData.standardDetails.itineraries];
-        updatedItineraries[index].hotel.isIncluded = e.target.checked;
-        setTourData({
-          ...tourData,
-          standardDetails: {
-            ...tourData.standardDetails,
-            itineraries: updatedItineraries
-          }
-        });
-      }}
-    />
+            <label>Include Hotel</label>
+            <input
+              type="checkbox"
+              checked={itinerary.hotel.isIncluded || false}
+              onChange={(e) => {
+                const updatedItineraries = [...tourData.standardDetails.itineraries];
+                updatedItineraries[index].hotel.isIncluded = e.target.checked;
+                setTourData({
+                  ...tourData,
+                  standardDetails: {
+                    ...tourData.standardDetails,
+                    itineraries: updatedItineraries
+                  }
+                });
+              }}
+            />
 
-    {/* Hotel details div, visible only if Include Hotel is checked */}
-    {itinerary.hotel.isIncluded && (
-      <div className="hotel-details">
-        <label>Hotel Name</label>
-        <input
-          type="text"
-          value={itinerary.hotel.name || ""}
-          onChange={(e) => {
-            const updatedItineraries = [...tourData.standardDetails.itineraries];
-            updatedItineraries[index].hotel.name = e.target.value;
-            setTourData({
-              ...tourData,
-              standardDetails: {
-                ...tourData.standardDetails,
-                itineraries: updatedItineraries
-              }
-            });
-          }}
-        />
+            {/* Hotel details div, visible only if Include Hotel is checked */}
+            {itinerary.hotel.isIncluded && (
+              <div className="hotel-details">
+                <label>Hotel Name</label>
+                <input
+                  type="text"
+                  value={itinerary.hotel.name || ""}
+                  onChange={(e) => {
+                    const updatedItineraries = [...tourData.standardDetails.itineraries];
+                    updatedItineraries[index].hotel.name = e.target.value;
+                    setTourData({
+                      ...tourData,
+                      standardDetails: {
+                        ...tourData.standardDetails,
+                        itineraries: updatedItineraries
+                      }
+                    });
+                  }}
+                />
 
-        <label>Hotel URL</label>
-        <input
-          type="url"
-          value={itinerary.hotel.url || ""}
-          onChange={(e) => {
-            const updatedItineraries = [...tourData.standardDetails.itineraries];
-            updatedItineraries[index].hotel.url = e.target.value;
-            setTourData({
-              ...tourData,
-              standardDetails: {
-                ...tourData.standardDetails,
-                itineraries: updatedItineraries
-              }
-            });
-          }}
-        />
+                <label>Hotel URL</label>
+                <input
+                  type="url"
+                  value={itinerary.hotel.url || ""}
+                  onChange={(e) => {
+                    const updatedItineraries = [...tourData.standardDetails.itineraries];
+                    updatedItineraries[index].hotel.url = e.target.value;
+                    setTourData({
+                      ...tourData,
+                      standardDetails: {
+                        ...tourData.standardDetails,
+                        itineraries: updatedItineraries
+                      }
+                    });
+                  }}
+                />
 
-        <label>Hotel Categories</label>
-        <input
-          type="text"
-          value={itinerary.hotel.categories.join(", ") || ""}
-          onChange={(e) => {
-            const updatedItineraries = [...tourData.standardDetails.itineraries];
-            updatedItineraries[index].hotel.categories = e.target.value.split(", ");
-            setTourData({
-              ...tourData,
-              standardDetails: {
-                ...tourData.standardDetails,
-                itineraries: updatedItineraries
-              }
-            });
-          }}
-        />
 
-        <label>Hotel Images</label>
-        <input
-          type="file"
-          multiple
-          onChange={(e) => {
-            const files = Array.from(e.target.files);
-            const updatedItineraries = [...tourData.standardDetails.itineraries];
-            updatedItineraries[index].hotel.images = files.map((file) => URL.createObjectURL(file));
-            setTourData({
-              ...tourData,
-              standardDetails: {
-                ...tourData.standardDetails,
-                itineraries: updatedItineraries
-              }
-            });
-          }}
-        />
+                <label>Hotel Category</label>
+                <input
+                  type="text"
+                  value={itinerary.hotel.hotelCategory || ""}
+                  readOnly
+                  onFocus={() => {
+                    const updatedItineraries = [...tourData.standardDetails.itineraries];
+                    updatedItineraries[index].showCategoryOptions = true;
+                    setTourData({
+                      ...tourData,
+                      standardDetails: {
+                        ...tourData.standardDetails,
+                        itineraries: updatedItineraries
+                      }
+                    });
+                  }}
+                />
+                {itinerary.showCategoryOptions && (
+                  <div className="category-options">
+                    {hotelCategoryOptions.map((option) => (
+                      <div
+                        key={option}
+                        onClick={() => {
+                          const updatedItineraries = [...tourData.standardDetails.itineraries];
+                          updatedItineraries[index].hotel.hotelCategory = [option];
+                          updatedItineraries[index].showCategoryOptions = false; // Hide options after selection
+                          setTourData({
+                            ...tourData,
+                            standardDetails: {
+                              ...tourData.standardDetails,
+                              itineraries: updatedItineraries
+                            }
+                          });
+                        }}
+                      >
+                        {option}
+                      </div>
+                    ))}
+                  </div>
+                )}
 
-        <label>Room Category</label>
-        <input
-          type="text"
-          value={itinerary.hotel.roomCategory || ""}
-          onChange={(e) => {
-            const updatedItineraries = [...tourData.standardDetails.itineraries];
-            updatedItineraries[index].hotel.roomCategory = e.target.value;
-            setTourData({
-              ...tourData,
-              standardDetails: {
-                ...tourData.standardDetails,
-                itineraries: updatedItineraries
-              }
-            });
-          }}
-        />
+                <label>Hotel Images</label>
+                <input
+                  type="file"
+                  multiple
+                  onChange={(e) => {
+                    const files = Array.from(e.target.files);
+                    const updatedItineraries = [...tourData.standardDetails.itineraries];
 
-        <label>Room Images</label>
-        <input
-          type="file"
-          multiple
-          onChange={(e) => {
-            const files = Array.from(e.target.files);
-            const updatedItineraries = [...tourData.standardDetails.itineraries];
-            updatedItineraries[index].hotel.roomImages = files.map((file) => URL.createObjectURL(file));
-            setTourData({
-              ...tourData,
-              standardDetails: {
-                ...tourData.standardDetails,
-                itineraries: updatedItineraries
-              }
-            });
-          }}
-        />
+                    // Map files to URLs
+                    updatedItineraries[index].hotel.hotelImages = files.map((file) => URL.createObjectURL(file));
 
-        <label>Hotel Location</label>
-        <input
-          type="text"
-          value={itinerary.hotel.location || ""}
-          onChange={(e) => {
-            const updatedItineraries = [...tourData.standardDetails.itineraries];
-            updatedItineraries[index].hotel.location = e.target.value;
-            setTourData({
-              ...tourData,
-              standardDetails: {
-                ...tourData.standardDetails,
-                itineraries: updatedItineraries
-              }
-            });
-          }}
-        />
-      </div>
-    )}
- 
+                    setTourData({
+                      ...tourData,
+                      standardDetails: {
+                        ...tourData.standardDetails,
+                        itineraries: updatedItineraries
+                      }
+                    });
+                  }}
+                />
+
+                {itinerary.hotel.hotelImages?.length > 0 && (
+                  <div className="photo-preview">
+                    {itinerary.hotel.hotelImages.map((photo, photoIndex) => (
+                      <div key={photoIndex} className="photo-container">
+                        <img
+                          src={photo} // URL is already created
+                          alt={`Hotel Image ${photoIndex}`}
+                        />
+                        <button
+                          className="delete-photo"
+                          onClick={() => handleDeleteMealPhoto(index, photoIndex, "breakfast", "deluxeDetails")}
+                        >
+                          &times;
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+
+                <label>Room Category</label>
+                <input
+                  type="text"
+                  value={itinerary.hotel.roomCategory || ""}
+                  onChange={(e) => {
+                    const updatedItineraries = [...tourData.standardDetails.itineraries];
+                    updatedItineraries[index].hotel.roomCategory = e.target.value;
+                    setTourData({
+                      ...tourData,
+                      standardDetails: {
+                        ...tourData.standardDetails,
+                        itineraries: updatedItineraries
+                      }
+                    });
+                  }}
+                />
+
+                <label>Room Images</label>
+                <input
+                  type="file"
+                  multiple
+                  onChange={(e) => {
+                    const files = Array.from(e.target.files);
+                    const updatedItineraries = [...tourData.standardDetails.itineraries];
+                    updatedItineraries[index].hotel.roomImages = files.map((file) => URL.createObjectURL(file));
+                    setTourData({
+                      ...tourData,
+                      standardDetails: {
+                        ...tourData.standardDetails,
+                        itineraries: updatedItineraries
+                      }
+                    });
+                  }}
+                />
+
+                <label>Hotel Location</label>
+                <input
+                  type="text"
+                  value={itinerary.hotel.location || ""}
+                  onChange={(e) => {
+                    const updatedItineraries = [...tourData.standardDetails.itineraries];
+                    updatedItineraries[index].hotel.location = e.target.value;
+                    setTourData({
+                      ...tourData,
+                      standardDetails: {
+                        ...tourData.standardDetails,
+                        itineraries: updatedItineraries
+                      }
+                    });
+                  }}
+                />
+              </div>
+            )}
+
 
             <div className="meals-checkbox">
               <label>
@@ -1702,7 +1789,7 @@ const NewTour = ({ title }) => {
             />
 
             {/* Hotel Name */}
-           
+
 
 
 
@@ -1735,7 +1822,7 @@ const NewTour = ({ title }) => {
             </div>
 
 
-      
+
 
             {/* Meals Checkboxes */}
             <div className="meals-checkbox">

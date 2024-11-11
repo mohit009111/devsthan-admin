@@ -7,6 +7,8 @@ import DestinationsList from "./pages/destinationsList/destinationsList";
 import Single from "./pages/single/Single";
 import New from "./pages/new/New";
 import NewDestination from "./pages/newDestination/newDestination";
+import ContactsList from "./pages/contacts/contactsList";
+import InquiriesList from './pages/inquiries/inquiryList'
 import EditTour from "./pages/new/New";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { productInputs, userInputs } from "./formSource";
@@ -37,6 +39,18 @@ function App() {
           </Route>
           <Route path="/admin/attributes">
             <Route index element={<AttributesList />} />
+
+
+
+          </Route>
+          <Route path="/admin/contacts">
+            <Route index element={<ContactsList />} />
+
+
+
+          </Route>
+          <Route path="/admin/inquiries">
+            <Route index element={<InquiriesList />} />
 
 
 

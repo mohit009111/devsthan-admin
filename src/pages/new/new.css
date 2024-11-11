@@ -5,6 +5,23 @@ body {
   background-color: var(--background-color, #f9f9f9);
   color: var(--text-color, #333);
 }
+.category-options {
+  position: absolute;
+  border: 1px solid #ddd;
+  background-color: white;
+  z-index: 1000;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.category-options div {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.category-options div:hover {
+  background-color: #f0f0f0;
+}
 .fixedDatesBox {
   padding: 20px; /* Add padding for inner spacing */
   border: 1px solid #007bff; /* Border color */
