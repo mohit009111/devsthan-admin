@@ -25,6 +25,8 @@ const DatatableContacts = () => {
     fetchContacts();
   }, []);
 
+  console.log(contacts)
+
   if (loading) {
     return <p>Loading contacts...</p>;
   }
@@ -43,6 +45,7 @@ const DatatableContacts = () => {
             <th>Email</th>
             <th>Phone Number</th>
             <th>Message</th>
+            <th>Created At</th>
           </tr>
         </thead>
         <tbody>
@@ -53,6 +56,7 @@ const DatatableContacts = () => {
                 <td>{contact.email}</td>
                 <td>{contact.phone}</td>
                 <td>{contact.message}</td>
+                <td>{contact.createdAt}</td>
               </tr>
             ))
           ) : (

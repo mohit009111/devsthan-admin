@@ -7,7 +7,9 @@ import DestinationsList from "./pages/destinationsList/destinationsList";
 import Single from "./pages/single/Single";
 import New from "./pages/new/New";
 import NewDestination from "./pages/newDestination/newDestination";
+import NewBlog from "./pages/newBlog/newBlog";
 import ContactsList from "./pages/contacts/contactsList";
+import BlogsList from "./pages/blogs/blogsList";
 import InquiriesList from './pages/inquiries/inquiryList'
 import EditTour from "./pages/new/New";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
@@ -43,6 +45,12 @@ function App() {
 
 
           </Route>
+
+
+
+
+
+
           <Route path="/admin/contacts">
             <Route index element={<ContactsList />} />
 
@@ -55,10 +63,14 @@ function App() {
 
 
           </Route>
-          <Route path="/admin/destinations">
-            <Route index element={<DestinationsList />} />
-
-
+         
+          <Route path="/admin/blogs">
+            <Route index element={<BlogsList />} />
+            <Route path=":userId" element={<Single />} />
+            <Route
+              path="new"
+              element={<NewBlog title="Add New Blog" />}
+            />
 
           </Route>
           <Route path="/admin/tours">
@@ -71,7 +83,7 @@ function App() {
 
           </Route>
           <Route path="/admin/destinations">
-            <Route index element={<List />} />
+            <Route index element={<DestinationsList />} />
             <Route path=":userId" element={<Single />} />
             <Route
               path="new"

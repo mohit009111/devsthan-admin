@@ -15,21 +15,21 @@ const DatatableContacts = () => {
           throw new Error('Failed to fetch contacts');
         }
         const data = await response.json();
-       
+
         const inquiriesWithTourNames = await Promise.all(
-            data.data.map(async (contact) => {
-                console.log(contact)
-              const tourResponse = await fetch(`${BASE_URL}/api/getTour/${contact.uuid}`);
-              const tourData = await tourResponse.json();
-              console.log(tourData)
-              return {
-                ...contact,
-                tourName: tourData[0].name,
-              };
-            })
-          );
-          setContacts(inquiriesWithTourNames);
-          setLoading(false);
+          data.data.map(async (contact) => {
+            console.log(contact)
+            const tourResponse = await fetch(`${BASE_URL}/api/getTour/${contact.uuid}`);
+            const tourData = await tourResponse.json();
+            console.log(tourData)
+            return {
+              ...contact,
+              tourName: tourData[0].name,
+            };
+          })
+        );
+        setContacts(inquiriesWithTourNames);
+        setLoading(false);
       } catch (error) {
         setError('Failed to fetch contacts');
         setLoading(false);
@@ -52,23 +52,25 @@ const DatatableContacts = () => {
       <table className="custom-table">
         <thead>
           <tr>
-          <th>Tour Name </th>
+            <th>Tour Name </th>
             <th>Full Name</th>
             <th>Email</th>
             <th>Phone Number</th>
             <th>Message</th>
-            
+            <th>Created At</th>
+
           </tr>
         </thead>
         <tbody>
           {contacts.length > 0 ? (
             contacts.map((contact, index) => (
               <tr key={index}>
- <td>{contact.tourName}</td>
+                <td>{contact.tourName}</td>
                 <td>{contact.fullName}</td>
                 <td>{contact.email}</td>
                 <td>{contact.phone}</td>
                 <td>{contact.message}</td>
+                <td>{contact.createdAt}</td>
               </tr>
             ))
           ) : (
