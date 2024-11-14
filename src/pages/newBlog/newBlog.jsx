@@ -3,6 +3,8 @@ import Sidebar from '../../components/sidebar/Sidebar';
 import Navbar from '../../components/navbar/Navbar';
 import './newBlog.css';
 import axios from 'axios';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import { BASE_URL } from '../../utils/headers';
 import { v4 as uuidv4 } from 'uuid';
 import { toast } from 'react-toastify';
@@ -28,7 +30,9 @@ const NewBlog = ({ title }) => {
             setImagePreview(previewUrl);
         }
     };
-
+    const handleDescriptionChange = (value) => {
+        setFormData((prevData) => ({ ...prevData, description: value }));
+    };
     // Handle input change
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -138,14 +142,13 @@ const NewBlog = ({ title }) => {
                             />
                         </div>
                         <div className="formInput">
-                            <label>Description</label>
-                            <textarea
-                                name="description"
-                                value={formData.description}
-                                onChange={handleChange}
-                                placeholder="Enter blog description"
-                            />
-                        </div>
+                    <label>Description</label>
+                    <ReactQuill
+                        value={formData.description}
+                        onChange={handleDescriptionChange}
+                        placeholder="Enter blog description"
+                    />
+                </div>
                         <button type="submit">Create Blog</button>
                     </form>
                 </div>
