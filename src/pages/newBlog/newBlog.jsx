@@ -149,7 +149,7 @@ const NewBlog = ({ title }) => {
                         placeholder="Enter blog description"
                     />
                 </div>
-                        <button type="submit">Create Blog</button>
+                        <button type="submit">Create Blogs</button>
                     </form>
                 </div>
             </div>
