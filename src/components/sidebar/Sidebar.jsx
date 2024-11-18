@@ -70,6 +70,12 @@ const Sidebar = () => {
               <span>Attributes</span>
             </li>
           </Link>
+          <Link to="/admin/about-us" style={{ textDecoration: "none" }}>
+            <li>
+              <PersonOutlineIcon className="icon" />
+              <span>About Us</span>
+            </li>
+          </Link>
           <Link to="/admin/destinations" style={{ textDecoration: "none" }}>
             <li>
               <PersonOutlineIcon className="icon" />

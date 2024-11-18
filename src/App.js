@@ -7,6 +7,8 @@ import DestinationsList from "./pages/destinationsList/destinationsList";
 import Single from "./pages/single/Single";
 import New from "./pages/new/New";
 import NewDestination from "./pages/newDestination/newDestination";
+import NewAboutUs from "./pages/about-us/aboutUs";
+import Aboutus from "./pages/about-us/aboutUs";
 import NewBlog from "./pages/newBlog/newBlog";
 import ContactsList from "./pages/contacts/contactsList";
 import BlogsList from "./pages/blogs/blogsList";
@@ -88,6 +90,16 @@ function App() {
             <Route
               path="new"
               element={<NewDestination title="Add New Destination" />}
+            />
+
+          </Route>
+
+          <Route path="/admin/about-us">
+            <Route index element={<Aboutus />} />
+            <Route path=":userId" element={<Single />} />
+            <Route
+              path="new"
+              element={<NewAboutUs title="Add New about" />}
             />
 
           </Route>
