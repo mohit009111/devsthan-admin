@@ -55,14 +55,54 @@ const NewTour = ({ title }) => {
             url: "",
             hotelCategory: "",
             hotelImages: [""],
+            roomPrice: null,
             roomCategory: "",
             roomImages: [],
             location: ""
           }
           ,
-          photos: [],
-          title: "",
-          duration: "",
+          activity: {
+            name: "",
+            description: "",
+            price: "",
+            photos: []
+          },
+          transportation: {
+            isIncluded: false,
+            car: {
+              isIncluded: false,
+              name: "",
+              category: "",
+              description: "",
+              departureTime: "",
+              photos: []
+            },
+            bus: {
+              isIncluded: false,
+              name: "",
+              category: "",
+              description: "",
+              departureTime: "",
+              photos: []
+            },
+            train: {
+              isIncluded: false,
+              name: "",
+
+              description: "",
+              departureTime: "",
+              photos: []
+            },
+            flight: {
+              isIncluded: false,
+              name: "",
+
+              description: "",
+              departureTime: "",
+              photos: []
+            }
+          },
+
           meals: {
             breakfast: {
               isAvailable: false,
@@ -78,19 +118,16 @@ const NewTour = ({ title }) => {
               photos: []
             }
           },
-
-
-          image: "",
-          description: "",
+          siteSeen: {
+            isAvailable: false,
+            name: "",
+            description: "",
+            photos: []
+          },
           day: 1,
-          hotelName: "",
-          hotelUrl: "",
-          siteSeenPhotos: [],
-          transportation: false,
-          carName: "",
-          carPhotos: [],
-          managerName: "",
-          managerImage: "",
+          photos:[],
+          title:"",
+          description:"",
         },
       ],
       highlights: [""],
@@ -102,30 +139,71 @@ const NewTour = ({ title }) => {
           price: ""
         }
       ]
-
       ,
-
-
       cancellationPolicy: "",
     },
 
     deluxeDetails: {
       itineraries: [
         {
+          day: 1,
+          photos:[],
+          title:"",
+          description:"",
           hotel: {
             isIncluded: false,
             name: "",
             url: "",
             hotelCategory: "",
-            hotelImages: [""],
+            hotelImages: [],
+            roomPrice: null,
             roomCategory: "",
             roomImages: [],
             location: ""
           }
           ,
-          photos: [],
-          title: "",
-          duration: "",
+          activity: {
+            name: "",
+            description: "",
+            price: "",
+            photos: []
+          },
+          transportation: {
+            isIncluded: false,
+            car: {
+              isIncluded: false,
+              name: "",
+              category: "",
+              description: "",
+              departureTime: "",
+              photos: []
+            },
+            bus: {
+              isIncluded: false,
+              name: "",
+              category: "",
+              description: "",
+              departureTime: "",
+              photos: []
+            },
+            train: {
+              isIncluded: false,
+              name: "",
+
+              description: "",
+              departureTime: "",
+              photos: []
+            },
+            flight: {
+              isIncluded: false,
+              name: "",
+
+              description: "",
+              departureTime: "",
+              photos: []
+            }
+          },
+
           meals: {
             breakfast: {
               isAvailable: false,
@@ -141,18 +219,13 @@ const NewTour = ({ title }) => {
               photos: []
             }
           },
-          image: "",
-          description: "",
+          siteSeen: {
+            isAvailable: false,
+            name: "",
+            description: "",
+            photos: []
+          },
           day: 1,
-          hotelPhotos: [],
-          hotelName: "",
-          hotelUrl: "",
-          siteSeenPhotos: [],
-          transportation: false, // Ensure this is initialized
-          carName: "",
-          carPhotos: [],
-          managerName: "",
-          managerImage: "",
         },
       ],
       highlights: [""],
@@ -164,29 +237,72 @@ const NewTour = ({ title }) => {
           price: ""
         }
       ]
-
       ,
       cancellationPolicy: "",
-
     },
+
 
     premiumDetails: {
       itineraries: [
         {
+          day: 1,
+          photos:[],
+          title:"",
+          description:"",
           hotel: {
             isIncluded: false,
             name: "",
             url: "",
             hotelCategory: "",
             hotelImages: [""],
+            roomPrice: null,
             roomCategory: "",
             roomImages: [],
             location: ""
           }
           ,
-          photos: [],
-          title: "",
-          duration: "",
+          activity: {
+            name: "",
+            description: "",
+            price: "",
+            photos: []
+          },
+          transportation: {
+            isIncluded: false,
+            car: {
+              isIncluded: false,
+              name: "",
+              category: "",
+              description: "",
+              departureTime: "",
+              photos: []
+            },
+            bus: {
+              isIncluded: false,
+              name: "",
+              category: "",
+              description: "",
+              departureTime: "",
+              photos: []
+            },
+            train: {
+              isIncluded: false,
+              name: "",
+
+              description: "",
+              departureTime: "",
+              photos: []
+            },
+            flight: {
+              isIncluded: false,
+              name: "",
+
+              description: "",
+              departureTime: "",
+              photos: []
+            }
+          },
+
           meals: {
             breakfast: {
               isAvailable: false,
@@ -202,18 +318,13 @@ const NewTour = ({ title }) => {
               photos: []
             }
           },
-          image: "",
-          description: "",
+          siteSeen: {
+            isAvailable: false,
+            name: "",
+            description: "",
+            photos: []
+          },
           day: 1,
-          hotelName: "",
-          hotelUrl: "",
-          hotelPhotos: [],
-          siteSeenPhotos: [],
-          transportation: false, // Ensure this is initialized
-          carName: "",
-          carPhotos: [],
-          managerName: "",
-          managerImage: "",
         },
       ],
       highlights: [""],
@@ -225,14 +336,12 @@ const NewTour = ({ title }) => {
           price: ""
         }
       ]
-
       ,
-
-
       cancellationPolicy: "",
-
     },
+
   });
+  { console.log(tourData.standardDetails.itineraries) }
   const handleDeleteMealPhoto = (itineraryIndex, photoIndex, mealType, tourDetailType) => {
     setTourData((prevState) => {
       const updatedItineraries = [...prevState[tourDetailType].itineraries];
@@ -282,6 +391,25 @@ const NewTour = ({ title }) => {
       };
     });
   };
+  const handleRoomImages = (index, files, section) => {
+    const newPhotos = Array.from(files).map((file) => URL.createObjectURL(file));
+
+    setTourData((prevData) => {
+      const updatedItineraries = [...prevData[section].itineraries];
+
+      // Merge new photos with existing ones
+      const existingPhotos = updatedItineraries[index].hotel.roomImages || [];
+      updatedItineraries[index].hotel.roomImages = [...new Set([...existingPhotos, ...newPhotos])];
+
+      return {
+        ...prevData,
+        [section]: {
+          ...prevData[section],
+          itineraries: updatedItineraries,
+        },
+      };
+    });
+  };
 
 
   const handleCategorySelect = (categoryId) => {
@@ -300,39 +428,82 @@ const NewTour = ({ title }) => {
       day: newItineraryIndex + 1, // Increment day number
       title: '',
       description: '',
-      duration: '', // Added duration field
+
       photos: [],
       hotel: {
         isIncluded: false,
-        name: '',
-        url: '',
-        hotelCategory: '',
-        hotelImages: [],
-        roomCategory: '',
+        name: "",
+        url: "",
+        hotelCategory: "",
+        hotelImages: [""],
+        roomPrice: null,
+        roomCategory: "",
         roomImages: [],
-        location: ''
+        location: ""
+      }
+      ,
+      activity: {
+        name: "",
+        description: "",
+        price: "",
+        photos: []
       },
-      siteSeenPhotos: [],
+      transportation: {
+        isIncluded: false,
+        car: {
+          isIncluded: false,
+          name: "",
+          category: "",
+          description: "",
+          departureTime: "",
+          photos: ""
+        },
+        bus: {
+          isIncluded: false,
+          name: "",
+          category: "",
+          description: "",
+          departureTime: "",
+          photos: ""
+        },
+        train: {
+          isIncluded: false,
+          name: "",
+
+          description: "",
+          departureTime: "",
+          photos: ""
+        },
+        flight: {
+          isIncluded: false,
+          name: "",
+
+          description: "",
+          departureTime: "",
+          photos: ""
+        }
+      },
+
       meals: {
         breakfast: {
           isAvailable: false,
-          name: '',
-          photos: [],
-        },
-        lunch: {
+          name: "",
+          photos: []
+        }, lunch: {
           isAvailable: false,
-          name: '',
-          photos: [],
-        },
-        dinner: {
+          name: "",
+          photos: []
+        }, dinner: {
           isAvailable: false,
-          name: '',
-          photos: [],
-        },
+          name: "",
+          photos: []
+        }
       },
-      transportation: {
-        carName: '', // New transportation details if required
-        carPhotos: [],
+      siteSeen: {
+        isAvailable: false,
+        name: "",
+        description: "",
+        photos: []
       },
       managerName: ''
     };
@@ -467,6 +638,29 @@ const NewTour = ({ title }) => {
       };
     });
   };
+  const handleActivityPhotos = (index, type, files, section) => {
+    const validFiles = Array.from(files).filter((file) => file instanceof File);
+    const newPhotos = validFiles.map((file) => URL.createObjectURL(file));
+
+    setTourData((prev) => {
+      const updatedItineraries = [...prev[section].itineraries];
+
+      // Ensure the `photos` array exists
+      const existingPhotos = updatedItineraries[index][type].photos || [];
+
+      // Remove duplicates
+      const uniquePhotos = [...new Set([...existingPhotos, ...newPhotos])];
+
+      // Update the photos
+      updatedItineraries[index][type].photos = uniquePhotos;
+
+      return {
+        ...prev,
+        [section]: { ...prev[section], itineraries: updatedItineraries },
+      };
+    });
+  };
+
 
   // Function to handle deleting car photos
   const handleDeleteCarPhoto = (itineraryIndex, photoIndex, packageType) => {
@@ -482,6 +676,34 @@ const NewTour = ({ title }) => {
         itineraries: updatedItineraries,
       },
     }));
+  };
+  const handleTransportationPhotos = (index, type, files, section) => {
+    const uploadedPhotos = Array.from(files).map((file) => URL.createObjectURL(file));
+    setTourData((prev) => {
+      const updatedItineraries = [...prev[section].itineraries];
+      updatedItineraries[index].transportation[type].photos = [
+        ...(updatedItineraries[index].transportation[type].photos || []),
+        ...uploadedPhotos,
+      ];
+      return {
+        ...prev,
+        [section]: { ...prev[section], itineraries: updatedItineraries },
+      };
+    });
+  };
+
+  const handleTransportationChange = (index, type, value, section) => {
+    setTourData((prev) => {
+      const updatedItineraries = [...prev[section].itineraries];
+      updatedItineraries[index].transportation[type] = {
+        ...updatedItineraries[index].transportation[type],
+        ...value,
+      };
+      return {
+        ...prev,
+        [section]: { ...prev[section], itineraries: updatedItineraries },
+      };
+    });
   };
 
   const handleCarPhotosChange = (e, index, packageType) => {
@@ -500,6 +722,25 @@ const NewTour = ({ title }) => {
     }));
   };
 
+  const handleHotelImages = (index, files, section) => {
+    const newPhotos = Array.from(files).map((file) => URL.createObjectURL(file));
+
+    setTourData((prevData) => {
+      const updatedItineraries = [...prevData[section].itineraries];
+
+      // Merge existing photos with new ones
+      const existingPhotos = updatedItineraries[index].hotel.hotelImages || [];
+      updatedItineraries[index].hotel.hotelImages = [...new Set([...existingPhotos, ...newPhotos])];
+
+      return {
+        ...prevData,
+        [section]: {
+          ...prevData[section],
+          itineraries: updatedItineraries,
+        },
+      };
+    });
+  };
 
   const handleDeletePhoto = (index) => {
     // Remove the photo at the specified index
@@ -550,10 +791,11 @@ const NewTour = ({ title }) => {
     setTourData((prevData) => {
       const updatedItineraries = [...prevData[section].itineraries];
 
-      // Only add unique URLs, preventing duplicates
-      const uniquePhotos = [...updatedItineraries[index].photos, ...newPhotos].filter(
-        (value, idx, self) => self.indexOf(value) === idx
-      );
+      // Ensure the `photos` array exists
+      const existingPhotos = updatedItineraries[index].photos || [];
+
+      // Merge existing photos with new photos, ensuring uniqueness
+      const uniquePhotos = [...new Set([...existingPhotos, ...newPhotos])];
 
       updatedItineraries[index].photos = uniquePhotos;
 
@@ -566,6 +808,7 @@ const NewTour = ({ title }) => {
       };
     });
   };
+
   const addArrayField = (field, category) => {
     setTourData((prev) => ({
       ...prev,
@@ -766,245 +1009,161 @@ const NewTour = ({ title }) => {
   }, []);
   const handleSubmit = (e) => {
     e.preventDefault();
-
+  
     const handleSaveChanges = async () => {
       try {
         setLoading(true);
-        const formData = new FormData();
-        const uploadedImageUrls = []; // Array to store uploaded image URLs
-
-        // Helper function to upload images to Cloudinary
+  
+        const uploadedImageUrls = [];
+        const cloudinaryURL = "https://api.cloudinary.com/v1_1/dmyzudtut/image/upload";
+        const uploadPreset = "ljqbwqy9";
+  
+        // Helper: Upload a single image to Cloudinary
         const uploadImageToCloudinary = async (image) => {
-          const cloudinaryURL = 'https://api.cloudinary.com/v1_1/dmyzudtut/image/upload';
+          if (!image) return null; // Skip invalid images
+  
+          // If the image is a blob URL, fetch the blob and convert it to a File
+          if (typeof image === "string" && image.startsWith("blob:")) {
+            const blob = await fetch(image).then((res) => res.blob());
+            image = new File([blob], "image.jpg", { type: blob.type });
+          }
+  
           const formData = new FormData();
-          formData.append('file', image);
-          formData.append('upload_preset', 'ljqbwqy9');
-
+          formData.append("file", image);
+          formData.append("upload_preset", uploadPreset);
+  
           const response = await fetch(cloudinaryURL, {
-            method: 'POST',
+            method: "POST",
             body: formData,
           });
-
+  
           if (response.ok) {
             const data = await response.json();
-            return data.secure_url; // Return the uploaded image URL
+            return data.secure_url;
           } else {
-            throw new Error('Failed to upload image to Cloudinary');
+            const errorData = await response.json();
+            throw new Error(errorData.error?.message || "Failed to upload image");
           }
         };
-
-        // Function to append images to itineraries
-        // Function to append images to itineraries
+  
+        // Helper: Upload multiple images
+        const uploadImagesForField = async (photos = []) => {
+          if (!Array.isArray(photos)) return [];
+          return await Promise.all(
+            photos.map(async (photo) => (photo ? await uploadImageToCloudinary(photo) : null))
+          );
+        };
+  
+        // Process and upload images for an itinerary
         const appendImagesToItinerary = async (itinerary) => {
-          const uploadPhotos = async (photos, field) => {
-            if (photos) {
-              // Ensure the target field exists and is initialized as an array
-              if (!Array.isArray(itinerary[field])) {
-                itinerary[field] = [];
-              }
-
-              for (const photo of photos) {
-                if (photo instanceof File) {
-                  const uploadedUrl = await uploadImageToCloudinary(photo);
-                  uploadedImageUrls.push(uploadedUrl); // Store the uploaded URL
-                  // Only push if the URL is a valid string
-                  if (uploadedUrl) {
-                    itinerary[field].push(uploadedUrl);
-                  }
-                } else if (typeof photo === 'string' && photo.trim() !== '') {
-                  // Push only valid URLs
-                  itinerary[field].push(photo);
-                }
+          if (!itinerary) return;
+  
+          // SiteSeeing Photos
+          if (itinerary.siteSeen?.photos) {
+            itinerary.siteSeen.photos = await uploadImagesForField(itinerary.siteSeen.photos);
+            uploadedImageUrls.push(...itinerary.siteSeen.photos);
+          }
+          if (itinerary.photos) {
+            itinerary.photos = await uploadImagesForField(itinerary.photos);
+            uploadedImageUrls.push(...itinerary.photos);
+          }
+  
+          // Hotel Images
+          if (itinerary.hotel?.hotelImages) {
+            itinerary.hotel.hotelImages = await uploadImagesForField(itinerary.hotel.hotelImages);
+            uploadedImageUrls.push(...itinerary.hotel.hotelImages);
+          }
+          if (itinerary.hotel?.roomImages) {
+            itinerary.hotel.roomImages = await uploadImagesForField(itinerary.hotel.roomImages);
+            uploadedImageUrls.push(...itinerary.hotel.roomImages);
+          }
+  
+  
+          // Activity Photos
+          if (itinerary.activity?.photos) {
+            itinerary.activity.photos = await uploadImagesForField(itinerary.activity.photos);
+            uploadedImageUrls.push(...itinerary.activity.photos);
+          }
+  
+         
+          if (itinerary.meals) {
+            const mealTypes = ["breakfast", "lunch", "dinner"];
+            for (const mealType of mealTypes) {
+              if (itinerary.meals[mealType]?.photos) {
+                itinerary.meals[mealType].photos = await uploadImagesForField(itinerary.meals[mealType].photos);
+                uploadedImageUrls.push(...itinerary.meals[mealType].photos);
               }
             }
-          };
-
-          // Safely check and upload only if the fields are defined, else default to empty arrays
-          await uploadPhotos(itinerary.siteSeenPhotos?.filter(Boolean) || [], 'siteSeenPhotos'); // Filter out empty values
-          await uploadPhotos(itinerary.hotelPhotos?.filter(Boolean) || [], 'hotelPhotos'); // Filter out empty values
-          await uploadPhotos(itinerary.carPhotos?.filter(Boolean) || [], 'carPhotos'); // Filter out empty values
-
-          // Ensure meals exist, and default to empty arrays if not
-          itinerary.meals = itinerary.meals || {}; // Initialize meals object if undefined
-          itinerary.meals.breakfast = itinerary.meals.breakfast || { photos: [] }; // Ensure breakfast and photos array are initialized
-          itinerary.meals.lunch = itinerary.meals.lunch || { photos: [] }; // Ensure lunch and photos array are initialized
-          itinerary.meals.dinner = itinerary.meals.dinner || { photos: [] }; // Ensure dinner and photos array are initialized
-
-          await uploadPhotos(itinerary.meals.breakfast.photos?.filter(Boolean) || [], 'meals.breakfast.photos');
-          await uploadPhotos(itinerary.meals.lunch.photos?.filter(Boolean) || [], 'meals.lunch.photos');
-          await uploadPhotos(itinerary.meals.dinner.photos?.filter(Boolean) || [], 'meals.dinner.photos');
-
-          // Filter out any empty objects or invalid URLs from the itinerary fields
-          itinerary.siteSeenPhotos = itinerary.siteSeenPhotos?.filter(photo => typeof photo === 'string' && photo.trim() !== '') || [];
-          itinerary.hotelPhotos = itinerary.hotelPhotos?.filter(photo => typeof photo === 'string' && photo.trim() !== '') || [];
-          itinerary.carPhotos = itinerary.carPhotos?.filter(photo => typeof photo === 'string' && photo.trim() !== '') || [];
-          itinerary.meals.breakfast.photos = itinerary.meals.breakfast.photos?.filter(photo => typeof photo === 'string' && photo.trim() !== '') || [];
-          itinerary.meals.lunch.photos = itinerary.meals.lunch.photos?.filter(photo => typeof photo === 'string' && photo.trim() !== '') || [];
-          itinerary.meals.dinner.photos = itinerary.meals.dinner.photos?.filter(photo => typeof photo === 'string' && photo.trim() !== '') || [];
+          }
+  
+          // Transportation Images
+          if (itinerary.transportation) {
+            const transportModes = ["car", "bus", "train", "flight"];
+            for (const mode of transportModes) {
+              if (itinerary.transportation[mode]?.photos) {
+                itinerary.transportation[mode].photos = await uploadImagesForField(itinerary.transportation[mode].photos);
+                uploadedImageUrls.push(...itinerary.transportation[mode].photos);
+              }
+            }
+          }
         };
-
-        // Append images for standard itineraries
-        if (tourData.standardDetails?.itineraries) {
-          for (const itinerary of tourData.standardDetails.itineraries) {
-            await appendImagesToItinerary(itinerary);
-          }
-        }
-
-        // Repeat for deluxe itineraries
-        if (tourData.deluxeDetails?.itineraries) {
-          for (const itinerary of tourData.deluxeDetails.itineraries) {
-            await appendImagesToItinerary(itinerary);
-          }
-        }
-
-        // Repeat for premium itineraries
-        if (tourData.premiumDetails?.itineraries) {
-          for (const itinerary of tourData.premiumDetails.itineraries) {
-            await appendImagesToItinerary(itinerary);
-          }
-        }
-
-        // Add banner image
-        if (tourData.bannerImage) {
-          const bannerImageUrl = await uploadImageToCloudinary(tourData.bannerImage);
-          uploadedImageUrls.push(bannerImageUrl);
-          formData.append('bannerImage', bannerImageUrl);
-        }
-
-        // Add other images (not the file, just URLs)
-        if (tourData.images && Array.isArray(tourData.images)) {
-          for (const image of tourData.images) {
-            if (image instanceof File) {
-              const uploadedUrl = await uploadImageToCloudinary(image);
-              uploadedImageUrls.push(uploadedUrl);
-              formData.append('images', uploadedUrl); // Append only the URL
+  
+        // Process all itineraries for each category
+        const itineraryCategories = ["standardDetails", "deluxeDetails", "premiumDetails"];
+        for (const category of itineraryCategories) {
+          if (tourData[category]?.itineraries) {
+            for (const itinerary of tourData[category].itineraries) {
+              await appendImagesToItinerary(itinerary);
             }
           }
         }
-
-        // Reset image fields in tourData to prevent sending files
-        setTourData(prevData => ({
-          ...prevData,
-          standardDetails: {
-            ...prevData.standardDetails,
-            itineraries: prevData.standardDetails.itineraries.map(itinerary => ({
-              ...itinerary,
-              siteSeenPhotos: [],
-              hotelPhotos: [],
-              carPhotos: [],
-              meals: {
-                breakfast: {
-                  ...itinerary.meals.breakfast,
-                  photos: [],
-                },
-                lunch: {
-                  ...itinerary.meals.lunch,
-                  photos: [],
-                },
-                dinner: {
-                  ...itinerary.meals.dinner,
-                  photos: [],
-                },
-              },
-            })),
-          },
-          deluxeDetails: {
-            ...prevData.deluxeDetails,
-            itineraries: prevData.deluxeDetails.itineraries.map(itinerary => ({
-              ...itinerary,
-              siteSeenPhotos: [],
-              hotelPhotos: [],
-              carPhotos: [],
-              meals: {
-                breakfast: {
-                  ...itinerary.meals.breakfast,
-                  photos: [],
-                },
-                lunch: {
-                  ...itinerary.meals.lunch,
-                  photos: [],
-                },
-                dinner: {
-                  ...itinerary.meals.dinner,
-                  photos: [],
-                },
-              },
-            })),
-          },
-          premiumDetails: {
-            ...prevData.premiumDetails,
-            itineraries: prevData.premiumDetails.itineraries.map(itinerary => ({
-              ...itinerary,
-              siteSeenPhotos: [],
-              hotelPhotos: [],
-              carPhotos: [],
-              meals: {
-                breakfast: {
-                  ...itinerary.meals.breakfast,
-                  photos: [],
-                },
-                lunch: {
-                  ...itinerary.meals.lunch,
-                  photos: [],
-                },
-                dinner: {
-                  ...itinerary.meals.dinner,
-                  photos: [],
-                },
-              },
-            })),
-          },
-        }));
-
-        // Append other tour data fields to formData
-        for (const key in tourData) {
-          if (
-            key !== 'images' &&
-            key !== 'bannerImage' &&
-            key !== 'standardDetails' &&
-            key !== 'deluxeDetails' &&
-            key !== 'premiumDetails'
-          ) {
-            formData.append(key, tourData[key]);
-          }
+  
+        // Upload banner image
+        if (tourData.bannerImage instanceof File) {
+          tourData.bannerImage = await uploadImageToCloudinary(tourData.bannerImage);
+          uploadedImageUrls.push(tourData.bannerImage);
         }
-
-        // Serialize and append nested objects
-        formData.append('standardDetails', JSON.stringify(tourData.standardDetails));
-        formData.append('deluxeDetails', JSON.stringify(tourData.deluxeDetails));
-        formData.append('premiumDetails', JSON.stringify(tourData.premiumDetails));
-        formData.append('openHours', JSON.stringify(tourData.openHours));
-        formData.append('fixedDates', JSON.stringify(tourData.fixedDates));
-
-        // Log all uploaded image URLs
-        console.log("Uploaded Image URLs:", uploadedImageUrls);
-        console.log("form data", formData);
-
-        // Send formData to the server
+  
+        // Upload additional images
+        if (tourData.images?.length) {
+          tourData.images = await uploadImagesForField(tourData.images);
+          uploadedImageUrls.push(...tourData.images);
+        }
+  
+        // Add all uploaded image URLs to the appropriate places in tourData
+       
+  
+        // Prepare the tourData for submission (don't need FormData here)
+        const cleanTourData = { ...tourData };
+  
+        // Submit data to the backend
         const response = await fetch(`${BASE_URL}/api/createTours`, {
           method: "POST",
-          body: formData,
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(cleanTourData), // Send tourData as JSON
         });
-
-        if (!response.ok) {
-          const errorResponse = await response.json();
-          throw new Error(`Failed to create tour: ${errorResponse.error}`);
+  
+        if (response.ok) {
+          const responseData = await response.json();
+          toast.success("Tour data saved successfully!");
+          console.log("Save response:", responseData);
+        } else {
+          const errorData = await response.json();
+          throw new Error(errorData.error || "Failed to save tour data");
         }
-
-        const responseData = await response.json();
-        console.log("API response:", responseData);
-        toast.success("Tour created successfully!");
       } catch (error) {
-        console.error("Error:", error);
-        toast.error(error.message);
+        toast.error(error.message || "An error occurred while saving the tour data");
+        console.error("Error during submission:", error);
       } finally {
-        setLoading(false); // Stop loader after completion
+        setLoading(false);
       }
     };
-
-    // Call the function
+  
     handleSaveChanges();
   };
+  
 
   const renderStandardDetails = () => (
     <div className="standardDetails">
@@ -1156,13 +1315,20 @@ const NewTour = ({ title }) => {
             <label>Itinerary Photos</label>
             <input
               type="file"
-              name="itinerary photos"
               multiple
+              accept="image/*"
               onChange={(e) => handleItineraryPhotos(index, e.target.files, "standardDetails")}
             />
-            <div className="preview-photos">
-              {itinerary.photos.map((photo, photoIndex) => (
-                <img key={photoIndex} src={photo} alt={`Itinerary photo ${photoIndex + 1}`} width="100" />
+            <div className="photo-preview">
+              {tourData.standardDetails.itineraries[index].photos?.map((photo, photoIndex) => (
+                <img
+                  key={photoIndex}
+                  src={photo}
+                  alt={`Itinerary Photo ${photoIndex + 1}`}
+                  width="100"
+                  height="100"
+                  style={{ margin: "5px" }}
+                />
               ))}
             </div>
             <input
@@ -1179,57 +1345,89 @@ const NewTour = ({ title }) => {
               placeholder="Enter itinerary description"
             />
 
-            {/* Hotel Name */}
 
 
-            {/* Hotel URL */}
+            <div className="labels"> <label>
+              Siteseen:
+            </label>
+              <input
+                type="checkbox"
+                checked={itinerary.siteSeen?.isAvailable || false}
+                onChange={(e) =>
+                  handleItineraryChange(index, "siteSeen", { ...itinerary.siteSeen, isAvailable: e.target.checked }, "standardDetails")
+                }
+              /></div>
 
 
-            {/* Siteseen Photos */}
-            <label>Siteseen Photos</label>
-            <input
-              type="file"
-              name="siteSeenPhotos"
-              multiple
-              onChange={(e) => handleSiteSeenPhotoChange(e, index, "standardDetails")} // Pass index correctly
-            />
 
-            {/* Display site seen photos */}
-            {itinerary.siteSeenPhotos.length > 0 && (
-              <div className="photo-preview">
-                {itinerary.siteSeenPhotos.map((photo, photoIndex) => (
-                  <div key={photoIndex} className="photo-container">
-                    <img src={URL.createObjectURL(photo)} alt={`Siteseen ${photoIndex}`} />
-                    <button
-                      className="delete-photo"
-                      onClick={() => handleDeleteSiteSeenPhoto(index, photoIndex, "standardDetails")}
-                    >
-                      &times; {/* Delete button */}
-                    </button>
-                  </div>
-                ))}
+
+            {itinerary.siteSeen?.isAvailable && (
+              <div className="siteseen-section">
+                <h4>Siteseen Details</h4>
+
+                {/* Siteseen Name */}
+                <input
+                  type="text"
+                  placeholder="Enter Siteseen name"
+                  value={itinerary.siteSeen.name || ""}
+                  onChange={(e) =>
+                    handleItineraryChange(index, "siteSeen", { ...itinerary.siteSeen, name: e.target.value }, "standardDetails")
+                  }
+                />
+
+                {/* Siteseen Description */}
+                <textarea
+                  placeholder="Enter Siteseen description"
+                  value={itinerary.siteSeen.description || ""}
+                  onChange={(e) =>
+                    handleItineraryChange(index, "siteSeen", { ...itinerary.siteSeen, description: e.target.value }, "standardDetails")
+                  }
+                ></textarea>
+
+                {/* Siteseen Photos */}
+                <label>Upload Siteseen Photos</label>
+                <input
+                  type="file"
+                  multiple
+                  onChange={(e) => {
+                    const files = Array.from(e.target.files).map((file) => URL.createObjectURL(file));
+                    handleItineraryChange(
+                      index,
+                      "siteSeen",
+                      { ...itinerary.siteSeen, photos: [...(itinerary.siteSeen.photos || []), ...files] },
+                      "standardDetails"
+                    );
+                  }}
+                />
+
+                <div className="preview-photos">
+                  {itinerary.siteSeen.photos &&
+                    itinerary.siteSeen.photos.map((photo, photoIndex) => (
+                      <img key={photoIndex} src={photo} alt={`Siteseen photo ${photoIndex + 1}`} width="100" />
+                    ))}
+                </div>
               </div>
             )}
 
+            <div className="labels">
+              <label>Include Hotel</label>
+              <input
+                type="checkbox"
+                checked={itinerary.hotel.isIncluded || false}
+                onChange={(e) => {
+                  const updatedItineraries = [...tourData.standardDetails.itineraries];
+                  updatedItineraries[index].hotel.isIncluded = e.target.checked;
+                  setTourData({
+                    ...tourData,
+                    standardDetails: {
+                      ...tourData.standardDetails,
+                      itineraries: updatedItineraries
+                    }
+                  });
+                }}
+              />
+            </div>
 
-
-
-            <label>Include Hotel</label>
-            <input
-              type="checkbox"
-              checked={itinerary.hotel.isIncluded || false}
-              onChange={(e) => {
-                const updatedItineraries = [...tourData.standardDetails.itineraries];
-                updatedItineraries[index].hotel.isIncluded = e.target.checked;
-                setTourData({
-                  ...tourData,
-                  standardDetails: {
-                    ...tourData.standardDetails,
-                    itineraries: updatedItineraries
-                  }
-                });
-              }}
-            />
 
             {/* Hotel details div, visible only if Include Hotel is checked */}
             {itinerary.hotel.isIncluded && (
@@ -1314,21 +1512,8 @@ const NewTour = ({ title }) => {
                 <input
                   type="file"
                   multiple
-                  onChange={(e) => {
-                    const files = Array.from(e.target.files);
-                    const updatedItineraries = [...tourData.standardDetails.itineraries];
-
-                    // Map files to URLs
-                    updatedItineraries[index].hotel.hotelImages = files.map((file) => URL.createObjectURL(file));
-
-                    setTourData({
-                      ...tourData,
-                      standardDetails: {
-                        ...tourData.standardDetails,
-                        itineraries: updatedItineraries
-                      }
-                    });
-                  }}
+                  accept="image/*"
+                  onChange={(e) => handleHotelImages(index, e.target.files, "standardDetails")}
                 />
 
                 {itinerary.hotel.hotelImages?.length > 0 && (
@@ -1337,11 +1522,13 @@ const NewTour = ({ title }) => {
                       <div key={photoIndex} className="photo-container">
                         <img
                           src={photo} // URL is already created
-                          alt={`Hotel Image ${photoIndex}`}
+                          alt={`Hotel Image ${photoIndex + 1}`}
+                          width="100"
+                          height="100"
                         />
                         <button
                           className="delete-photo"
-                          onClick={() => handleDeleteMealPhoto(index, photoIndex, "breakfast", "deluxeDetails")}
+                          onClick={() => handleDeletePhoto(index, photoIndex, "hotelImages", "standardDetails")}
                         >
                           &times;
                         </button>
@@ -1372,19 +1559,31 @@ const NewTour = ({ title }) => {
                 <input
                   type="file"
                   multiple
-                  onChange={(e) => {
-                    const files = Array.from(e.target.files);
-                    const updatedItineraries = [...tourData.standardDetails.itineraries];
-                    updatedItineraries[index].hotel.roomImages = files.map((file) => URL.createObjectURL(file));
-                    setTourData({
-                      ...tourData,
-                      standardDetails: {
-                        ...tourData.standardDetails,
-                        itineraries: updatedItineraries
-                      }
-                    });
-                  }}
+                  accept="image/*"
+                  onChange={(e) => handleRoomImages(index, e.target.files, "standardDetails")}
                 />
+
+                {itinerary.hotel.roomImages?.length > 0 && (
+                  <div className="photo-preview">
+                    {itinerary.hotel.roomImages.map((photo, photoIndex) => (
+                      <div key={photoIndex} className="photo-container">
+                        <img
+                          src={photo} // URL is already created
+                          alt={`Room Image ${photoIndex + 1}`}
+                          width="100"
+                          height="100"
+                        />
+                        <button
+                          className="delete-photo"
+                          onClick={() => handleDeletePhoto(index, photoIndex, "roomImages", "standardDetails")}
+                        >
+                          &times;
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
 
                 <label>Hotel Location</label>
                 <input
@@ -1406,16 +1605,32 @@ const NewTour = ({ title }) => {
             )}
 
 
-            <div className="meals-checkbox">
-              <label>
+            <div className="labels">
+              <label>Meals</label>
+
+
+              <input
+                type="checkbox"
+                checked={itinerary.meals?.isAvailable || false}
+                onChange={(e) =>
+                  handleItineraryChange(index, "meals", { ...itinerary.meals, isAvailable: e.target.checked }, "standardDetails")
+                }
+              />
+            </div>
+            {itinerary.meals.isAvailable ? <div className="meals-checkbox">
+              <div className="labels">
+                <label>   Breakfast
+                </label>
                 <input
                   type="checkbox"
                   value="breakfast"
                   checked={itinerary.meals.breakfast.isAvailable}
                   onChange={(e) => handleMealChange(e, index, "breakfast", "standardDetails")}
                 />
-                Breakfast
-              </label>
+
+
+              </div>
+
               {itinerary.meals.breakfast.isAvailable == true && (
                 <div className="meal-details">
                   <label>Breakfast Name</label>
@@ -1426,6 +1641,7 @@ const NewTour = ({ title }) => {
                     onChange={(e) => handleItineraryMealsChange(index, "breakfast", "name", e.target.value, "standardDetails")}
                     placeholder="Enter breakfast name"
                   />
+
                   <label>Breakfast Photos</label>
                   <input
                     type="file"
@@ -1455,15 +1671,17 @@ const NewTour = ({ title }) => {
                 </div>
               )}
 
-              <label>
+              <div className="labels">
+                <label>   Lunch
+                </label>
                 <input
                   type="checkbox"
                   value="lunch"
                   checked={itinerary.meals.lunch.isAvailable}
                   onChange={(e) => handleMealChange(e, index, "lunch", "standardDetails")}
                 />
-                Lunch
-              </label>
+
+              </div>
 
 
               {itinerary.meals.lunch.isAvailable == true && (
@@ -1501,15 +1719,17 @@ const NewTour = ({ title }) => {
               )}
 
 
-              <label>
+              <div className="labels">
+                <label>   Dinner
+                </label>
                 <input
                   type="checkbox"
                   value="Dinner"
                   checked={itinerary.meals.dinner.isAvailable}
                   onChange={(e) => handleMealChange(e, index, "dinner", "standardDetails")}
                 />
-                Dinner
-              </label>
+
+              </div>
               {itinerary.meals.dinner.isAvailable == true && (
                 <div className="meal-details">
                   <label>Dinner Name</label>
@@ -1544,66 +1764,476 @@ const NewTour = ({ title }) => {
                 </div>
               )}
             </div>
+              : null}
+            <div className="labels">
+              <label>  Include Activity
+              </label>
+              <input
+                type="checkbox"
+                checked={itinerary.activity?.isIncluded || false}
+                onChange={(e) =>
+                  handleItineraryChange(
+                    index,
+                    "activity",
+                    { ...itinerary.activity, isIncluded: e.target.checked },
+                    "standardDetails"
+                  )
+                }
+              />
 
 
-            <input
-              type="text"
-              name="managerName"
-              value={itinerary.managerName}
-              onChange={(e) => handleItineraryChange(index, "managerName", e.target.value, "standardDetails")}
-              placeholder="Enter manager name"
-            />
-            <label>
+            </div>
+
+
+            {itinerary.activity?.isIncluded && (
+              <div className="activity-details">
+                <input
+                  type="text"
+                  placeholder="Enter activity name"
+                  value={itinerary.activity.name || ""}
+                  onChange={(e) =>
+                    handleItineraryChange(
+                      index,
+                      "activity",
+                      { ...itinerary.activity, name: e.target.value },
+                      "standardDetails"
+                    )
+                  }
+                />
+                <textarea
+                  placeholder="Enter activity description"
+                  value={itinerary.activity.description || ""}
+                  onChange={(e) =>
+                    handleItineraryChange(
+                      index,
+                      "activity",
+                      { ...itinerary.activity, description: e.target.value },
+                      "standardDetails"
+                    )
+                  }
+                />
+
+
+                <input
+                  type="number"
+                  placeholder="Enter activity price"
+                  value={itinerary.activity.price || ""}
+                  onChange={(e) =>
+                    handleItineraryChange(
+                      index,
+                      "activity",
+                      { ...itinerary.activity, price: e.target.value },
+                      "standardDetails"
+                    )
+                  }
+                />
+
+                <label>Upload Photos</label>
+                <input
+                  type="file"
+                  multiple
+                  onChange={(e) =>
+                    handleActivityPhotos(index, "activity", e.target.files, "standardDetails")
+                  }
+                />
+                {itinerary.activity.photos.length > 0 ? <div className="preview-photos">
+                  {(itinerary.activity.photos || []).map((photo, photoIndex) => (
+                    <img
+                      key={photoIndex}
+                      src={photo}
+                      alt={`Activity photo ${photoIndex + 1}`}
+                      width="100"
+                    />
+                  ))}
+                </div> : null}
+
+              </div>
+            )}
+            <div className="labels">
+              <label> Include Transportation
+              </label>
               <input
                 type="checkbox"
                 name="transportation"
-                checked={itinerary.transportation || false}
+                checked={itinerary.transportation?.isIncluded || false}
                 onChange={(e) => {
-                  setOpenStandardTransportation(!openStandardTransportation);
+                  handleItineraryChange(index, "transportation", { ...itinerary.transportation, isIncluded: e.target.checked }, "standardDetails");
                 }}
               />
-              Include Transportation
-            </label>
 
-            {openStandardTransportation && (
+
+            </div>
+
+
+
+            {/* Transportation Section */}
+            {itinerary.transportation?.isIncluded && (
               <div className="transportation-section">
-                {/* Car Name */}
-                <label>Car Name</label>
-                <input
-                  type="text"
-                  name="carName"
-                  value={itinerary.carName}
-                  onChange={(e) => handleItineraryChange(index, "carName", e.target.value, "standardDetails")}
-                  placeholder="Enter car name"
-                />
 
-                {/* Car Photos */}
-                <label>Car Photos</label>
-                <input
-                  type="file"
-                  name="carPhotos"
-                  multiple
-                  onChange={(e) => handleCarPhotosChange(e, index, "standardDetails")}
-                />
 
-                {/* Display car photos */}
-                {itinerary.carPhotos && itinerary.carPhotos.length > 0 && (
-                  <div className="photo-preview">
-                    {itinerary.carPhotos.map((photo, photoIndex) => (
-                      <div key={photoIndex} className="photo-container">
-                        <img src={URL.createObjectURL(photo)} alt={`Car ${photoIndex}`} />
-                        <button
-                          className="delete-photo"
-                          onClick={() => handleDeleteCarPhoto(index, photoIndex, "standardDetails")}
-                        >
-                          &times;
-                        </button>
+                <div className="labels">
+                  <label className="labels">   Include Car
+                  </label>
+                  <input
+                    type="checkbox"
+                    checked={itinerary.transportation.car?.isIncluded || false}
+                    onChange={(e) =>
+                      handleTransportationChange(index, "car", { isIncluded: e.target.checked }, "standardDetails")
+                    }
+                  />
+                </div>
+
+
+                {itinerary.transportation.car?.isIncluded && (
+                  <div className="transportation-details">
+                    <input
+                      type="text"
+                      placeholder="Car Name"
+                      value={itinerary.transportation.car.name || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "car", { ...itinerary.transportation.car, name: e.target.value }, "standardDetails")
+                      }
+                    />
+                    <input
+                      type="text"
+                      placeholder="Car Category"
+                      value={itinerary.transportation.car.category || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "car", { ...itinerary.transportation.car, category: e.target.value }, "standardDetails")
+                      }
+                    />
+
+                    <input
+                      type="number"
+                      placeholder="Enter car price"
+                      value={itinerary.transportation.car.price || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "car", { ...itinerary.transportation.car, price: e.target.value }, "standardDetails")
+                      }
+                    />
+
+
+                    <input
+                      type="number"
+                      placeholder="Enter maximum people capacity"
+                      value={itinerary.transportation.car.maxPeople || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "car", { ...itinerary.transportation.car, maxPeople: e.target.value }, "standardDetails")
+                      }
+                    />
+                    <input
+                      type="text"
+                      placeholder="Description"
+                      value={itinerary.transportation.car.description || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "car", { ...itinerary.transportation.car, description: e.target.value }, "standardDetails")
+                      }
+                    />
+                    <input
+                      type="time"
+                      placeholder="Departure Time"
+                      value={itinerary.transportation.car.departureTime || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "car", { ...itinerary.transportation.car, departureTime: e.target.value }, "standardDetails")
+                      }
+                    />
+                    <label>Upload Car Photos</label>
+                    <input
+                      type="file"
+                      multiple
+                      accept="image/*"
+                      onChange={(e) => handleTransportationPhotos(index, "car", e.target.files, "standardDetails")}
+                    />
+
+                    {itinerary.transportation.car?.photos?.length > 0 && (
+                      <div className="photo-preview">
+                        {itinerary.transportation.car.photos.map((photo, photoIndex) => (
+                          <div key={photoIndex} className="photo-container">
+                            <img
+                              src={photo} // URL is already created
+                              alt={`Car Photo ${photoIndex + 1}`}
+                              width="100"
+                              height="100"
+                            />
+                            <button
+                              className="delete-photo"
+                              onClick={() => handleDeleteCarPhoto(index, photoIndex, "car", "standardDetails")}
+                            >
+                              &times;
+                            </button>
+                          </div>
+                        ))}
                       </div>
-                    ))}
+                    )}
+
                   </div>
                 )}
+
+                <div className="labels">
+                  <label className="labels">   Include Bus
+                  </label>
+                  <input
+                    type="checkbox"
+                    checked={itinerary.transportation.bus?.isIncluded || false}
+                    onChange={(e) =>
+                      handleTransportationChange(index, "bus", { isIncluded: e.target.checked }, "standardDetails")
+                    }
+                  />
+                </div>
+
+                {itinerary.transportation.bus?.isIncluded && (
+                  <div className="transportation-details">
+                    <h5>Bus Details</h5>
+
+                    <label>Bus Name</label>
+                    <input
+                      type="text"
+                      placeholder="Enter bus name"
+                      value={itinerary.transportation.bus.name || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "bus", { ...itinerary.transportation.bus, name: e.target.value }, "standardDetails")
+                      }
+                    />
+
+                    <label>Bus Category</label>
+                    <input
+                      type="text"
+                      placeholder="Enter bus category (e.g., AC, Non-AC)"
+                      value={itinerary.transportation.bus.category || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "bus", { ...itinerary.transportation.bus, category: e.target.value }, "standardDetails")
+                      }
+                    />
+
+                    <label>Description</label>
+                    <textarea
+                      placeholder="Enter bus description"
+                      value={itinerary.transportation.bus.description || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "bus", { ...itinerary.transportation.bus, description: e.target.value }, "standardDetails")
+                      }
+                    />
+
+                    <label>Departure Time</label>
+                    <input
+                      type="time"
+                      value={itinerary.transportation.bus.departureTime || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "bus", { ...itinerary.transportation.bus, departureTime: e.target.value }, "standardDetails")
+                      }
+                    />
+
+                    <label>Upload Bus Photos</label>
+                    <input
+                      type="file"
+                      multiple
+                      onChange={(e) => handleTransportationPhotos(index, "bus", e.target.files, "standardDetails")}
+                    />
+                    <div className="preview-photos">
+                      {(itinerary.transportation.bus.photos || []).map((photo, photoIndex) => (
+                        <img
+                          key={photoIndex}
+                          src={photo}
+                          alt={`Bus photo ${photoIndex + 1}`}
+                          width="100"
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Train Section */}
+                <div className="labels">
+                  <label className="labels">Include Train</label>
+                  <input
+                    type="checkbox"
+                    checked={itinerary.transportation.train?.isIncluded || false}
+                    onChange={(e) =>
+                      handleTransportationChange(
+                        index,
+                        "train",
+                        { ...itinerary.transportation.train, isIncluded: e.target.checked },
+                        "standardDetails"
+                      )
+                    }
+                  />
+                </div>
+                {itinerary.transportation.train?.isIncluded && (
+                  <div className="transportation-details">
+                    <label>Train Name</label>
+                    <input
+                      type="text"
+                      placeholder="Enter train name"
+                      value={itinerary.transportation.train.name || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(
+                          index,
+                          "train",
+                          { ...itinerary.transportation.train, name: e.target.value },
+                          "standardDetails"
+                        )
+                      }
+                    />
+
+                    <label>Category</label>
+                    <input
+                      type="text"
+                      placeholder="Enter train category"
+                      value={itinerary.transportation.train.category || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(
+                          index,
+                          "train",
+                          { ...itinerary.transportation.train, category: e.target.value },
+                          "standardDetails"
+                        )
+                      }
+                    />
+
+                    <label>Description</label>
+                    <textarea
+                      placeholder="Enter train description"
+                      value={itinerary.transportation.train.description || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(
+                          index,
+                          "train",
+                          { ...itinerary.transportation.train, description: e.target.value },
+                          "standardDetails"
+                        )
+                      }
+                    />
+
+                    <label>Departure Time</label>
+                    <input
+                      type="time"
+                      value={itinerary.transportation.train.departureTime || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(
+                          index,
+                          "train",
+                          { ...itinerary.transportation.train, departureTime: e.target.value },
+                          "standardDetails"
+                        )
+                      }
+                    />
+
+                    <label>Upload Train Photos</label>
+                    <input
+                      type="file"
+                      multiple
+                      onChange={(e) =>
+                        handleTransportationPhotos(
+                          index,
+                          "train",
+                          e.target.files,
+                          "standardDetails"
+                        )
+                      }
+                    />
+                    <div className="preview-photos">
+                      {(itinerary.transportation.train.photos || []).map((photo, photoIndex) => (
+                        <img
+                          key={photoIndex}
+                          src={photo}
+                          alt={`Train photo ${photoIndex + 1}`}
+                          width="100"
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Flight Section */}
+                <div className="labels">
+                  <label className="labels">Include Flight</label>
+                  <input
+                    type="checkbox"
+                    checked={itinerary.transportation.flight?.isIncluded || false}
+                    onChange={(e) =>
+                      handleTransportationChange(
+                        index,
+                        "flight",
+                        { ...itinerary.transportation.flight, isIncluded: e.target.checked },
+                        "standardDetails"
+                      )
+                    }
+                  />
+                </div>
+                {itinerary.transportation.flight?.isIncluded && (
+                  <div className="transportation-details">
+                    <label>Flight Name</label>
+                    <input
+                      type="text"
+                      placeholder="Enter flight name"
+                      value={itinerary.transportation.flight.name || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(
+                          index,
+                          "flight",
+                          { ...itinerary.transportation.flight, name: e.target.value },
+                          "standardDetails"
+                        )
+                      }
+                    />
+
+                    <label>Description</label>
+                    <textarea
+                      placeholder="Enter flight description"
+                      value={itinerary.transportation.flight.description || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(
+                          index,
+                          "flight",
+                          { ...itinerary.transportation.flight, description: e.target.value },
+                          "standardDetails"
+                        )
+                      }
+                    />
+
+                    <label>Departure Time</label>
+                    <input
+                      type="time"
+                      value={itinerary.transportation.flight.departureTime || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(
+                          index,
+                          "flight",
+                          { ...itinerary.transportation.flight, departureTime: e.target.value },
+                          "standardDetails"
+                        )
+                      }
+                    />
+
+                    <label>Upload Flight Photos</label>
+                    <input
+                      type="file"
+                      multiple
+                      onChange={(e) =>
+                        handleTransportationPhotos(
+                          index,
+                          "flight",
+                          e.target.files,
+                          "standardDetails"
+                        )
+                      }
+                    />
+                    <div className="preview-photos">
+                      {(itinerary.transportation.flight.photos || []).map((photo, photoIndex) => (
+                        <img
+                          key={photoIndex}
+                          src={photo}
+                          alt={`Flight photo ${photoIndex + 1}`}
+                          width="100"
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
+
               </div>
             )}
+
 
             <button type="button" onClick={() => removeItinerary("standardDetails", index)} className="deleteButton">
               Remove Itinerary
@@ -1765,13 +2395,20 @@ const NewTour = ({ title }) => {
             <label>Itinerary Photos</label>
             <input
               type="file"
-              name="itinerary photos"
               multiple
+              accept="image/*"
               onChange={(e) => handleItineraryPhotos(index, e.target.files, "deluxeDetails")}
             />
-            <div className="preview-photos">
-              {itinerary.photos.map((photo, photoIndex) => (
-                <img key={photoIndex} src={photo} alt={`Itinerary photo ${photoIndex + 1}`} width="100" />
+            <div className="photo-preview">
+              {tourData.deluxeDetails.itineraries[index].photos?.map((photo, photoIndex) => (
+                <img
+                  key={photoIndex}
+                  src={photo}
+                  alt={`Itinerary Photo ${photoIndex + 1}`}
+                  width="100"
+                  height="100"
+                  style={{ margin: "5px" }}
+                />
               ))}
             </div>
             <input
@@ -1788,53 +2425,292 @@ const NewTour = ({ title }) => {
               placeholder="Enter itinerary description"
             />
 
-            {/* Hotel Name */}
 
 
-
-
-            <div>
-              {/* Other itinerary details */}
-              <label>Siteseen Photos</label>
+            <div className="labels"> <label>
+              Siteseen:
+            </label>
               <input
-                type="file"
-                name="siteSeenPhotos"
-                multiple
-                onChange={(e) => handleSiteSeenPhotoChange(e, index, "deluxeDetails")} // Pass index correctly
-              />
+                type="checkbox"
+                checked={itinerary.siteSeen?.isAvailable || false}
+                onChange={(e) =>
+                  handleItineraryChange(index, "siteSeen", { ...itinerary.siteSeen, isAvailable: e.target.checked }, "deluxeDetails")
+                }
+              /></div>
 
-              {/* Display site seen photos */}
-              {itinerary.siteSeenPhotos.length > 0 && (
-                <div className="photo-preview">
-                  {itinerary.siteSeenPhotos.map((photo, photoIndex) => (
-                    <div key={photoIndex} className="photo-container">
-                      <img src={URL.createObjectURL(photo)} alt={`Siteseen ${photoIndex}`} />
-                      <button
-                        className="delete-photo"
-                        onClick={() => handleDeleteSiteSeenPhoto(index, photoIndex, "deluxeDetails")}
-                      >
-                        &times; {/* Delete button */}
-                      </button>
-                    </div>
-                  ))}
+
+
+
+            {itinerary.siteSeen?.isAvailable && (
+              <div className="siteseen-section">
+                <h4>Siteseen Details</h4>
+
+                {/* Siteseen Name */}
+                <input
+                  type="text"
+                  placeholder="Enter Siteseen name"
+                  value={itinerary.siteSeen.name || ""}
+                  onChange={(e) =>
+                    handleItineraryChange(index, "siteSeen", { ...itinerary.siteSeen, name: e.target.value }, "deluxeDetails")
+                  }
+                />
+
+                {/* Siteseen Description */}
+                <textarea
+                  placeholder="Enter Siteseen description"
+                  value={itinerary.siteSeen.description || ""}
+                  onChange={(e) =>
+                    handleItineraryChange(index, "siteSeen", { ...itinerary.siteSeen, description: e.target.value }, "deluxeDetails")
+                  }
+                ></textarea>
+
+                {/* Siteseen Photos */}
+                <label>Upload Siteseen Photos</label>
+                <input
+                  type="file"
+                  multiple
+                  onChange={(e) => {
+                    const files = Array.from(e.target.files).map((file) => URL.createObjectURL(file));
+                    handleItineraryChange(
+                      index,
+                      "siteSeen",
+                      { ...itinerary.siteSeen, photos: [...(itinerary.siteSeen.photos || []), ...files] },
+                      "deluxeDetails"
+                    );
+                  }}
+                />
+
+                <div className="preview-photos">
+                  {itinerary.siteSeen.photos &&
+                    itinerary.siteSeen.photos.map((photo, photoIndex) => (
+                      <img key={photoIndex} src={photo} alt={`Siteseen photo ${photoIndex + 1}`} width="100" />
+                    ))}
                 </div>
-              )}
+              </div>
+            )}
+
+            <div className="labels">
+              <label>Include Hotel</label>
+              <input
+                type="checkbox"
+                checked={itinerary.hotel.isIncluded || false}
+                onChange={(e) => {
+                  const updatedItineraries = [...tourData.deluxeDetails.itineraries];
+                  updatedItineraries[index].hotel.isIncluded = e.target.checked;
+                  setTourData({
+                    ...tourData,
+                    deluxeDetails: {
+                      ...tourData.deluxeDetails,
+                      itineraries: updatedItineraries
+                    }
+                  });
+                }}
+              />
             </div>
 
 
+            {/* Hotel details div, visible only if Include Hotel is checked */}
+            {itinerary.hotel.isIncluded && (
+              <div className="hotel-details">
+                <label>Hotel Name</label>
+                <input
+                  type="text"
+                  value={itinerary.hotel.name || ""}
+                  onChange={(e) => {
+                    const updatedItineraries = [...tourData.deluxeDetails.itineraries];
+                    updatedItineraries[index].hotel.name = e.target.value;
+                    setTourData({
+                      ...tourData,
+                      deluxeDetails: {
+                        ...tourData.deluxeDetails,
+                        itineraries: updatedItineraries
+                      }
+                    });
+                  }}
+                />
+
+                <label>Hotel URL</label>
+                <input
+                  type="url"
+                  value={itinerary.hotel.url || ""}
+                  onChange={(e) => {
+                    const updatedItineraries = [...tourData.deluxeDetails.itineraries];
+                    updatedItineraries[index].hotel.url = e.target.value;
+                    setTourData({
+                      ...tourData,
+                      deluxeDetails: {
+                        ...tourData.deluxeDetails,
+                        itineraries: updatedItineraries
+                      }
+                    });
+                  }}
+                />
 
 
-            {/* Meals Checkboxes */}
-            <div className="meals-checkbox">
-              <label>
+                <label>Hotel Category</label>
+                <input
+                  type="text"
+                  value={itinerary.hotel.hotelCategory || ""}
+                  readOnly
+                  onFocus={() => {
+                    const updatedItineraries = [...tourData.deluxeDetails.itineraries];
+                    updatedItineraries[index].showCategoryOptions = true;
+                    setTourData({
+                      ...tourData,
+                      deluxeDetails: {
+                        ...tourData.deluxeDetails,
+                        itineraries: updatedItineraries
+                      }
+                    });
+                  }}
+                />
+                {itinerary.showCategoryOptions && (
+                  <div className="category-options">
+                    {hotelCategoryOptions.map((option) => (
+                      <div
+                        key={option}
+                        onClick={() => {
+                          const updatedItineraries = [...tourData.deluxeDetails.itineraries];
+                          updatedItineraries[index].hotel.hotelCategory = [option];
+                          updatedItineraries[index].showCategoryOptions = false; // Hide options after selection
+                          setTourData({
+                            ...tourData,
+                            deluxeDetails: {
+                              ...tourData.deluxeDetails,
+                              itineraries: updatedItineraries
+                            }
+                          });
+                        }}
+                      >
+                        {option}
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                <label>Hotel Images</label>
+                <input
+                  type="file"
+                  multiple
+                  accept="image/*"
+                  onChange={(e) => handleHotelImages(index, e.target.files, "deluxeDetails")}
+                />
+
+                {itinerary.hotel.hotelImages?.length > 0 && (
+                  <div className="photo-preview">
+                    {itinerary.hotel.hotelImages.map((photo, photoIndex) => (
+                      <div key={photoIndex} className="photo-container">
+                        <img
+                          src={photo} // URL is already created
+                          alt={`Hotel Image ${photoIndex + 1}`}
+                          width="100"
+                          height="100"
+                        />
+                        <button
+                          className="delete-photo"
+                          onClick={() => handleDeletePhoto(index, photoIndex, "hotelImages", "deluxeDetails")}
+                        >
+                          &times;
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+
+                <label>Room Category</label>
+                <input
+                  type="text"
+                  value={itinerary.hotel.roomCategory || ""}
+                  onChange={(e) => {
+                    const updatedItineraries = [...tourData.deluxeDetails.itineraries];
+                    updatedItineraries[index].hotel.roomCategory = e.target.value;
+                    setTourData({
+                      ...tourData,
+                      deluxeDetails: {
+                        ...tourData.deluxeDetails,
+                        itineraries: updatedItineraries
+                      }
+                    });
+                  }}
+                />
+
+                <label>Room Images</label>
+                <input
+                  type="file"
+                  multiple
+                  accept="image/*"
+                  onChange={(e) => handleRoomImages(index, e.target.files, "deluxeDetails")}
+                />
+
+                {itinerary.hotel.roomImages?.length > 0 && (
+                  <div className="photo-preview">
+                    {itinerary.hotel.roomImages.map((photo, photoIndex) => (
+                      <div key={photoIndex} className="photo-container">
+                        <img
+                          src={photo} // URL is already created
+                          alt={`Room Image ${photoIndex + 1}`}
+                          width="100"
+                          height="100"
+                        />
+                        <button
+                          className="delete-photo"
+                          onClick={() => handleDeletePhoto(index, photoIndex, "roomImages", "deluxeDetails")}
+                        >
+                          &times;
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+
+                <label>Hotel Location</label>
+                <input
+                  type="text"
+                  value={itinerary.hotel.location || ""}
+                  onChange={(e) => {
+                    const updatedItineraries = [...tourData.deluxeDetails.itineraries];
+                    updatedItineraries[index].hotel.location = e.target.value;
+                    setTourData({
+                      ...tourData,
+                      deluxeDetails: {
+                        ...tourData.deluxeDetails,
+                        itineraries: updatedItineraries
+                      }
+                    });
+                  }}
+                />
+              </div>
+            )}
+
+
+            <div className="labels">
+              <label>Meals</label>
+
+
+              <input
+                type="checkbox"
+                checked={itinerary.meals?.isAvailable || false}
+                onChange={(e) =>
+                  handleItineraryChange(index, "meals", { ...itinerary.meals, isAvailable: e.target.checked }, "deluxeDetails")
+                }
+              />
+            </div>
+            {itinerary.meals.isAvailable ? <div className="meals-checkbox">
+              <div className="labels">
+                <label>   Breakfast
+                </label>
                 <input
                   type="checkbox"
                   value="breakfast"
                   checked={itinerary.meals.breakfast.isAvailable}
                   onChange={(e) => handleMealChange(e, index, "breakfast", "deluxeDetails")}
                 />
-                Breakfast
-              </label>
+
+
+              </div>
+
               {itinerary.meals.breakfast.isAvailable == true && (
                 <div className="meal-details">
                   <label>Breakfast Name</label>
@@ -1845,6 +2721,7 @@ const NewTour = ({ title }) => {
                     onChange={(e) => handleItineraryMealsChange(index, "breakfast", "name", e.target.value, "deluxeDetails")}
                     placeholder="Enter breakfast name"
                   />
+
                   <label>Breakfast Photos</label>
                   <input
                     type="file"
@@ -1874,15 +2751,17 @@ const NewTour = ({ title }) => {
                 </div>
               )}
 
-              <label>
+              <div className="labels">
+                <label>   Lunch
+                </label>
                 <input
                   type="checkbox"
                   value="lunch"
                   checked={itinerary.meals.lunch.isAvailable}
                   onChange={(e) => handleMealChange(e, index, "lunch", "deluxeDetails")}
                 />
-                Lunch
-              </label>
+
+              </div>
 
 
               {itinerary.meals.lunch.isAvailable == true && (
@@ -1920,15 +2799,17 @@ const NewTour = ({ title }) => {
               )}
 
 
-              <label>
+              <div className="labels">
+                <label>   Dinner
+                </label>
                 <input
                   type="checkbox"
                   value="Dinner"
                   checked={itinerary.meals.dinner.isAvailable}
                   onChange={(e) => handleMealChange(e, index, "dinner", "deluxeDetails")}
                 />
-                Dinner
-              </label>
+
+              </div>
               {itinerary.meals.dinner.isAvailable == true && (
                 <div className="meal-details">
                   <label>Dinner Name</label>
@@ -1963,67 +2844,476 @@ const NewTour = ({ title }) => {
                 </div>
               )}
             </div>
+              : null}
+            <div className="labels">
+              <label>  Include Activity
+              </label>
+              <input
+                type="checkbox"
+                checked={itinerary.activity?.isIncluded || false}
+                onChange={(e) =>
+                  handleItineraryChange(
+                    index,
+                    "activity",
+                    { ...itinerary.activity, isIncluded: e.target.checked },
+                    "deluxeDetails"
+                  )
+                }
+              />
 
 
-            {/* Manager Name */}
-            <input
-              type="text"
-              name="managerName"
-              value={itinerary.managerName}
-              onChange={(e) => handleItineraryChange(index, "managerName", e.target.value, "deluxeDetails")}
-              placeholder="Enter manager name"
-            />
-            <label>
+            </div>
+
+
+            {itinerary.activity?.isIncluded && (
+              <div className="activity-details">
+                <input
+                  type="text"
+                  placeholder="Enter activity name"
+                  value={itinerary.activity.name || ""}
+                  onChange={(e) =>
+                    handleItineraryChange(
+                      index,
+                      "activity",
+                      { ...itinerary.activity, name: e.target.value },
+                      "deluxeDetails"
+                    )
+                  }
+                />
+                <textarea
+                  placeholder="Enter activity description"
+                  value={itinerary.activity.description || ""}
+                  onChange={(e) =>
+                    handleItineraryChange(
+                      index,
+                      "activity",
+                      { ...itinerary.activity, description: e.target.value },
+                      "deluxeDetails"
+                    )
+                  }
+                />
+
+
+                <input
+                  type="number"
+                  placeholder="Enter activity price"
+                  value={itinerary.activity.price || ""}
+                  onChange={(e) =>
+                    handleItineraryChange(
+                      index,
+                      "activity",
+                      { ...itinerary.activity, price: e.target.value },
+                      "deluxeDetails"
+                    )
+                  }
+                />
+
+                <label>Upload Photos</label>
+                <input
+                  type="file"
+                  multiple
+                  onChange={(e) =>
+                    handleActivityPhotos(index, "activity", e.target.files, "deluxeDetails")
+                  }
+                />
+                {itinerary.activity.photos.length > 0 ? <div className="preview-photos">
+                  {(itinerary.activity.photos || []).map((photo, photoIndex) => (
+                    <img
+                      key={photoIndex}
+                      src={photo}
+                      alt={`Activity photo ${photoIndex + 1}`}
+                      width="100"
+                    />
+                  ))}
+                </div> : null}
+
+              </div>
+            )}
+            <div className="labels">
+              <label> Include Transportation
+              </label>
               <input
                 type="checkbox"
                 name="transportation"
-                checked={itinerary.transportation || false}
+                checked={itinerary.transportation?.isIncluded || false}
                 onChange={(e) => {
-                  setOpenTranportation(!openTranportation);
+                  handleItineraryChange(index, "transportation", { ...itinerary.transportation, isIncluded: e.target.checked }, "deluxeDetails");
                 }}
               />
-              Include Transportation
-            </label>
 
-            {openTranportation && (
+
+            </div>
+
+
+
+            {/* Transportation Section */}
+            {itinerary.transportation?.isIncluded && (
               <div className="transportation-section">
-                {/* Car Name */}
-                <label>Car Name</label>
-                <input
-                  type="text"
-                  name="carName"
-                  value={itinerary.carName || ""}
-                  onChange={(e) => handleItineraryChange(index, "carName", e.target.value, "deluxeDetails")}
-                  placeholder="Enter car name"
-                />
 
-                {/* Car Photos */}
-                <label>Car Photos</label>
-                <input
-                  type="file"
-                  name="carPhotos"
-                  multiple
-                  onChange={(e) => handleCarPhotosChange(e, index, "deluxeDetails")}
-                />
 
-                {/* Display car photos */}
-                {itinerary.carPhotos && itinerary.carPhotos.length > 0 && (
-                  <div className="photo-preview">
-                    {itinerary.carPhotos.map((photo, photoIndex) => (
-                      <div key={photoIndex} className="photo-container">
-                        <img src={URL.createObjectURL(photo)} alt={`Car ${photoIndex}`} />
-                        <button
-                          className="delete-photo"
-                          onClick={() => handleDeleteCarPhoto(index, photoIndex, "deluxeDetails")}
-                        >
-                          &times;
-                        </button>
+                <div className="labels">
+                  <label className="labels">   Include Car
+                  </label>
+                  <input
+                    type="checkbox"
+                    checked={itinerary.transportation.car?.isIncluded || false}
+                    onChange={(e) =>
+                      handleTransportationChange(index, "car", { isIncluded: e.target.checked }, "deluxeDetails")
+                    }
+                  />
+                </div>
+
+
+                {itinerary.transportation.car?.isIncluded && (
+                  <div className="transportation-details">
+                    <input
+                      type="text"
+                      placeholder="Car Name"
+                      value={itinerary.transportation.car.name || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "car", { ...itinerary.transportation.car, name: e.target.value }, "deluxeDetails")
+                      }
+                    />
+                    <input
+                      type="text"
+                      placeholder="Car Category"
+                      value={itinerary.transportation.car.category || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "car", { ...itinerary.transportation.car, category: e.target.value }, "deluxeDetails")
+                      }
+                    />
+
+                    <input
+                      type="number"
+                      placeholder="Enter car price"
+                      value={itinerary.transportation.car.price || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "car", { ...itinerary.transportation.car, price: e.target.value }, "deluxeDetails")
+                      }
+                    />
+
+
+                    <input
+                      type="number"
+                      placeholder="Enter maximum people capacity"
+                      value={itinerary.transportation.car.maxPeople || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "car", { ...itinerary.transportation.car, maxPeople: e.target.value }, "deluxeDetails")
+                      }
+                    />
+                    <input
+                      type="text"
+                      placeholder="Description"
+                      value={itinerary.transportation.car.description || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "car", { ...itinerary.transportation.car, description: e.target.value }, "deluxeDetails")
+                      }
+                    />
+                    <input
+                      type="time"
+                      placeholder="Departure Time"
+                      value={itinerary.transportation.car.departureTime || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "car", { ...itinerary.transportation.car, departureTime: e.target.value }, "deluxeDetails")
+                      }
+                    />
+                    <label>Upload Car Photos</label>
+                    <input
+                      type="file"
+                      multiple
+                      accept="image/*"
+                      onChange={(e) => handleTransportationPhotos(index, "car", e.target.files, "deluxeDetails")}
+                    />
+
+                    {itinerary.transportation.car?.photos?.length > 0 && (
+                      <div className="photo-preview">
+                        {itinerary.transportation.car.photos.map((photo, photoIndex) => (
+                          <div key={photoIndex} className="photo-container">
+                            <img
+                              src={photo} // URL is already created
+                              alt={`Car Photo ${photoIndex + 1}`}
+                              width="100"
+                              height="100"
+                            />
+                            <button
+                              className="delete-photo"
+                              onClick={() => handleDeleteCarPhoto(index, photoIndex, "car", "deluxeDetails")}
+                            >
+                              &times;
+                            </button>
+                          </div>
+                        ))}
                       </div>
-                    ))}
+                    )}
+
                   </div>
                 )}
+
+                <div className="labels">
+                  <label className="labels">   Include Bus
+                  </label>
+                  <input
+                    type="checkbox"
+                    checked={itinerary.transportation.bus?.isIncluded || false}
+                    onChange={(e) =>
+                      handleTransportationChange(index, "bus", { isIncluded: e.target.checked }, "deluxeDetails")
+                    }
+                  />
+                </div>
+
+                {itinerary.transportation.bus?.isIncluded && (
+                  <div className="transportation-details">
+                    <h5>Bus Details</h5>
+
+                    <label>Bus Name</label>
+                    <input
+                      type="text"
+                      placeholder="Enter bus name"
+                      value={itinerary.transportation.bus.name || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "bus", { ...itinerary.transportation.bus, name: e.target.value }, "deluxeDetails")
+                      }
+                    />
+
+                    <label>Bus Category</label>
+                    <input
+                      type="text"
+                      placeholder="Enter bus category (e.g., AC, Non-AC)"
+                      value={itinerary.transportation.bus.category || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "bus", { ...itinerary.transportation.bus, category: e.target.value }, "deluxeDetails")
+                      }
+                    />
+
+                    <label>Description</label>
+                    <textarea
+                      placeholder="Enter bus description"
+                      value={itinerary.transportation.bus.description || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "bus", { ...itinerary.transportation.bus, description: e.target.value }, "deluxeDetails")
+                      }
+                    />
+
+                    <label>Departure Time</label>
+                    <input
+                      type="time"
+                      value={itinerary.transportation.bus.departureTime || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "bus", { ...itinerary.transportation.bus, departureTime: e.target.value }, "deluxeDetails")
+                      }
+                    />
+
+                    <label>Upload Bus Photos</label>
+                    <input
+                      type="file"
+                      multiple
+                      onChange={(e) => handleTransportationPhotos(index, "bus", e.target.files, "deluxeDetails")}
+                    />
+                    <div className="preview-photos">
+                      {(itinerary.transportation.bus.photos || []).map((photo, photoIndex) => (
+                        <img
+                          key={photoIndex}
+                          src={photo}
+                          alt={`Bus photo ${photoIndex + 1}`}
+                          width="100"
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Train Section */}
+                <div className="labels">
+                  <label className="labels">Include Train</label>
+                  <input
+                    type="checkbox"
+                    checked={itinerary.transportation.train?.isIncluded || false}
+                    onChange={(e) =>
+                      handleTransportationChange(
+                        index,
+                        "train",
+                        { ...itinerary.transportation.train, isIncluded: e.target.checked },
+                        "deluxeDetails"
+                      )
+                    }
+                  />
+                </div>
+                {itinerary.transportation.train?.isIncluded && (
+                  <div className="transportation-details">
+                    <label>Train Name</label>
+                    <input
+                      type="text"
+                      placeholder="Enter train name"
+                      value={itinerary.transportation.train.name || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(
+                          index,
+                          "train",
+                          { ...itinerary.transportation.train, name: e.target.value },
+                          "deluxeDetails"
+                        )
+                      }
+                    />
+
+                    <label>Category</label>
+                    <input
+                      type="text"
+                      placeholder="Enter train category"
+                      value={itinerary.transportation.train.category || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(
+                          index,
+                          "train",
+                          { ...itinerary.transportation.train, category: e.target.value },
+                          "deluxeDetails"
+                        )
+                      }
+                    />
+
+                    <label>Description</label>
+                    <textarea
+                      placeholder="Enter train description"
+                      value={itinerary.transportation.train.description || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(
+                          index,
+                          "train",
+                          { ...itinerary.transportation.train, description: e.target.value },
+                          "deluxeDetails"
+                        )
+                      }
+                    />
+
+                    <label>Departure Time</label>
+                    <input
+                      type="time"
+                      value={itinerary.transportation.train.departureTime || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(
+                          index,
+                          "train",
+                          { ...itinerary.transportation.train, departureTime: e.target.value },
+                          "deluxeDetails"
+                        )
+                      }
+                    />
+
+                    <label>Upload Train Photos</label>
+                    <input
+                      type="file"
+                      multiple
+                      onChange={(e) =>
+                        handleTransportationPhotos(
+                          index,
+                          "train",
+                          e.target.files,
+                          "deluxeDetails"
+                        )
+                      }
+                    />
+                    <div className="preview-photos">
+                      {(itinerary.transportation.train.photos || []).map((photo, photoIndex) => (
+                        <img
+                          key={photoIndex}
+                          src={photo}
+                          alt={`Train photo ${photoIndex + 1}`}
+                          width="100"
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Flight Section */}
+                <div className="labels">
+                  <label className="labels">Include Flight</label>
+                  <input
+                    type="checkbox"
+                    checked={itinerary.transportation.flight?.isIncluded || false}
+                    onChange={(e) =>
+                      handleTransportationChange(
+                        index,
+                        "flight",
+                        { ...itinerary.transportation.flight, isIncluded: e.target.checked },
+                        "deluxeDetails"
+                      )
+                    }
+                  />
+                </div>
+                {itinerary.transportation.flight?.isIncluded && (
+                  <div className="transportation-details">
+                    <label>Flight Name</label>
+                    <input
+                      type="text"
+                      placeholder="Enter flight name"
+                      value={itinerary.transportation.flight.name || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(
+                          index,
+                          "flight",
+                          { ...itinerary.transportation.flight, name: e.target.value },
+                          "deluxeDetails"
+                        )
+                      }
+                    />
+
+                    <label>Description</label>
+                    <textarea
+                      placeholder="Enter flight description"
+                      value={itinerary.transportation.flight.description || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(
+                          index,
+                          "flight",
+                          { ...itinerary.transportation.flight, description: e.target.value },
+                          "deluxeDetails"
+                        )
+                      }
+                    />
+
+                    <label>Departure Time</label>
+                    <input
+                      type="time"
+                      value={itinerary.transportation.flight.departureTime || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(
+                          index,
+                          "flight",
+                          { ...itinerary.transportation.flight, departureTime: e.target.value },
+                          "deluxeDetails"
+                        )
+                      }
+                    />
+
+                    <label>Upload Flight Photos</label>
+                    <input
+                      type="file"
+                      multiple
+                      onChange={(e) =>
+                        handleTransportationPhotos(
+                          index,
+                          "flight",
+                          e.target.files,
+                          "deluxeDetails"
+                        )
+                      }
+                    />
+                    <div className="preview-photos">
+                      {(itinerary.transportation.flight.photos || []).map((photo, photoIndex) => (
+                        <img
+                          key={photoIndex}
+                          src={photo}
+                          alt={`Flight photo ${photoIndex + 1}`}
+                          width="100"
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
+
               </div>
             )}
+
 
             <button type="button" onClick={() => removeItinerary("deluxeDetails", index)} className="deleteButton">
               Remove Itinerary
@@ -2031,9 +3321,11 @@ const NewTour = ({ title }) => {
           </div>
         ))}
         <button type="button" onClick={() => addItinerary("deluxeDetails")}>
-          Add Deluxe Itinerary
+          Add Standard Itinerary
         </button>
+
       </div>
+
     </div>
   );
 
@@ -2162,21 +3454,29 @@ const NewTour = ({ title }) => {
 
 
       {/* Premium Itineraries */}
+
       <div className="formGroup">
-        <h3>Premium Itineraries</h3>
+        <h3>Deluxe Itineraries</h3>
         {tourData.premiumDetails.itineraries.map((itinerary, index) => (
           <div key={index} className="itinerary">
             <label>Day {itinerary.day}</label>
             <label>Itinerary Photos</label>
             <input
               type="file"
-              name="itinerary photos"
               multiple
+              accept="image/*"
               onChange={(e) => handleItineraryPhotos(index, e.target.files, "premiumDetails")}
             />
-            <div className="preview-photos">
-              {itinerary.photos.map((photo, photoIndex) => (
-                <img key={photoIndex} src={photo} alt={`Itinerary photo ${photoIndex + 1}`} width="100" />
+            <div className="photo-preview">
+              {tourData.premiumDetails.itineraries[index].photos?.map((photo, photoIndex) => (
+                <img
+                  key={photoIndex}
+                  src={photo}
+                  alt={`Itinerary Photo ${photoIndex + 1}`}
+                  width="100"
+                  height="100"
+                  style={{ margin: "5px" }}
+                />
               ))}
             </div>
             <input
@@ -2193,90 +3493,292 @@ const NewTour = ({ title }) => {
               placeholder="Enter itinerary description"
             />
 
-            {/* Hotel Name */}
-            <input
-              type="text"
-              name="hotelName"
-              value={itinerary.hotelName}
-              onChange={(e) => handleItineraryChange(index, "hotelName", e.target.value, "premiumDetails")}
-              placeholder="Enter hotel name"
-            />
-
-            {/* Hotel URL */}
-            <input
-              type="text"
-              name="hotelUrl"
-              value={itinerary.hotelUrl}
-              onChange={(e) => handleItineraryChange(index, "hotelUrl", e.target.value, "premiumDetails")}
-              placeholder="Enter hotel URL"
-            />
-
-            {/* Site Seen Photos */}
-
-            <label>Siteseen Photos</label>
-            <input
-              type="file"
-              name="siteSeenPhotos"
-              multiple
-              onChange={(e) => handleSiteSeenPhotoChange(e, index, "premiumDetails")}
-            />
 
 
-            {itinerary.siteSeenPhotos.length > 0 && (
-              <div className="photo-preview">
-                {itinerary.siteSeenPhotos.map((photo, photoIndex) => (
-                  <div key={photoIndex} className="photo-container">
-                    <img src={URL.createObjectURL(photo)} alt={`Siteseen ${photoIndex}`} />
-                    <button
-                      className="delete-photo"
-                      onClick={() => handleDeleteSiteSeenPhoto(index, photoIndex, "premiumDetails")}
-                    >
-                      &times; {/* Delete button */}
-                    </button>
-                  </div>
-                ))}
-              </div>
-            )}
-            <label>Hotel Photos</label>
-            <input
-              type="file"
-              name="hotelphotos"
-              multiple
-              onChange={(e) => handleHotelPhotoChange(e, index, "premiumDetails")} // Pass index correctly
-            />
+            <div className="labels"> <label>
+              Siteseen:
+            </label>
+              <input
+                type="checkbox"
+                checked={itinerary.siteSeen?.isAvailable || false}
+                onChange={(e) =>
+                  handleItineraryChange(index, "siteSeen", { ...itinerary.siteSeen, isAvailable: e.target.checked }, "premiumDetails")
+                }
+              /></div>
 
 
-            {itinerary.hotelPhotos.length > 0 && (
-              <div className="photo-preview">
-                {itinerary.hotelPhotos.map((photo, photoIndex) => (
-                  <div key={photoIndex} className="photo-container">
-                    <img src={URL.createObjectURL(photo)} alt={`Hotel ${photoIndex}`} />
-                    <button
-                      className="delete-photo"
-                      onClick={() => handleDeleteHotelPhoto(index, photoIndex, "premiumDetails")}
-                    >
-                      &times; {/* Delete button */}
-                    </button>
-                  </div>
-                ))}
+
+
+            {itinerary.siteSeen?.isAvailable && (
+              <div className="siteseen-section">
+                <h4>Siteseen Details</h4>
+
+                {/* Siteseen Name */}
+                <input
+                  type="text"
+                  placeholder="Enter Siteseen name"
+                  value={itinerary.siteSeen.name || ""}
+                  onChange={(e) =>
+                    handleItineraryChange(index, "siteSeen", { ...itinerary.siteSeen, name: e.target.value }, "premiumDetails")
+                  }
+                />
+
+                {/* Siteseen Description */}
+                <textarea
+                  placeholder="Enter Siteseen description"
+                  value={itinerary.siteSeen.description || ""}
+                  onChange={(e) =>
+                    handleItineraryChange(index, "siteSeen", { ...itinerary.siteSeen, description: e.target.value }, "premiumDetails")
+                  }
+                ></textarea>
+
+                {/* Siteseen Photos */}
+                <label>Upload Siteseen Photos</label>
+                <input
+                  type="file"
+                  multiple
+                  onChange={(e) => {
+                    const files = Array.from(e.target.files).map((file) => URL.createObjectURL(file));
+                    handleItineraryChange(
+                      index,
+                      "siteSeen",
+                      { ...itinerary.siteSeen, photos: [...(itinerary.siteSeen.photos || []), ...files] },
+                      "premiumDetails"
+                    );
+                  }}
+                />
+
+                <div className="preview-photos">
+                  {itinerary.siteSeen.photos &&
+                    itinerary.siteSeen.photos.map((photo, photoIndex) => (
+                      <img key={photoIndex} src={photo} alt={`Siteseen photo ${photoIndex + 1}`} width="100" />
+                    ))}
+                </div>
               </div>
             )}
 
-            {/* Display site seen photos */}
+            <div className="labels">
+              <label>Include Hotel</label>
+              <input
+                type="checkbox"
+                checked={itinerary.hotel.isIncluded || false}
+                onChange={(e) => {
+                  const updatedItineraries = [...tourData.premiumDetails.itineraries];
+                  updatedItineraries[index].hotel.isIncluded = e.target.checked;
+                  setTourData({
+                    ...tourData,
+                    premiumDetails: {
+                      ...tourData.premiumDetails,
+                      itineraries: updatedItineraries
+                    }
+                  });
+                }}
+              />
+            </div>
 
 
+            {/* Hotel details div, visible only if Include Hotel is checked */}
+            {itinerary.hotel.isIncluded && (
+              <div className="hotel-details">
+                <label>Hotel Name</label>
+                <input
+                  type="text"
+                  value={itinerary.hotel.name || ""}
+                  onChange={(e) => {
+                    const updatedItineraries = [...tourData.premiumDetails.itineraries];
+                    updatedItineraries[index].hotel.name = e.target.value;
+                    setTourData({
+                      ...tourData,
+                      premiumDetails: {
+                        ...tourData.premiumDetails,
+                        itineraries: updatedItineraries
+                      }
+                    });
+                  }}
+                />
 
-            {/* Meals Checkboxes */}
-            <div className="meals-checkbox">
-              <label>
+                <label>Hotel URL</label>
+                <input
+                  type="url"
+                  value={itinerary.hotel.url || ""}
+                  onChange={(e) => {
+                    const updatedItineraries = [...tourData.premiumDetails.itineraries];
+                    updatedItineraries[index].hotel.url = e.target.value;
+                    setTourData({
+                      ...tourData,
+                      premiumDetails: {
+                        ...tourData.premiumDetails,
+                        itineraries: updatedItineraries
+                      }
+                    });
+                  }}
+                />
+
+
+                <label>Hotel Category</label>
+                <input
+                  type="text"
+                  value={itinerary.hotel.hotelCategory || ""}
+                  readOnly
+                  onFocus={() => {
+                    const updatedItineraries = [...tourData.premiumDetails.itineraries];
+                    updatedItineraries[index].showCategoryOptions = true;
+                    setTourData({
+                      ...tourData,
+                      premiumDetails: {
+                        ...tourData.premiumDetails,
+                        itineraries: updatedItineraries
+                      }
+                    });
+                  }}
+                />
+                {itinerary.showCategoryOptions && (
+                  <div className="category-options">
+                    {hotelCategoryOptions.map((option) => (
+                      <div
+                        key={option}
+                        onClick={() => {
+                          const updatedItineraries = [...tourData.premiumDetails.itineraries];
+                          updatedItineraries[index].hotel.hotelCategory = [option];
+                          updatedItineraries[index].showCategoryOptions = false; // Hide options after selection
+                          setTourData({
+                            ...tourData,
+                            premiumDetails: {
+                              ...tourData.premiumDetails,
+                              itineraries: updatedItineraries
+                            }
+                          });
+                        }}
+                      >
+                        {option}
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                <label>Hotel Images</label>
+                <input
+                  type="file"
+                  multiple
+                  accept="image/*"
+                  onChange={(e) => handleHotelImages(index, e.target.files, "premiumDetails")}
+                />
+
+                {itinerary.hotel.hotelImages?.length > 0 && (
+                  <div className="photo-preview">
+                    {itinerary.hotel.hotelImages.map((photo, photoIndex) => (
+                      <div key={photoIndex} className="photo-container">
+                        <img
+                          src={photo} // URL is already created
+                          alt={`Hotel Image ${photoIndex + 1}`}
+                          width="100"
+                          height="100"
+                        />
+                        <button
+                          className="delete-photo"
+                          onClick={() => handleDeletePhoto(index, photoIndex, "hotelImages", "premiumDetails")}
+                        >
+                          &times;
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+
+                <label>Room Category</label>
+                <input
+                  type="text"
+                  value={itinerary.hotel.roomCategory || ""}
+                  onChange={(e) => {
+                    const updatedItineraries = [...tourData.premiumDetails.itineraries];
+                    updatedItineraries[index].hotel.roomCategory = e.target.value;
+                    setTourData({
+                      ...tourData,
+                      premiumDetails: {
+                        ...tourData.premiumDetails,
+                        itineraries: updatedItineraries
+                      }
+                    });
+                  }}
+                />
+
+                <label>Room Images</label>
+                <input
+                  type="file"
+                  multiple
+                  accept="image/*"
+                  onChange={(e) => handleRoomImages(index, e.target.files, "premiumDetails")}
+                />
+
+                {itinerary.hotel.roomImages?.length > 0 && (
+                  <div className="photo-preview">
+                    {itinerary.hotel.roomImages.map((photo, photoIndex) => (
+                      <div key={photoIndex} className="photo-container">
+                        <img
+                          src={photo} // URL is already created
+                          alt={`Room Image ${photoIndex + 1}`}
+                          width="100"
+                          height="100"
+                        />
+                        <button
+                          className="delete-photo"
+                          onClick={() => handleDeletePhoto(index, photoIndex, "roomImages", "premiumDetails")}
+                        >
+                          &times;
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+
+                <label>Hotel Location</label>
+                <input
+                  type="text"
+                  value={itinerary.hotel.location || ""}
+                  onChange={(e) => {
+                    const updatedItineraries = [...tourData.premiumDetails.itineraries];
+                    updatedItineraries[index].hotel.location = e.target.value;
+                    setTourData({
+                      ...tourData,
+                      premiumDetails: {
+                        ...tourData.premiumDetails,
+                        itineraries: updatedItineraries
+                      }
+                    });
+                  }}
+                />
+              </div>
+            )}
+
+
+            <div className="labels">
+              <label>Meals</label>
+
+
+              <input
+                type="checkbox"
+                checked={itinerary.meals?.isAvailable || false}
+                onChange={(e) =>
+                  handleItineraryChange(index, "meals", { ...itinerary.meals, isAvailable: e.target.checked }, "premiumDetails")
+                }
+              />
+            </div>
+            {itinerary.meals.isAvailable ? <div className="meals-checkbox">
+              <div className="labels">
+                <label>   Breakfast
+                </label>
                 <input
                   type="checkbox"
                   value="breakfast"
                   checked={itinerary.meals.breakfast.isAvailable}
                   onChange={(e) => handleMealChange(e, index, "breakfast", "premiumDetails")}
                 />
-                Breakfast
-              </label>
+
+
+              </div>
+
               {itinerary.meals.breakfast.isAvailable == true && (
                 <div className="meal-details">
                   <label>Breakfast Name</label>
@@ -2287,6 +3789,7 @@ const NewTour = ({ title }) => {
                     onChange={(e) => handleItineraryMealsChange(index, "breakfast", "name", e.target.value, "premiumDetails")}
                     placeholder="Enter breakfast name"
                   />
+
                   <label>Breakfast Photos</label>
                   <input
                     type="file"
@@ -2316,15 +3819,17 @@ const NewTour = ({ title }) => {
                 </div>
               )}
 
-              <label>
+              <div className="labels">
+                <label>   Lunch
+                </label>
                 <input
                   type="checkbox"
                   value="lunch"
                   checked={itinerary.meals.lunch.isAvailable}
                   onChange={(e) => handleMealChange(e, index, "lunch", "premiumDetails")}
                 />
-                Lunch
-              </label>
+
+              </div>
 
 
               {itinerary.meals.lunch.isAvailable == true && (
@@ -2362,15 +3867,17 @@ const NewTour = ({ title }) => {
               )}
 
 
-              <label>
+              <div className="labels">
+                <label>   Dinner
+                </label>
                 <input
                   type="checkbox"
                   value="Dinner"
                   checked={itinerary.meals.dinner.isAvailable}
                   onChange={(e) => handleMealChange(e, index, "dinner", "premiumDetails")}
                 />
-                Dinner
-              </label>
+
+              </div>
               {itinerary.meals.dinner.isAvailable == true && (
                 <div className="meal-details">
                   <label>Dinner Name</label>
@@ -2405,79 +3912,486 @@ const NewTour = ({ title }) => {
                 </div>
               )}
             </div>
+              : null}
+            <div className="labels">
+              <label>  Include Activity
+              </label>
+              <input
+                type="checkbox"
+                checked={itinerary.activity?.isIncluded || false}
+                onChange={(e) =>
+                  handleItineraryChange(
+                    index,
+                    "activity",
+                    { ...itinerary.activity, isIncluded: e.target.checked },
+                    "premiumDetails"
+                  )
+                }
+              />
 
 
+            </div>
 
-            <input
-              type="text"
-              name="managerName"
-              value={itinerary.managerName}
-              onChange={(e) => handleItineraryChange(index, "managerName", e.target.value, "premiumDetails")}
-              placeholder="Enter manager name"
-            />
-            <label>
+
+            {itinerary.activity?.isIncluded && (
+              <div className="activity-details">
+                <input
+                  type="text"
+                  placeholder="Enter activity name"
+                  value={itinerary.activity.name || ""}
+                  onChange={(e) =>
+                    handleItineraryChange(
+                      index,
+                      "activity",
+                      { ...itinerary.activity, name: e.target.value },
+                      "premiumDetails"
+                    )
+                  }
+                />
+                <textarea
+                  placeholder="Enter activity description"
+                  value={itinerary.activity.description || ""}
+                  onChange={(e) =>
+                    handleItineraryChange(
+                      index,
+                      "activity",
+                      { ...itinerary.activity, description: e.target.value },
+                      "premiumDetails"
+                    )
+                  }
+                />
+
+
+                <input
+                  type="number"
+                  placeholder="Enter activity price"
+                  value={itinerary.activity.price || ""}
+                  onChange={(e) =>
+                    handleItineraryChange(
+                      index,
+                      "activity",
+                      { ...itinerary.activity, price: e.target.value },
+                      "premiumDetails"
+                    )
+                  }
+                />
+
+                <label>Upload Photos</label>
+                <input
+                  type="file"
+                  multiple
+                  onChange={(e) =>
+                    handleActivityPhotos(index, "activity", e.target.files, "premiumDetails")
+                  }
+                />
+                {itinerary.activity.photos.length > 0 ? <div className="preview-photos">
+                  {(itinerary.activity.photos || []).map((photo, photoIndex) => (
+                    <img
+                      key={photoIndex}
+                      src={photo}
+                      alt={`Activity photo ${photoIndex + 1}`}
+                      width="100"
+                    />
+                  ))}
+                </div> : null}
+
+              </div>
+            )}
+            <div className="labels">
+              <label> Include Transportation
+              </label>
               <input
                 type="checkbox"
                 name="transportation"
-                checked={itinerary.transportation || false}
+                checked={itinerary.transportation?.isIncluded || false}
                 onChange={(e) => {
-                  setOpenPremiumTranportation(!openPremiumTranportation);
+                  handleItineraryChange(index, "transportation", { ...itinerary.transportation, isIncluded: e.target.checked }, "premiumDetails");
                 }}
               />
-              Include Transportation
-            </label>
 
-            {openPremiumTranportation && (
+
+            </div>
+
+
+
+            {/* Transportation Section */}
+            {itinerary.transportation?.isIncluded && (
               <div className="transportation-section">
-                {/* Car Name */}
-                <label>Car Name</label>
-                <input
-                  type="text"
-                  name="carName"
-                  value={itinerary.carName || ""}
-                  onChange={(e) => handleItineraryChange(index, "carName", e.target.value, "premiumDetails")}
-                  placeholder="Enter car name"
-                />
 
-                {/* Car Photos */}
-                <label>Car Photos</label>
-                <input
-                  type="file"
-                  name="carPhotos"
-                  multiple
-                  onChange={(e) => handleCarPhotosChange(e, index, "premiumDetails")}
-                />
 
-                {/* Display car photos */}
-                {itinerary.carPhotos && itinerary.carPhotos.length > 0 && (
-                  <div className="photo-preview">
-                    {itinerary.carPhotos.map((photo, photoIndex) => (
-                      <div key={photoIndex} className="photo-container">
-                        <img src={URL.createObjectURL(photo)} alt={`Car ${photoIndex}`} />
-                        <button
-                          className="delete-photo"
-                          onClick={() => handleDeleteCarPhoto(index, photoIndex, "premiumDetails")}
-                        >
-                          &times;
-                        </button>
+                <div className="labels">
+                  <label className="labels">   Include Car
+                  </label>
+                  <input
+                    type="checkbox"
+                    checked={itinerary.transportation.car?.isIncluded || false}
+                    onChange={(e) =>
+                      handleTransportationChange(index, "car", { isIncluded: e.target.checked }, "premiumDetails")
+                    }
+                  />
+                </div>
+
+
+                {itinerary.transportation.car?.isIncluded && (
+                  <div className="transportation-details">
+                    <input
+                      type="text"
+                      placeholder="Car Name"
+                      value={itinerary.transportation.car.name || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "car", { ...itinerary.transportation.car, name: e.target.value }, "premiumDetails")
+                      }
+                    />
+                    <input
+                      type="text"
+                      placeholder="Car Category"
+                      value={itinerary.transportation.car.category || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "car", { ...itinerary.transportation.car, category: e.target.value }, "premiumDetails")
+                      }
+                    />
+
+                    <input
+                      type="number"
+                      placeholder="Enter car price"
+                      value={itinerary.transportation.car.price || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "car", { ...itinerary.transportation.car, price: e.target.value }, "premiumDetails")
+                      }
+                    />
+
+
+                    <input
+                      type="number"
+                      placeholder="Enter maximum people capacity"
+                      value={itinerary.transportation.car.maxPeople || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "car", { ...itinerary.transportation.car, maxPeople: e.target.value }, "premiumDetails")
+                      }
+                    />
+                    <input
+                      type="text"
+                      placeholder="Description"
+                      value={itinerary.transportation.car.description || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "car", { ...itinerary.transportation.car, description: e.target.value }, "premiumDetails")
+                      }
+                    />
+                    <input
+                      type="time"
+                      placeholder="Departure Time"
+                      value={itinerary.transportation.car.departureTime || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "car", { ...itinerary.transportation.car, departureTime: e.target.value }, "premiumDetails")
+                      }
+                    />
+                    <label>Upload Car Photos</label>
+                    <input
+                      type="file"
+                      multiple
+                      accept="image/*"
+                      onChange={(e) => handleTransportationPhotos(index, "car", e.target.files, "premiumDetails")}
+                    />
+
+                    {itinerary.transportation.car?.photos?.length > 0 && (
+                      <div className="photo-preview">
+                        {itinerary.transportation.car.photos.map((photo, photoIndex) => (
+                          <div key={photoIndex} className="photo-container">
+                            <img
+                              src={photo} // URL is already created
+                              alt={`Car Photo ${photoIndex + 1}`}
+                              width="100"
+                              height="100"
+                            />
+                            <button
+                              className="delete-photo"
+                              onClick={() => handleDeleteCarPhoto(index, photoIndex, "car", "premiumDetails")}
+                            >
+                              &times;
+                            </button>
+                          </div>
+                        ))}
                       </div>
-                    ))}
+                    )}
+
                   </div>
                 )}
+
+                <div className="labels">
+                  <label className="labels">   Include Bus
+                  </label>
+                  <input
+                    type="checkbox"
+                    checked={itinerary.transportation.bus?.isIncluded || false}
+                    onChange={(e) =>
+                      handleTransportationChange(index, "bus", { isIncluded: e.target.checked }, "premiumDetails")
+                    }
+                  />
+                </div>
+
+                {itinerary.transportation.bus?.isIncluded && (
+                  <div className="transportation-details">
+                    <h5>Bus Details</h5>
+
+                    <label>Bus Name</label>
+                    <input
+                      type="text"
+                      placeholder="Enter bus name"
+                      value={itinerary.transportation.bus.name || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "bus", { ...itinerary.transportation.bus, name: e.target.value }, "premiumDetails")
+                      }
+                    />
+
+                    <label>Bus Category</label>
+                    <input
+                      type="text"
+                      placeholder="Enter bus category (e.g., AC, Non-AC)"
+                      value={itinerary.transportation.bus.category || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "bus", { ...itinerary.transportation.bus, category: e.target.value }, "premiumDetails")
+                      }
+                    />
+
+                    <label>Description</label>
+                    <textarea
+                      placeholder="Enter bus description"
+                      value={itinerary.transportation.bus.description || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "bus", { ...itinerary.transportation.bus, description: e.target.value }, "premiumDetails")
+                      }
+                    />
+
+                    <label>Departure Time</label>
+                    <input
+                      type="time"
+                      value={itinerary.transportation.bus.departureTime || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "bus", { ...itinerary.transportation.bus, departureTime: e.target.value }, "premiumDetails")
+                      }
+                    />
+
+                    <label>Upload Bus Photos</label>
+                    <input
+                      type="file"
+                      multiple
+                      onChange={(e) => handleTransportationPhotos(index, "bus", e.target.files, "premiumDetails")}
+                    />
+                    <div className="preview-photos">
+                      {(itinerary.transportation.bus.photos || []).map((photo, photoIndex) => (
+                        <img
+                          key={photoIndex}
+                          src={photo}
+                          alt={`Bus photo ${photoIndex + 1}`}
+                          width="100"
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Train Section */}
+                <div className="labels">
+                  <label className="labels">Include Train</label>
+                  <input
+                    type="checkbox"
+                    checked={itinerary.transportation.train?.isIncluded || false}
+                    onChange={(e) =>
+                      handleTransportationChange(
+                        index,
+                        "train",
+                        { ...itinerary.transportation.train, isIncluded: e.target.checked },
+                        "premiumDetails"
+                      )
+                    }
+                  />
+                </div>
+                {itinerary.transportation.train?.isIncluded && (
+                  <div className="transportation-details">
+                    <label>Train Name</label>
+                    <input
+                      type="text"
+                      placeholder="Enter train name"
+                      value={itinerary.transportation.train.name || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(
+                          index,
+                          "train",
+                          { ...itinerary.transportation.train, name: e.target.value },
+                          "premiumDetails"
+                        )
+                      }
+                    />
+
+                    <label>Category</label>
+                    <input
+                      type="text"
+                      placeholder="Enter train category"
+                      value={itinerary.transportation.train.category || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(
+                          index,
+                          "train",
+                          { ...itinerary.transportation.train, category: e.target.value },
+                          "premiumDetails"
+                        )
+                      }
+                    />
+
+                    <label>Description</label>
+                    <textarea
+                      placeholder="Enter train description"
+                      value={itinerary.transportation.train.description || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(
+                          index,
+                          "train",
+                          { ...itinerary.transportation.train, description: e.target.value },
+                          "premiumDetails"
+                        )
+                      }
+                    />
+
+                    <label>Departure Time</label>
+                    <input
+                      type="time"
+                      value={itinerary.transportation.train.departureTime || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(
+                          index,
+                          "train",
+                          { ...itinerary.transportation.train, departureTime: e.target.value },
+                          "premiumDetails"
+                        )
+                      }
+                    />
+
+                    <label>Upload Train Photos</label>
+                    <input
+                      type="file"
+                      multiple
+                      onChange={(e) =>
+                        handleTransportationPhotos(
+                          index,
+                          "train",
+                          e.target.files,
+                          "premiumDetails"
+                        )
+                      }
+                    />
+                    <div className="preview-photos">
+                      {(itinerary.transportation.train.photos || []).map((photo, photoIndex) => (
+                        <img
+                          key={photoIndex}
+                          src={photo}
+                          alt={`Train photo ${photoIndex + 1}`}
+                          width="100"
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Flight Section */}
+                <div className="labels">
+                  <label className="labels">Include Flight</label>
+                  <input
+                    type="checkbox"
+                    checked={itinerary.transportation.flight?.isIncluded || false}
+                    onChange={(e) =>
+                      handleTransportationChange(
+                        index,
+                        "flight",
+                        { ...itinerary.transportation.flight, isIncluded: e.target.checked },
+                        "premiumDetails"
+                      )
+                    }
+                  />
+                </div>
+                {itinerary.transportation.flight?.isIncluded && (
+                  <div className="transportation-details">
+                    <label>Flight Name</label>
+                    <input
+                      type="text"
+                      placeholder="Enter flight name"
+                      value={itinerary.transportation.flight.name || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(
+                          index,
+                          "flight",
+                          { ...itinerary.transportation.flight, name: e.target.value },
+                          "premiumDetails"
+                        )
+                      }
+                    />
+
+                    <label>Description</label>
+                    <textarea
+                      placeholder="Enter flight description"
+                      value={itinerary.transportation.flight.description || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(
+                          index,
+                          "flight",
+                          { ...itinerary.transportation.flight, description: e.target.value },
+                          "premiumDetails"
+                        )
+                      }
+                    />
+
+                    <label>Departure Time</label>
+                    <input
+                      type="time"
+                      value={itinerary.transportation.flight.departureTime || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(
+                          index,
+                          "flight",
+                          { ...itinerary.transportation.flight, departureTime: e.target.value },
+                          "premiumDetails"
+                        )
+                      }
+                    />
+
+                    <label>Upload Flight Photos</label>
+                    <input
+                      type="file"
+                      multiple
+                      onChange={(e) =>
+                        handleTransportationPhotos(
+                          index,
+                          "flight",
+                          e.target.files,
+                          "premiumDetails"
+                        )
+                      }
+                    />
+                    <div className="preview-photos">
+                      {(itinerary.transportation.flight.photos || []).map((photo, photoIndex) => (
+                        <img
+                          key={photoIndex}
+                          src={photo}
+                          alt={`Flight photo ${photoIndex + 1}`}
+                          width="100"
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
+
               </div>
             )}
-            <button
-              type="button"
-              className="deleteButton"
-              onClick={() => removeItinerary("premiumDetails", index)}
-            >
+
+
+            <button type="button" onClick={() => removeItinerary("premiumDetails", index)} className="deleteButton">
               Remove Itinerary
             </button>
           </div>
         ))}
         <button type="button" onClick={() => addItinerary("premiumDetails")}>
-          Add Premium Itinerary
+          Add Standard Itinerary
         </button>
+
       </div>
 
     </div>
