@@ -83,7 +83,7 @@ console.log(allTours)
       renderCell: () => {
         return (
           <div className="cellAction">
-            <Link to={`/editTour/${allTours[0].id}`} style={{ textDecoration: "none" }}>
+            <Link to={`/admin/editTour/${allTours[0].id}`} style={{ textDecoration: "none" }}>
               <div className="viewButton">Edit</div>
             </Link>
             <div
