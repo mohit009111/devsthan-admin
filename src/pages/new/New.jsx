@@ -540,16 +540,20 @@ const NewTour = ({ title }) => {
     });
   };
 
-
   const handleBannerImageChange = (event) => {
-    const file = event.target.files[0]; // Get the selected file
+    const file = event.target.files[0];
     if (file) {
-      setTourData((prevState) => ({
-        ...prevState,
-        bannerImage: file, // Store the File object itself
+      if (tourData.bannerImage) {
+        URL.revokeObjectURL(tourData.bannerImage); // Clean up old object URL
+      }
+      const previewUrl = URL.createObjectURL(file);
+      setTourData((prevData) => ({
+        ...prevData,
+        bannerImage: previewUrl,
       }));
     }
   };
+  
 
   const handleDeleteBanner = () => {
     setTourData((prevState) => ({
@@ -1015,12 +1019,17 @@ const NewTour = ({ title }) => {
 
 
   const handleDeletePhoto = (index) => {
-    // Remove the photo at the specified index
-    setTourData((prevState) => {
-      const newImages = prevState.images.filter((_, i) => i !== index);
+    setTourData((prevData) => {
+      // Revoke the object URL for the deleted image
+      URL.revokeObjectURL(prevData.images[index]);
+  
+      // Remove the image from the `images` array
+      const updatedImages = [...prevData.images];
+      updatedImages.splice(index, 1);
+  
       return {
-        ...prevState,
-        images: newImages, // Update the images state
+        ...prevData,
+        images: updatedImages,
       };
     });
   };
@@ -1160,14 +1169,20 @@ const NewTour = ({ title }) => {
       },
     }));
   };
-  const handleFileChange = (e) => {
-    const files = Array.from(e.target.files);
-    setTourData((prevState) => ({
-      ...prevState,
-      images: [...prevState.images, ...files], // Append new files to the existing ones
+  const handleFileChange = (event) => {
+    const files = Array.from(event.target.files);
+  
+    // Generate preview URLs for each uploaded file
+    const previewUrls = files.map((file) => URL.createObjectURL(file));
+  
+    // Update the `images` array in `tourData` state
+    setTourData((prevData) => ({
+      ...prevData,
+      images: [...prevData.images, ...previewUrls],
     }));
+  
+    console.log("Uploaded Images:", previewUrls); // Debug log
   };
-  console.log(tourData)
   const handleItineraryMealsChange = (itineraryIndex, mealType, field, files, tourDetailType) => {
     setTourData((prevState) => {
       const updatedItineraries = [...prevState[tourDetailType].itineraries];
@@ -5807,23 +5822,23 @@ const NewTour = ({ title }) => {
               />
             </div>
             <div className="formGroup">
-              <label>Upload Banner Image</label>
-              <input
-                type="file"
-                name="bannerImage"
-                onChange={handleBannerImageChange}
-              />
+  <label>Upload Banner Image</label>
+  <input
+    type="file"
+    name="bannerImage"
+    onChange={handleBannerImageChange}
+  />
 
-              {/* Display banner image preview only when it's uploaded */}
-              {tourData.bannerImage && (
-                <div className="banner-preview">
-                  <img src={tourData.bannerImage} alt="Banner Preview" />
-                  <button className="delete-banner" onClick={handleDeleteBanner}>
-                    &times; {/* Delete icon for the banner image */}
-                  </button>
-                </div>
-              )}
-            </div>
+  {/* Display banner image preview only when it's uploaded */}
+  {tourData.bannerImage && (
+    <div className="banner-preview">
+      <img src={tourData.bannerImage} alt="Banner Preview" />
+      <button className="delete-banner" onClick={handleDeleteBanner}>
+        &times; {/* Delete icon for the banner image */}
+      </button>
+    </div>
+  )}
+</div>
 
             <div className="formGroup" style={{ position: "relative" }}>
               <label htmlFor="categoriesInput">Categories</label>
@@ -5948,31 +5963,32 @@ const NewTour = ({ title }) => {
               </div>
             </div>
             <div className="formGroup">
-              <label>Upload Photos</label>
-              <input
-                type="file"
-                multiple
-                name="photos"
-                onChange={handleFileChange}
-              />
+    <label>Upload Photos</label>
+    <input
+      type="file"
+      multiple
+      name="photos"
+      accept="image/*" // Allow only image files
+      onChange={handleFileChange}
+    />
 
-              {/* Display image previews only when there are uploaded images */}
-              {tourData.images.length > 0 && (
-                <div className="photo-preview">
-                  {tourData.images.map((photo, index) => (
-                    <div key={index} className="photo-container">
-                      <img src={photo} alt={`Uploaded preview ${index}`} />
-                      <button
-                        className="delete-photo"
-                        onClick={() => handleDeletePhoto(index)}
-                      >
-                        &times; {/* You can replace this with an icon if you prefer */}
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
+    {/* Display image previews */}
+    {tourData.images.length > 0 && (
+      <div className="photo-preview">
+        {tourData.images.map((photo, index) => (
+          <div key={index} className="photo-container">
+            <img src={photo} alt={`Uploaded preview ${index}`} />
+            <button
+              className="delete-photo"
+              onClick={() => handleDeletePhoto(index)}
+            >
+              &times;
+            </button>
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
 
             <div className="formGroup">
               <label>Languages</label>
