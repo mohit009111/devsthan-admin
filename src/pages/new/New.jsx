@@ -28,9 +28,9 @@ const NewTour = ({ title }) => {
     duration: "",
     transportation: false,
     groupSize: "",
-    categories: [""],
-    attributes: [""],
-    languages: [""],
+    categories: [],
+    attributes: [],
+    languages: [],
     country: "",
     city: "",
     state: "",
@@ -42,23 +42,54 @@ const NewTour = ({ title }) => {
       priceChangePerPerson: 0,
     },
     departureDetails: "",
-    knowBeforeYouGo: [""],
-    additionalInfo: [""],
+    knowBeforeYouGo: [],
+    additionalInfo: [],
     bannerImage: "",
     images: [],
     standardDetails: {
       itineraries: [
         {
+          tourManager: {
+            isAvailable: false,
+            name: "",
+            photo: "",
+            description: '',
+            departureFrom: "",
+            arrivalTo: ""
+
+          },
           hotel: {
             isIncluded: false,
             name: "",
             url: "",
             hotelCategory: "",
-            hotelImages: [""],
-            roomPrice: null,
+            hotelImages: [],
+
             roomCategory: "",
             roomImages: [],
-            location: ""
+            location: "",
+            beds: {
+              doubleBed: {
+                price: null,
+                extraBedPrice: null,
+              },
+              tripleBed: {
+                price: null,
+                extraBedPrice: null,
+              },
+              fourBed: {
+                price: null,
+                extraBedPrice: null,
+              },
+              fiveBed: {
+                price: null,
+                extraBedPrice: null,
+              },
+              sixBed: {
+                price: null,
+                extraBedPrice: null,
+              },
+            },
           }
           ,
           activity: {
@@ -73,6 +104,10 @@ const NewTour = ({ title }) => {
               isIncluded: false,
               name: "",
               category: "",
+              price: "",
+              departureFrom: "",
+              arrivalTo: "",
+
               description: "",
               departureTime: "",
               photos: []
@@ -81,6 +116,10 @@ const NewTour = ({ title }) => {
               isIncluded: false,
               name: "",
               category: "",
+              price: "",
+              departureFrom: "",
+              arrivalTo: "",
+
               description: "",
               departureTime: "",
               photos: []
@@ -88,6 +127,10 @@ const NewTour = ({ title }) => {
             train: {
               isIncluded: false,
               name: "",
+              category: "",
+              price: "",
+              departureFrom: "",
+              arrivalTo: "",
 
               description: "",
               departureTime: "",
@@ -96,6 +139,23 @@ const NewTour = ({ title }) => {
             flight: {
               isIncluded: false,
               name: "",
+              category: "",
+              price: "",
+              departureFrom: "",
+              arrivalTo: "",
+
+              description: "",
+              departureTime: "",
+              photos: []
+            },
+            chopper: {
+              isIncluded: false,
+              name: "",
+              company: "",
+              category: "",
+              price: "",
+              departureFrom: "",
+              arrivalTo: "",
 
               description: "",
               departureTime: "",
@@ -125,9 +185,9 @@ const NewTour = ({ title }) => {
             photos: []
           },
           day: 1,
-          photos:[],
-          title:"",
-          description:"",
+          photos: [],
+          title: "",
+          description: "",
         },
       ],
       highlights: [""],
@@ -147,19 +207,50 @@ const NewTour = ({ title }) => {
       itineraries: [
         {
           day: 1,
-          photos:[],
-          title:"",
-          description:"",
+          photos: [],
+          title: "",
+          description: "",
+          tourManager: {
+            isAvailable: false,
+            name: "",
+            photo: "",
+            description: '',
+            departureFrom: "",
+            arrivalTo: ""
+
+          },
           hotel: {
             isIncluded: false,
             name: "",
             url: "",
             hotelCategory: "",
             hotelImages: [],
-            roomPrice: null,
+
             roomCategory: "",
             roomImages: [],
-            location: ""
+            location: "",
+            beds: {
+              doubleBed: {
+                price: null,
+                extraBedPrice: null,
+              },
+              tripleBed: {
+                price: null,
+                extraBedPrice: null,
+              },
+              fourBed: {
+                price: null,
+                extraBedPrice: null,
+              },
+              fiveBed: {
+                price: null,
+                extraBedPrice: null,
+              },
+              sixBed: {
+                price: null,
+                extraBedPrice: null,
+              },
+            },
           }
           ,
           activity: {
@@ -174,6 +265,10 @@ const NewTour = ({ title }) => {
               isIncluded: false,
               name: "",
               category: "",
+              price: "",
+              departureFrom: "",
+              arrivalTo: "",
+
               description: "",
               departureTime: "",
               photos: []
@@ -182,6 +277,10 @@ const NewTour = ({ title }) => {
               isIncluded: false,
               name: "",
               category: "",
+              price: "",
+              departureFrom: "",
+              arrivalTo: "",
+
               description: "",
               departureTime: "",
               photos: []
@@ -189,6 +288,10 @@ const NewTour = ({ title }) => {
             train: {
               isIncluded: false,
               name: "",
+              category: "",
+              price: "",
+              departureFrom: "",
+              arrivalTo: "",
 
               description: "",
               departureTime: "",
@@ -197,6 +300,23 @@ const NewTour = ({ title }) => {
             flight: {
               isIncluded: false,
               name: "",
+              category: "",
+              price: "",
+              departureFrom: "",
+              arrivalTo: "",
+
+              description: "",
+              departureTime: "",
+              photos: []
+            },
+            chopper: {
+              isIncluded: false,
+              name: "",
+              company: "",
+              category: "",
+              price: "",
+              departureFrom: "",
+              arrivalTo: "",
 
               description: "",
               departureTime: "",
@@ -246,19 +366,50 @@ const NewTour = ({ title }) => {
       itineraries: [
         {
           day: 1,
-          photos:[],
-          title:"",
-          description:"",
+          photos: [],
+          title: "",
+          description: "",
+          tourManager: {
+            isAvailable: false,
+            name: "",
+            photo: "",
+            description: '',
+            departureFrom: "",
+            arrivalTo: ""
+
+          },
           hotel: {
             isIncluded: false,
             name: "",
             url: "",
             hotelCategory: "",
-            hotelImages: [""],
-            roomPrice: null,
+            hotelImages: [],
+
             roomCategory: "",
             roomImages: [],
-            location: ""
+            location: "",
+            beds: {
+              doubleBed: {
+                price: null,
+                extraBedPrice: null,
+              },
+              tripleBed: {
+                price: null,
+                extraBedPrice: null,
+              },
+              fourBed: {
+                price: null,
+                extraBedPrice: null,
+              },
+              fiveBed: {
+                price: null,
+                extraBedPrice: null,
+              },
+              sixBed: {
+                price: null,
+                extraBedPrice: null,
+              },
+            },
           }
           ,
           activity: {
@@ -273,6 +424,10 @@ const NewTour = ({ title }) => {
               isIncluded: false,
               name: "",
               category: "",
+              price: "",
+              departureFrom: "",
+              arrivalTo: "",
+
               description: "",
               departureTime: "",
               photos: []
@@ -282,20 +437,45 @@ const NewTour = ({ title }) => {
               name: "",
               category: "",
               description: "",
+              price: "",
+              departureFrom: "",
+              arrivalTo: "",
+
               departureTime: "",
               photos: []
             },
             train: {
               isIncluded: false,
               name: "",
-
+              category: "",
               description: "",
+              price: "",
+              departureFrom: "",
+              arrivalTo: "",
+
               departureTime: "",
               photos: []
             },
             flight: {
               isIncluded: false,
               name: "",
+              category: "",
+              description: "",
+              price: "",
+              departureFrom: "",
+              arrivalTo: "",
+
+              departureTime: "",
+              photos: []
+            },
+            chopper: {
+              isIncluded: false,
+              name: "",
+              company: "",
+              category: "",
+              price: "",
+              departureFrom: "",
+              arrivalTo: "",
 
               description: "",
               departureTime: "",
@@ -430,16 +610,47 @@ const NewTour = ({ title }) => {
       description: '',
 
       photos: [],
+      tourManager: {
+        isAvailable: false,
+        name: "",
+        photo: "",
+        description: '',
+        departureFrom: "",
+        arrivalTo: ""
+
+      },
       hotel: {
         isIncluded: false,
         name: "",
         url: "",
         hotelCategory: "",
-        hotelImages: [""],
-        roomPrice: null,
+        hotelImages: [],
+
         roomCategory: "",
         roomImages: [],
-        location: ""
+        location: "",
+        beds: {
+          doubleBed: {
+            price: null,
+            extraBedPrice: null,
+          },
+          tripleBed: {
+            price: null,
+            extraBedPrice: null,
+          },
+          fourBed: {
+            price: null,
+            extraBedPrice: null,
+          },
+          fiveBed: {
+            price: null,
+            extraBedPrice: null,
+          },
+          sixBed: {
+            price: null,
+            extraBedPrice: null,
+          },
+        },
       }
       ,
       activity: {
@@ -454,33 +665,62 @@ const NewTour = ({ title }) => {
           isIncluded: false,
           name: "",
           category: "",
+          price: "",
+          departureFrom: "",
+          arrivalTo: "",
+
           description: "",
           departureTime: "",
-          photos: ""
+          photos: []
         },
         bus: {
           isIncluded: false,
           name: "",
           category: "",
+          price: "",
+          departureFrom: "",
+          arrivalTo: "",
+
           description: "",
           departureTime: "",
-          photos: ""
+          photos: []
         },
         train: {
           isIncluded: false,
           name: "",
+          category: "",
+          price: "",
+          departureFrom: "",
+          arrivalTo: "",
 
           description: "",
           departureTime: "",
-          photos: ""
+          photos: []
         },
         flight: {
           isIncluded: false,
           name: "",
+          category: "",
+          price: "",
+          departureFrom: "",
+          arrivalTo: "",
 
           description: "",
           departureTime: "",
-          photos: ""
+          photos: []
+        },
+        chopper: {
+          isIncluded: false,
+          name: "",
+          company: "",
+          category: "",
+          price: "",
+          departureFrom: "",
+          arrivalTo: "",
+
+          description: "",
+          departureTime: "",
+          photos: []
         }
       },
 
@@ -505,7 +745,7 @@ const NewTour = ({ title }) => {
         description: "",
         photos: []
       },
-      managerName: ''
+
     };
 
 
@@ -679,17 +919,40 @@ const NewTour = ({ title }) => {
   };
   const handleTransportationPhotos = (index, type, files, section) => {
     const uploadedPhotos = Array.from(files).map((file) => URL.createObjectURL(file));
+
     setTourData((prev) => {
       const updatedItineraries = [...prev[section].itineraries];
+      const existingPhotos = updatedItineraries[index].transportation[type].photos || [];
+
+      // Remove duplicates by filtering out photos already in the existing array
+      const uniqueUploadedPhotos = uploadedPhotos.filter((newPhoto) =>
+        !existingPhotos.includes(newPhoto)
+      );
+
       updatedItineraries[index].transportation[type].photos = [
-        ...(updatedItineraries[index].transportation[type].photos || []),
-        ...uploadedPhotos,
+        ...existingPhotos,
+        ...uniqueUploadedPhotos,
       ];
+
       return {
         ...prev,
         [section]: { ...prev[section], itineraries: updatedItineraries },
       };
     });
+  };
+
+  const handleBedPriceChange = (section, index, bedType, priceType, value) => {
+    // Update the corresponding section in the tourData state dynamically
+    const updatedTourData = { ...tourData };
+
+    // Access the relevant section (standard, deluxe, or premium)
+    const sectionData = updatedTourData[`${section}Details`].itineraries[index].hotel.beds;
+
+    // Update the price or extra bed price
+    sectionData[bedType][priceType] = value;
+
+    // Set the updated state
+    setTourData(updatedTourData);
   };
 
   const handleTransportationChange = (index, type, value, section) => {
@@ -722,6 +985,7 @@ const NewTour = ({ title }) => {
     }));
   };
 
+
   const handleHotelImages = (index, files, section) => {
     const newPhotos = Array.from(files).map((file) => URL.createObjectURL(file));
 
@@ -741,6 +1005,14 @@ const NewTour = ({ title }) => {
       };
     });
   };
+  const handleStandardBedPriceChange = (itineraryIndex, bedType, field, value) => {
+    setTourData((prev) => {
+      const updated = { ...prev };
+      updated.standardDetails.itineraries[itineraryIndex].hotel.beds[bedType][field] = value;
+      return updated;
+    });
+  };
+
 
   const handleDeletePhoto = (index) => {
     // Remove the photo at the specified index
@@ -1009,34 +1281,34 @@ const NewTour = ({ title }) => {
   }, []);
   const handleSubmit = (e) => {
     e.preventDefault();
-  
+
     const handleSaveChanges = async () => {
       try {
         setLoading(true);
-  
+
         const uploadedImageUrls = [];
         const cloudinaryURL = "https://api.cloudinary.com/v1_1/dmyzudtut/image/upload";
         const uploadPreset = "ljqbwqy9";
-  
+
         // Helper: Upload a single image to Cloudinary
         const uploadImageToCloudinary = async (image) => {
           if (!image) return null; // Skip invalid images
-  
+
           // If the image is a blob URL, fetch the blob and convert it to a File
           if (typeof image === "string" && image.startsWith("blob:")) {
             const blob = await fetch(image).then((res) => res.blob());
             image = new File([blob], "image.jpg", { type: blob.type });
           }
-  
+
           const formData = new FormData();
           formData.append("file", image);
           formData.append("upload_preset", uploadPreset);
-  
+
           const response = await fetch(cloudinaryURL, {
             method: "POST",
             body: formData,
           });
-  
+
           if (response.ok) {
             const data = await response.json();
             return data.secure_url;
@@ -1045,7 +1317,7 @@ const NewTour = ({ title }) => {
             throw new Error(errorData.error?.message || "Failed to upload image");
           }
         };
-  
+
         // Helper: Upload multiple images
         const uploadImagesForField = async (photos = []) => {
           if (!Array.isArray(photos)) return [];
@@ -1053,11 +1325,11 @@ const NewTour = ({ title }) => {
             photos.map(async (photo) => (photo ? await uploadImageToCloudinary(photo) : null))
           );
         };
-  
+
         // Process and upload images for an itinerary
         const appendImagesToItinerary = async (itinerary) => {
           if (!itinerary) return;
-  
+
           // SiteSeeing Photos
           if (itinerary.siteSeen?.photos) {
             itinerary.siteSeen.photos = await uploadImagesForField(itinerary.siteSeen.photos);
@@ -1067,25 +1339,29 @@ const NewTour = ({ title }) => {
             itinerary.photos = await uploadImagesForField(itinerary.photos);
             uploadedImageUrls.push(...itinerary.photos);
           }
-  
+
           // Hotel Images
           if (itinerary.hotel?.hotelImages) {
             itinerary.hotel.hotelImages = await uploadImagesForField(itinerary.hotel.hotelImages);
             uploadedImageUrls.push(...itinerary.hotel.hotelImages);
           }
+          if (itinerary.tourManager?.photo) {
+            itinerary.tourManager.photo = await uploadImagesForField(itinerary.tourManager.photo);
+            uploadedImageUrls.push(...itinerary.tourManager.photo);
+          }
           if (itinerary.hotel?.roomImages) {
             itinerary.hotel.roomImages = await uploadImagesForField(itinerary.hotel.roomImages);
             uploadedImageUrls.push(...itinerary.hotel.roomImages);
           }
-  
-  
+
+
           // Activity Photos
           if (itinerary.activity?.photos) {
             itinerary.activity.photos = await uploadImagesForField(itinerary.activity.photos);
             uploadedImageUrls.push(...itinerary.activity.photos);
           }
-  
-         
+
+
           if (itinerary.meals) {
             const mealTypes = ["breakfast", "lunch", "dinner"];
             for (const mealType of mealTypes) {
@@ -1095,10 +1371,10 @@ const NewTour = ({ title }) => {
               }
             }
           }
-  
+
           // Transportation Images
           if (itinerary.transportation) {
-            const transportModes = ["car", "bus", "train", "flight"];
+            const transportModes = ["car", "bus", "train", "flight", "chopper"];
             for (const mode of transportModes) {
               if (itinerary.transportation[mode]?.photos) {
                 itinerary.transportation[mode].photos = await uploadImagesForField(itinerary.transportation[mode].photos);
@@ -1107,7 +1383,7 @@ const NewTour = ({ title }) => {
             }
           }
         };
-  
+
         // Process all itineraries for each category
         const itineraryCategories = ["standardDetails", "deluxeDetails", "premiumDetails"];
         for (const category of itineraryCategories) {
@@ -1117,25 +1393,25 @@ const NewTour = ({ title }) => {
             }
           }
         }
-  
+
         // Upload banner image
         if (tourData.bannerImage instanceof File) {
           tourData.bannerImage = await uploadImageToCloudinary(tourData.bannerImage);
           uploadedImageUrls.push(tourData.bannerImage);
         }
-  
+
         // Upload additional images
         if (tourData.images?.length) {
           tourData.images = await uploadImagesForField(tourData.images);
           uploadedImageUrls.push(...tourData.images);
         }
-  
+
         // Add all uploaded image URLs to the appropriate places in tourData
-       
-  
+
+
         // Prepare the tourData for submission (don't need FormData here)
         const cleanTourData = { ...tourData };
-  
+
         // Submit data to the backend
         const response = await fetch(`${BASE_URL}/api/createTours`, {
           method: "POST",
@@ -1144,7 +1420,7 @@ const NewTour = ({ title }) => {
           },
           body: JSON.stringify(cleanTourData), // Send tourData as JSON
         });
-  
+
         if (response.ok) {
           const responseData = await response.json();
           toast.success("Tour data saved successfully!");
@@ -1160,10 +1436,10 @@ const NewTour = ({ title }) => {
         setLoading(false);
       }
     };
-  
+
     handleSaveChanges();
   };
-  
+
 
   const renderStandardDetails = () => (
     <div className="standardDetails">
@@ -1408,7 +1684,81 @@ const NewTour = ({ title }) => {
                 </div>
               </div>
             )}
+            <div className="labels">
+              <label>
+                Tour Manager:
+              </label>
+              <input
+                type="checkbox"
+                checked={itinerary.tourManager?.isAvailable || false}
+                onChange={(e) =>
+                  handleItineraryChange(index, "tourManager", { ...itinerary.tourManager, isAvailable: e.target.checked }, "standardDetails")
+                }
+              />
+            </div>
 
+            {itinerary.tourManager?.isAvailable && (
+              <div className="tour-manager-section">
+                <h4>Tour Manager Details</h4>
+
+                {/* Tour Manager Name */}
+                <input
+                  type="text"
+                  placeholder="Enter Tour Manager name"
+                  value={itinerary.tourManager.name || ""}
+                  onChange={(e) =>
+                    handleItineraryChange(index, "tourManager", { ...itinerary.tourManager, name: e.target.value }, "standardDetails")
+                  }
+                />
+                <input
+                  type="text"
+                  placeholder="Enter departure from"
+                  value={itinerary.tourManager.departureFrom || ""}
+                  onChange={(e) =>
+                    handleItineraryChange(index, "tourManager", { ...itinerary.tourManager, departureFrom: e.target.value }, "standardDetails")
+                  }
+                />
+                <input
+                  type="text"
+                  placeholder="Enter arrival to"
+                  value={itinerary.tourManager.arrivalTo || ""}
+                  onChange={(e) =>
+                    handleItineraryChange(index, "tourManager", { ...itinerary.tourManager, arrivalTo: e.target.value }, "standardDetails")
+                  }
+                />
+
+                {/* Tour Manager Description */}
+                <textarea
+                  placeholder="Enter Tour Manager description"
+                  value={itinerary.tourManager.description || ""}
+                  onChange={(e) =>
+                    handleItineraryChange(index, "tourManager", { ...itinerary.tourManager, description: e.target.value }, "standardDetails")
+                  }
+                ></textarea>
+
+                {/* Tour Manager Photo */}
+                <label>Upload Tour Manager Photo</label>
+                <input
+                  type="file"
+                  onChange={(e) => {
+                    const file = e.target.files[0] ? URL.createObjectURL(e.target.files[0]) : "";
+                    handleItineraryChange(
+                      index,
+                      "tourManager",
+                      { ...itinerary.tourManager, photo: file },
+                      "standardDetails"
+                    );
+                  }}
+                />
+
+                {/* Preview Tour Manager Photo */}
+                {itinerary.tourManager?.photo && (
+                  <div className="preview-tour-manager-photo">
+                    <img src={itinerary.tourManager.photo} alt="Tour Manager" width="100" />
+                  </div>
+                )}
+              </div>
+            )}
             <div className="labels">
               <label>Include Hotel</label>
               <input
@@ -1554,6 +1904,39 @@ const NewTour = ({ title }) => {
                     });
                   }}
                 />
+
+                <div className="standard-details-pricing">
+                  <h4>Standard Details: Bed Pricing</h4>
+                  {Object.keys(tourData.standardDetails.itineraries[index].hotel.beds).map((bedType, bedIndex) => (
+                    <div key={bedIndex} className="bed-type">
+                      <h5>{bedType.replace(/([A-Z])/g, " $1").replace("Bed", " Bed")}</h5>
+                      <div className="price-inputs">
+                        <label>
+                          Room Price:
+                          <input
+                            type="number"
+                            placeholder="Enter room price"
+                            value={tourData.standardDetails.itineraries[index].hotel.beds[bedType].price || ""}
+                            onChange={(e) =>
+                              handleBedPriceChange('standard', index, bedType, "price", e.target.value)
+                            }
+                          />
+                        </label>
+                        <label>
+                          Extra Bed Price:
+                          <input
+                            type="number"
+                            placeholder="Enter extra bed price"
+                            value={tourData.standardDetails.itineraries[index].hotel.beds[bedType].extraBedPrice || ""}
+                            onChange={(e) =>
+                              handleBedPriceChange('standard', index, bedType, "extraBedPrice", e.target.value)
+                            }
+                          />
+                        </label>
+                      </div>
+                    </div>
+                  ))}
+                </div>
 
                 <label>Room Images</label>
                 <input
@@ -1896,6 +2279,22 @@ const NewTour = ({ title }) => {
                     />
                     <input
                       type="text"
+                      placeholder="Departure from"
+                      value={itinerary.transportation.car.departureFrom || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "car", { ...itinerary.transportation.car, departureFrom: e.target.value }, "standardDetails")
+                      }
+                    />
+                    <input
+                      type="text"
+                      placeholder="Arrival To"
+                      value={itinerary.transportation.car.arrivalTo || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "car", { ...itinerary.transportation.car, arrivalTo: e.target.value }, "standardDetails")
+                      }
+                    />
+                    <input
+                      type="text"
                       placeholder="Car Category"
                       value={itinerary.transportation.car.category || ""}
                       onChange={(e) =>
@@ -1994,7 +2393,30 @@ const NewTour = ({ title }) => {
                         handleTransportationChange(index, "bus", { ...itinerary.transportation.bus, name: e.target.value }, "standardDetails")
                       }
                     />
-
+                    <input
+                      type="number"
+                      placeholder="Enter bus price"
+                      value={itinerary.transportation.bus.price || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "bus", { ...itinerary.transportation.bus, price: e.target.value }, "standardDetails")
+                      }
+                    />
+                    <input
+                      type="text"
+                      placeholder="Departure from"
+                      value={itinerary.transportation.bus.departureFrom || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "bus", { ...itinerary.transportation.bus, departureFrom: e.target.value }, "standardDetails")
+                      }
+                    />
+                    <input
+                      type="text"
+                      placeholder="Arrival To"
+                      value={itinerary.transportation.bus.arrivalTo || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "bus", { ...itinerary.transportation.bus, arrivalTo: e.target.value }, "standardDetails")
+                      }
+                    />
                     <label>Bus Category</label>
                     <input
                       type="text"
@@ -2074,7 +2496,30 @@ const NewTour = ({ title }) => {
                         )
                       }
                     />
-
+                    <input
+                      type="text"
+                      placeholder="Departure from"
+                      value={itinerary.transportation.train.departureFrom || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "train", { ...itinerary.transportation.train, departureFrom: e.target.value }, "standardDetails")
+                      }
+                    />
+                    <input
+                      type="number"
+                      placeholder="Enter train price"
+                      value={itinerary.transportation.train.price || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "train", { ...itinerary.transportation.train, price: e.target.value }, "standardDetails")
+                      }
+                    />
+                    <input
+                      type="text"
+                      placeholder="Arrival To"
+                      value={itinerary.transportation.train.arrivalTo || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "train", { ...itinerary.transportation.train, arrivalTo: e.target.value }, "standardDetails")
+                      }
+                    />
                     <label>Category</label>
                     <input
                       type="text"
@@ -2176,7 +2621,30 @@ const NewTour = ({ title }) => {
                         )
                       }
                     />
-
+                    <input
+                      type="number"
+                      placeholder="Enter flight price"
+                      value={itinerary.transportation.flight.price || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "flight", { ...itinerary.transportation.flight, price: e.target.value }, "standardDetails")
+                      }
+                    />
+                    <input
+                      type="text"
+                      placeholder="Departure from"
+                      value={itinerary.transportation.flight.departureFrom || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "flight", { ...itinerary.transportation.flight, departureFrom: e.target.value }, "standardDetails")
+                      }
+                    />
+                    <input
+                      type="text"
+                      placeholder="Arrival To"
+                      value={itinerary.transportation.flight.arrivalTo || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "flight", { ...itinerary.transportation.flight, arrivalTo: e.target.value }, "standardDetails")
+                      }
+                    />
                     <label>Description</label>
                     <textarea
                       placeholder="Enter flight description"
@@ -2230,6 +2698,131 @@ const NewTour = ({ title }) => {
                     </div>
                   </div>
                 )}
+                <div className="labels">
+                  <label className="labels">Include Chopper</label>
+                  <input
+                    type="checkbox"
+                    checked={itinerary.transportation.chopper?.isIncluded || false}
+                    onChange={(e) =>
+                      handleTransportationChange(
+                        index,
+                        "chopper",
+                        { ...itinerary.transportation.chopper, isIncluded: e.target.checked },
+                        "standardDetails"
+                      )
+                    }
+                  />
+                </div>
+
+                {itinerary.transportation.chopper?.isIncluded && (
+                  <div className="transportation-details">
+                    <h4>Chopper Details</h4>
+
+                    {/* Chopper Company Name */}
+                    <label>Chopper Company</label>
+                    <input
+                      type="text"
+                      placeholder="Enter chopper company name"
+                      value={itinerary.transportation.chopper.company || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(
+                          index,
+                          "chopper",
+                          { ...itinerary.transportation.chopper, company: e.target.value },
+                          "standardDetails"
+                        )
+                      }
+                    />
+
+                    {/* Chopper Departure Time */}
+                    <label>Departure Time</label>
+                    <input
+                      type="time"
+                      value={itinerary.transportation.chopper.departureTime || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(
+                          index,
+                          "chopper",
+                          { ...itinerary.transportation.chopper, departureTime: e.target.value },
+                          "standardDetails"
+                        )
+                      }
+                    />
+
+                    {/* Chopper Departure From */}
+                    <label>Departure From</label>
+                    <input
+                      type="text"
+                      placeholder="Departure from"
+                      value={itinerary.transportation.chopper.departureFrom || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(
+                          index,
+                          "chopper",
+                          { ...itinerary.transportation.chopper, departureFrom: e.target.value },
+                          "standardDetails"
+                        )
+                      }
+                    />
+
+                    {/* Chopper Arrival To */}
+                    <label>Arrival To</label>
+                    <input
+                      type="text"
+                      placeholder="Arrival To"
+                      value={itinerary.transportation.chopper.arrivalTo || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(
+                          index,
+                          "chopper",
+                          { ...itinerary.transportation.chopper, arrivalTo: e.target.value },
+                          "standardDetails"
+                        )
+                      }
+                    />
+
+                    {/* Chopper Description */}
+                    <label>Description</label>
+                    <textarea
+                      placeholder="Enter chopper description"
+                      value={itinerary.transportation.chopper.description || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(
+                          index,
+                          "chopper",
+                          { ...itinerary.transportation.chopper, description: e.target.value },
+                          "standardDetails"
+                        )
+                      }
+                    />
+
+                    {/* Upload Chopper Photos */}
+                    <label>Upload Chopper Photos</label>
+                    <input
+                      type="file"
+                      multiple
+                      onChange={(e) =>
+                        handleTransportationPhotos(
+                          index,
+                          "chopper",
+                          e.target.files,
+                          "standardDetails"
+                        )
+                      }
+                    />
+                    <div className="preview-photos">
+                      {(itinerary.transportation.chopper.photos || []).map((photo, photoIndex) => (
+                        <img
+                          key={photoIndex}
+                          src={photo}
+                          alt={`Chopper photo ${photoIndex + 1}`}
+                          width="100"
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
+
 
               </div>
             )}
@@ -2425,7 +3018,81 @@ const NewTour = ({ title }) => {
               placeholder="Enter itinerary description"
             />
 
+            <div className="labels">
+              <label>
+                Tour Manager:
+              </label>
+              <input
+                type="checkbox"
+                checked={itinerary.tourManager?.isAvailable || false}
+                onChange={(e) =>
+                  handleItineraryChange(index, "tourManager", { ...itinerary.tourManager, isAvailable: e.target.checked }, "deluxeDetails")
+                }
+              />
+            </div>
 
+            {itinerary.tourManager?.isAvailable && (
+              <div className="tour-manager-section">
+                <h4>Tour Manager Details</h4>
+
+                {/* Tour Manager Name */}
+                <input
+                  type="text"
+                  placeholder="Enter Tour Manager name"
+                  value={itinerary.tourManager.name || ""}
+                  onChange={(e) =>
+                    handleItineraryChange(index, "tourManager", { ...itinerary.tourManager, name: e.target.value }, "deluxeDetails")
+                  }
+                />
+                <input
+                  type="text"
+                  placeholder="Enter Tour Departure from"
+                  value={itinerary.tourManager.departureFrom || ""}
+                  onChange={(e) =>
+                    handleItineraryChange(index, "tourManager", { ...itinerary.tourManager, departureFrom: e.target.value }, "deluxeDetails")
+                  }
+                />
+                <input
+                  type="text"
+                  placeholder="Enter Tour arrival to"
+                  value={itinerary.tourManager.arrivalTo || ""}
+                  onChange={(e) =>
+                    handleItineraryChange(index, "tourManager", { ...itinerary.tourManager, arrivalTo: e.target.value }, "deluxeDetails")
+                  }
+                />
+
+                {/* Tour Manager Description */}
+                <textarea
+                  placeholder="Enter Tour Manager description"
+                  value={itinerary.tourManager.description || ""}
+                  onChange={(e) =>
+                    handleItineraryChange(index, "tourManager", { ...itinerary.tourManager, description: e.target.value }, "deluxeDetails")
+                  }
+                ></textarea>
+
+                {/* Tour Manager Photo */}
+                <label>Upload Tour Manager Photo</label>
+                <input
+                  type="file"
+                  onChange={(e) => {
+                    const file = e.target.files[0] ? URL.createObjectURL(e.target.files[0]) : "";
+                    handleItineraryChange(
+                      index,
+                      "tourManager",
+                      { ...itinerary.tourManager, photo: file },
+                      "deluxeDetails"
+                    );
+                  }}
+                />
+
+                {/* Preview Tour Manager Photo */}
+                {itinerary.tourManager?.photo && (
+                  <div className="preview-tour-manager-photo">
+                    <img src={itinerary.tourManager.photo} alt="Tour Manager" width="100" />
+                  </div>
+                )}
+              </div>
+            )}
 
             <div className="labels"> <label>
               Siteseen:
@@ -2634,7 +3301,38 @@ const NewTour = ({ title }) => {
                     });
                   }}
                 />
-
+                <div className="deluxe-details-pricing">
+                  <h4>Deluxe Details: Bed Pricing</h4>
+                  {Object.keys(tourData.deluxeDetails.itineraries[index].hotel.beds).map((bedType, bedIndex) => (
+                    <div key={bedIndex} className="bed-type">
+                      <h5>{bedType.replace(/([A-Z])/g, " $1").replace("Bed", " Bed")}</h5>
+                      <div className="price-inputs">
+                        <label>
+                          Room Price:
+                          <input
+                            type="number"
+                            placeholder="Enter room price"
+                            value={tourData.deluxeDetails.itineraries[index].hotel.beds[bedType].price || ""}
+                            onChange={(e) =>
+                              handleBedPriceChange('deluxe', index, bedType, "price", e.target.value)
+                            }
+                          />
+                        </label>
+                        <label>
+                          Extra Bed Price:
+                          <input
+                            type="number"
+                            placeholder="Enter extra bed price"
+                            value={tourData.deluxeDetails.itineraries[index].hotel.beds[bedType].extraBedPrice || ""}
+                            onChange={(e) =>
+                              handleBedPriceChange('deluxe', index, bedType, "extraBedPrice", e.target.value)
+                            }
+                          />
+                        </label>
+                      </div>
+                    </div>
+                  ))}
+                </div>
                 <label>Room Images</label>
                 <input
                   type="file"
@@ -2976,6 +3674,30 @@ const NewTour = ({ title }) => {
                     />
                     <input
                       type="text"
+                      placeholder="Enter car price"
+                      value={itinerary.transportation.car.price || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "car", { ...itinerary.transportation.car, price: e.target.value }, "deluxeDetails")
+                      }
+                    />
+                    <input
+                      type="text"
+                      placeholder="Car Departure from"
+                      value={itinerary.transportation.car.departureFrom || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "car", { ...itinerary.transportation.car, departureFrom: e.target.value }, "deluxeDetails")
+                      }
+                    />
+                    <input
+                      type="text"
+                      placeholder="Car arrival to"
+                      value={itinerary.transportation.car.arrivalTo || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "car", { ...itinerary.transportation.car, arrivalTo: e.target.value }, "deluxeDetails")
+                      }
+                    />
+                    <input
+                      type="text"
                       placeholder="Car Category"
                       value={itinerary.transportation.car.category || ""}
                       onChange={(e) =>
@@ -3074,7 +3796,30 @@ const NewTour = ({ title }) => {
                         handleTransportationChange(index, "bus", { ...itinerary.transportation.bus, name: e.target.value }, "deluxeDetails")
                       }
                     />
-
+                    <input
+                      type="text"
+                      placeholder="Enter bus price"
+                      value={itinerary.transportation.bus.price || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "bus", { ...itinerary.transportation.bus, price: e.target.value }, "deluxeDetails")
+                      }
+                    />
+                    <input
+                      type="text"
+                      placeholder="Bus Departure from"
+                      value={itinerary.transportation.bus.departureFrom || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "bus", { ...itinerary.transportation.bus, departureFrom: e.target.value }, "deluxeDetails")
+                      }
+                    />
+                    <input
+                      type="text"
+                      placeholder="Bus arrival to"
+                      value={itinerary.transportation.bus.arrivalTo || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "bus", { ...itinerary.transportation.bus, arrivalTo: e.target.value }, "deluxeDetails")
+                      }
+                    />
                     <label>Bus Category</label>
                     <input
                       type="text"
@@ -3154,7 +3899,30 @@ const NewTour = ({ title }) => {
                         )
                       }
                     />
-
+                    <input
+                      type="text"
+                      placeholder="Enter train price"
+                      value={itinerary.transportation.train.price || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "train", { ...itinerary.transportation.train, price: e.target.value }, "deluxeDetails")
+                      }
+                    />
+                    <input
+                      type="text"
+                      placeholder="Train Departure from"
+                      value={itinerary.transportation.train.departureFrom || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "train", { ...itinerary.transportation.train, departureFrom: e.target.value }, "deluxeDetails")
+                      }
+                    />
+                    <input
+                      type="text"
+                      placeholder="Train arrival to"
+                      value={itinerary.transportation.train.arrivalTo || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "train", { ...itinerary.transportation.train, arrivalTo: e.target.value }, "deluxeDetails")
+                      }
+                    />
                     <label>Category</label>
                     <input
                       type="text"
@@ -3256,7 +4024,30 @@ const NewTour = ({ title }) => {
                         )
                       }
                     />
-
+                    <input
+                      type="text"
+                      placeholder="Enter flight price"
+                      value={itinerary.transportation.flight.price || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "flight", { ...itinerary.transportation.flight, price: e.target.value }, "deluxeDetails")
+                      }
+                    />
+                    <input
+                      type="text"
+                      placeholder="Flight Departure from"
+                      value={itinerary.transportation.flight.departureFrom || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "flight", { ...itinerary.transportation.flight, departureFrom: e.target.value }, "deluxeDetails")
+                      }
+                    />
+                    <input
+                      type="text"
+                      placeholder="Flight arrival to"
+                      value={itinerary.transportation.flight.arrivalTo || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "flight", { ...itinerary.transportation.flight, arrivalTo: e.target.value }, "deluxeDetails")
+                      }
+                    />
                     <label>Description</label>
                     <textarea
                       placeholder="Enter flight description"
@@ -3311,6 +4102,131 @@ const NewTour = ({ title }) => {
                   </div>
                 )}
 
+
+                <div className="labels">
+                  <label className="labels">Include Chopper</label>
+                  <input
+                    type="checkbox"
+                    checked={itinerary.transportation.chopper?.isIncluded || false}
+                    onChange={(e) =>
+                      handleTransportationChange(
+                        index,
+                        "chopper",
+                        { ...itinerary.transportation.chopper, isIncluded: e.target.checked },
+                        "deluxeDetails"
+                      )
+                    }
+                  />
+                </div>
+
+                {itinerary.transportation.chopper?.isIncluded && (
+                  <div className="transportation-details">
+                    <h4>Chopper Details</h4>
+
+                    {/* Chopper Company Name */}
+                    <label>Chopper Company</label>
+                    <input
+                      type="text"
+                      placeholder="Enter chopper company name"
+                      value={itinerary.transportation.chopper.company || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(
+                          index,
+                          "chopper",
+                          { ...itinerary.transportation.chopper, company: e.target.value },
+                          "deluxeDetails"
+                        )
+                      }
+                    />
+
+                    {/* Chopper Departure Time */}
+                    <label>Departure Time</label>
+                    <input
+                      type="time"
+                      value={itinerary.transportation.chopper.departureTime || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(
+                          index,
+                          "chopper",
+                          { ...itinerary.transportation.chopper, departureTime: e.target.value },
+                          "deluxeDetails"
+                        )
+                      }
+                    />
+
+                    {/* Chopper Departure From */}
+                    <label>Departure From</label>
+                    <input
+                      type="text"
+                      placeholder="Departure from"
+                      value={itinerary.transportation.chopper.departureFrom || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(
+                          index,
+                          "chopper",
+                          { ...itinerary.transportation.chopper, departureFrom: e.target.value },
+                          "deluxeDetails"
+                        )
+                      }
+                    />
+
+                    {/* Chopper Arrival To */}
+                    <label>Arrival To</label>
+                    <input
+                      type="text"
+                      placeholder="Arrival To"
+                      value={itinerary.transportation.chopper.arrivalTo || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(
+                          index,
+                          "chopper",
+                          { ...itinerary.transportation.chopper, arrivalTo: e.target.value },
+                          "deluxeDetails"
+                        )
+                      }
+                    />
+
+                    {/* Chopper Description */}
+                    <label>Description</label>
+                    <textarea
+                      placeholder="Enter chopper description"
+                      value={itinerary.transportation.chopper.description || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(
+                          index,
+                          "chopper",
+                          { ...itinerary.transportation.chopper, description: e.target.value },
+                          "deluxeDetails"
+                        )
+                      }
+                    />
+
+                    {/* Upload Chopper Photos */}
+                    <label>Upload Chopper Photos</label>
+                    <input
+                      type="file"
+                      multiple
+                      onChange={(e) =>
+                        handleTransportationPhotos(
+                          index,
+                          "chopper",
+                          e.target.files,
+                          "deluxeDetails"
+                        )
+                      }
+                    />
+                    <div className="preview-photos">
+                      {(itinerary.transportation.chopper.photos || []).map((photo, photoIndex) => (
+                        <img
+                          key={photoIndex}
+                          src={photo}
+                          alt={`Chopper photo ${photoIndex + 1}`}
+                          width="100"
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
             )}
 
@@ -3493,7 +4409,80 @@ const NewTour = ({ title }) => {
               placeholder="Enter itinerary description"
             />
 
+            <div className="labels">
+              <label>
+                Tour Manager:
+              </label>
+              <input
+                type="checkbox"
+                checked={itinerary.tourManager?.isAvailable || false}
+                onChange={(e) =>
+                  handleItineraryChange(index, "tourManager", { ...itinerary.tourManager, isAvailable: e.target.checked }, "premiumDetails")
+                }
+              />
+            </div>
 
+            {itinerary.tourManager?.isAvailable && (
+              <div className="tour-manager-section">
+                <h4>Tour Manager Details</h4>
+
+                {/* Tour Manager Name */}
+                <input
+                  type="text"
+                  placeholder="Enter Tour Manager name"
+                  value={itinerary.tourManager.name || ""}
+                  onChange={(e) =>
+                    handleItineraryChange(index, "tourManager", { ...itinerary.tourManager, name: e.target.value }, "premiumDetails")
+                  }
+                />
+                <input
+                  type="text"
+                  placeholder="Enter Tour Departure from"
+                  value={itinerary.tourManager.departureFrom || ""}
+                  onChange={(e) =>
+                    handleItineraryChange(index, "tourManager", { ...itinerary.tourManager, departureFrom: e.target.value }, "premiumDetails")
+                  }
+                />
+                <input
+                  type="text"
+                  placeholder="Enter Tour arrival to"
+                  value={itinerary.tourManager.arrivalTo || ""}
+                  onChange={(e) =>
+                    handleItineraryChange(index, "tourManager", { ...itinerary.tourManager, arrivalTo: e.target.value }, "premiumDetails")
+                  }
+                />
+                {/* Tour Manager Description */}
+                <textarea
+                  placeholder="Enter Tour Manager description"
+                  value={itinerary.tourManager.description || ""}
+                  onChange={(e) =>
+                    handleItineraryChange(index, "tourManager", { ...itinerary.tourManager, description: e.target.value }, "premiumDetails")
+                  }
+                ></textarea>
+
+                {/* Tour Manager Photo */}
+                <label>Upload Tour Manager Photo</label>
+                <input
+                  type="file"
+                  onChange={(e) => {
+                    const file = e.target.files[0] ? URL.createObjectURL(e.target.files[0]) : "";
+                    handleItineraryChange(
+                      index,
+                      "tourManager",
+                      { ...itinerary.tourManager, photo: file },
+                      "premiumDetails"
+                    );
+                  }}
+                />
+
+                {/* Preview Tour Manager Photo */}
+                {itinerary.tourManager?.photo && (
+                  <div className="preview-tour-manager-photo">
+                    <img src={itinerary.tourManager.photo} alt="Tour Manager" width="100" />
+                  </div>
+                )}
+              </div>
+            )}
 
             <div className="labels"> <label>
               Siteseen:
@@ -3702,6 +4691,38 @@ const NewTour = ({ title }) => {
                     });
                   }}
                 />
+                <div className="premium-details-pricing">
+                  <h4>Premium Details: Bed Pricing</h4>
+                  {Object.keys(tourData.premiumDetails.itineraries[index].hotel.beds).map((bedType, bedIndex) => (
+                    <div key={bedIndex} className="bed-type">
+                      <h5>{bedType.replace(/([A-Z])/g, " $1").replace("Bed", " Bed")}</h5>
+                      <div className="price-inputs">
+                        <label>
+                          Room Price:
+                          <input
+                            type="number"
+                            placeholder="Enter room price"
+                            value={tourData.premiumDetails.itineraries[index].hotel.beds[bedType].price || ""}
+                            onChange={(e) =>
+                              handleBedPriceChange('premium', index, bedType, "price", e.target.value)
+                            }
+                          />
+                        </label>
+                        <label>
+                          Extra Bed Price:
+                          <input
+                            type="number"
+                            placeholder="Enter extra bed price"
+                            value={tourData.premiumDetails.itineraries[index].hotel.beds[bedType].extraBedPrice || ""}
+                            onChange={(e) =>
+                              handleBedPriceChange('premium', index, bedType, "extraBedPrice", e.target.value)
+                            }
+                          />
+                        </label>
+                      </div>
+                    </div>
+                  ))}
+                </div>
 
                 <label>Room Images</label>
                 <input
@@ -4044,6 +5065,30 @@ const NewTour = ({ title }) => {
                     />
                     <input
                       type="text"
+                      placeholder="Enter car price"
+                      value={itinerary.transportation.car.price || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "car", { ...itinerary.transportation.car, price: e.target.value }, "premiumDetails")
+                      }
+                    />
+                    <input
+                      type="text"
+                      placeholder="Car Departure from"
+                      value={itinerary.transportation.car.departureFrom || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "car", { ...itinerary.transportation.car, departureFrom: e.target.value }, "premiumDetails")
+                      }
+                    />
+                    <input
+                      type="text"
+                      placeholder="Car Arrival to"
+                      value={itinerary.transportation.car.arrivalTo || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "car", { ...itinerary.transportation.car, arrivalTo: e.target.value }, "premiumDetails")
+                      }
+                    />
+                    <input
+                      type="text"
                       placeholder="Car Category"
                       value={itinerary.transportation.car.category || ""}
                       onChange={(e) =>
@@ -4142,6 +5187,30 @@ const NewTour = ({ title }) => {
                         handleTransportationChange(index, "bus", { ...itinerary.transportation.bus, name: e.target.value }, "premiumDetails")
                       }
                     />
+                    <input
+                      type="text"
+                      placeholder="Enter bus price"
+                      value={itinerary.transportation.bus.price || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "bus", { ...itinerary.transportation.bus, price: e.target.value }, "premiumDetails")
+                      }
+                    />
+                    <input
+                      type="text"
+                      placeholder="Enter bus defparture from"
+                      value={itinerary.transportation.bus.departureFrom || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "bus", { ...itinerary.transportation.bus, departureFrom: e.target.value }, "premiumDetails")
+                      }
+                    />
+                    <input
+                      type="text"
+                      placeholder="Enter bus arrival to"
+                      value={itinerary.transportation.bus.arrivalTo || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "bus", { ...itinerary.transportation.bus, arrivalTo: e.target.value }, "premiumDetails")
+                      }
+                    />
 
                     <label>Bus Category</label>
                     <input
@@ -4222,7 +5291,30 @@ const NewTour = ({ title }) => {
                         )
                       }
                     />
-
+                    <input
+                      type="text"
+                      placeholder="Enter train price"
+                      value={itinerary.transportation.train.price || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "train", { ...itinerary.transportation.train, price: e.target.value }, "premiumDetails")
+                      }
+                    />
+                    <input
+                      type="text"
+                      placeholder="Enter train defparture from"
+                      value={itinerary.transportation.train.departureFrom || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "train", { ...itinerary.transportation.train, departureFrom: e.target.value }, "premiumDetails")
+                      }
+                    />
+                    <input
+                      type="text"
+                      placeholder="Enter train arrival to"
+                      value={itinerary.transportation.train.arrivalTo || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "train", { ...itinerary.transportation.train, arrivalTo: e.target.value }, "premiumDetails")
+                      }
+                    />
                     <label>Category</label>
                     <input
                       type="text"
@@ -4324,6 +5416,30 @@ const NewTour = ({ title }) => {
                         )
                       }
                     />
+                    <input
+                      type="text"
+                      placeholder="Enter flight price"
+                      value={itinerary.transportation.flight.price || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "flight", { ...itinerary.transportation.flight, price: e.target.value }, "premiumDetails")
+                      }
+                    />
+                    <input
+                      type="text"
+                      placeholder="Enter flight defparture from"
+                      value={itinerary.transportation.flight.departureFrom || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "flight", { ...itinerary.transportation.flight, departureFrom: e.target.value }, "premiumDetails")
+                      }
+                    />
+                    <input
+                      type="text"
+                      placeholder="Enter flight arrival to"
+                      value={itinerary.transportation.flight.arrivalTo || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(index, "flight", { ...itinerary.transportation.flight, arrivalTo: e.target.value }, "premiumDetails")
+                      }
+                    />
 
                     <label>Description</label>
                     <textarea
@@ -4372,6 +5488,131 @@ const NewTour = ({ title }) => {
                           key={photoIndex}
                           src={photo}
                           alt={`Flight photo ${photoIndex + 1}`}
+                          width="100"
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                <div className="labels">
+                  <label className="labels">Include Chopper</label>
+                  <input
+                    type="checkbox"
+                    checked={itinerary.transportation.chopper?.isIncluded || false}
+                    onChange={(e) =>
+                      handleTransportationChange(
+                        index,
+                        "chopper",
+                        { ...itinerary.transportation.chopper, isIncluded: e.target.checked },
+                        "premiumDetails"
+                      )
+                    }
+                  />
+                </div>
+
+                {itinerary.transportation.chopper?.isIncluded && (
+                  <div className="transportation-details">
+                    <h4>Chopper Details</h4>
+
+                    {/* Chopper Company Name */}
+                    <label>Chopper Company</label>
+                    <input
+                      type="text"
+                      placeholder="Enter chopper company name"
+                      value={itinerary.transportation.chopper.company || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(
+                          index,
+                          "chopper",
+                          { ...itinerary.transportation.chopper, company: e.target.value },
+                          "premiumDetails"
+                        )
+                      }
+                    />
+
+                    {/* Chopper Departure Time */}
+                    <label>Departure Time</label>
+                    <input
+                      type="time"
+                      value={itinerary.transportation.chopper.departureTime || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(
+                          index,
+                          "chopper",
+                          { ...itinerary.transportation.chopper, departureTime: e.target.value },
+                          "premiumDetails"
+                        )
+                      }
+                    />
+
+                    {/* Chopper Departure From */}
+                    <label>Departure From</label>
+                    <input
+                      type="text"
+                      placeholder="Departure from"
+                      value={itinerary.transportation.chopper.departureFrom || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(
+                          index,
+                          "chopper",
+                          { ...itinerary.transportation.chopper, departureFrom: e.target.value },
+                          "premiumDetails"
+                        )
+                      }
+                    />
+
+                    {/* Chopper Arrival To */}
+                    <label>Arrival To</label>
+                    <input
+                      type="text"
+                      placeholder="Arrival To"
+                      value={itinerary.transportation.chopper.arrivalTo || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(
+                          index,
+                          "chopper",
+                          { ...itinerary.transportation.chopper, arrivalTo: e.target.value },
+                          "premiumDetails"
+                        )
+                      }
+                    />
+
+                    {/* Chopper Description */}
+                    <label>Description</label>
+                    <textarea
+                      placeholder="Enter chopper description"
+                      value={itinerary.transportation.chopper.description || ""}
+                      onChange={(e) =>
+                        handleTransportationChange(
+                          index,
+                          "chopper",
+                          { ...itinerary.transportation.chopper, description: e.target.value },
+                          "premiumDetails"
+                        )
+                      }
+                    />
+
+                    {/* Upload Chopper Photos */}
+                    <label>Upload Chopper Photos</label>
+                    <input
+                      type="file"
+                      multiple
+                      onChange={(e) =>
+                        handleTransportationPhotos(
+                          index,
+                          "chopper",
+                          e.target.files,
+                          "premiumDetails"
+                        )
+                      }
+                    />
+                    <div className="preview-photos">
+                      {(itinerary.transportation.chopper.photos || []).map((photo, photoIndex) => (
+                        <img
+                          key={photoIndex}
+                          src={photo}
+                          alt={`Chopper photo ${photoIndex + 1}`}
                           width="100"
                         />
                       ))}
@@ -4666,24 +5907,7 @@ const NewTour = ({ title }) => {
               </div>
 
 
-              <div className="selectedCategories">
-                {tourData.categories.map((categoryId) => {
-
-                  return (
-                    <div key={categoryId} className="categoryTag">
-                      {categoryId}
-                      <button
-                        type="button"
-
-                        onClick={() => handleCategoryRemove(categoryId)}
-                        className="deleteIcon"
-                      >
-                        &#10006;
-                      </button>
-                    </div>
-                  );
-                })}
-              </div>
+           
             </div>
 
             <div className="formGroup" style={{ position: "relative" }}>
