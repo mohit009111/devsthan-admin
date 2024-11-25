@@ -2,7 +2,6 @@ import "./datatable.css";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { BASE_URL } from "../../utils/headers";
 import {
   Dialog,
   DialogActions,
@@ -11,10 +10,10 @@ import {
   DialogTitle,
   Button,
 } from "@mui/material";
+import { BASE_URL } from "../../utils/headers";
 
 const Datatable = () => {
   const [allTours, setAllTours] = useState([]);
-  const [data, setData] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [tourIdToDelete, setTourIdToDelete] = useState(null);
 
@@ -32,24 +31,23 @@ const Datatable = () => {
         id: tour.uuid || index,
         name: tour.name,
         location: tour.location,
-        price: tour.standardDetails.price,
-        date: tour.createdAt,
+        price: tour.standardDetails?.price || 0, // Default to 0 if no price
+        date: new Date(tour.createdAt).toLocaleDateString(), // Format date
       }));
 
       setAllTours(mappedData);
-      setData(mappedData);
     } catch (error) {
       console.error("Error fetching tours:", error);
     }
   };
-console.log(allTours)
+
   useEffect(() => {
     fetchAllTours();
   }, []);
 
-  const handleDeleteClick = () => {
-  
-    setOpenDialog(true);
+  const handleDeleteClick = (id) => {
+    setTourIdToDelete(id); // Set the tour ID to be deleted
+    setOpenDialog(true); // Open the confirmation dialog
   };
 
   const handleCloseDialog = () => {
@@ -59,7 +57,7 @@ console.log(allTours)
   const handleConfirmDelete = async () => {
     try {
       // Call delete API
-      await fetch(`${BASE_URL}/api/deleteTour/${allTours[0].id}`, {
+      await fetch(`${BASE_URL}/api/deleteTour/${tourIdToDelete}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
@@ -80,15 +78,16 @@ console.log(allTours)
       field: "action",
       headerName: "Action",
       width: 200,
-      renderCell: () => {
+      renderCell: (params) => {
+        const { id } = params.row; // Get the current row's id
         return (
           <div className="cellAction">
-            <Link to={`/admin/editTour/${allTours[0].id}`} style={{ textDecoration: "none" }}>
+            <Link to={`/admin/editTour/${id}`} style={{ textDecoration: "none" }}>
               <div className="viewButton">Edit</div>
             </Link>
             <div
               className="deleteButton"
-              onClick={() => handleDeleteClick()} // Pass the ID of the tour to delete
+              onClick={() => handleDeleteClick(id)} // Pass the ID of the tour to delete
             >
               Delete
             </div>
@@ -115,7 +114,7 @@ console.log(allTours)
       </div>
       <DataGrid
         className="datagrid"
-        rows={data}
+        rows={allTours}
         columns={tourColumns.concat(actionColumn)}
         pageSize={9}
         rowsPerPageOptions={[9]}

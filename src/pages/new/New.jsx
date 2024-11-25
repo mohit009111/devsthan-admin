@@ -1418,7 +1418,7 @@ const NewTour = ({ title }) => {
         }
 
         // Upload banner image
-        if (tourData.bannerImage instanceof File) {
+        if (tourData.bannerImage) {
           tourData.bannerImage = await uploadImageToCloudinary(tourData.bannerImage);
           uploadedImageUrls.push(tourData.bannerImage);
         }

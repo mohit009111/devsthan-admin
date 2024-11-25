@@ -1452,7 +1452,7 @@ console.log(data)
                                     }}
                                 />
 
-                                {/* <div className="standard-details-pricing">
+                                <div className="standard-details-pricing">
                                     <h4>Standard Details: Bed Pricing</h4>
                                     {Object.keys(tourData.standardDetails?.itineraries[index]?.hotel?.beds).map((bedType, bedIndex) => (
                                         <div key={bedIndex} className="bed-type">
@@ -1483,7 +1483,7 @@ console.log(data)
                                             </div>
                                         </div>
                                     ))}
-                                </div> */}
+                                </div>
 
                                 <label>Room Images</label>
                                 <input
@@ -2866,7 +2866,7 @@ console.log(data)
                                         });
                                     }}
                                 />
-                                {/* <div className="deluxe-details-pricing">
+                                <div className="deluxe-details-pricing">
                                     <h4>Deluxe Details: Bed Pricing</h4>
                                     {Object.keys(tourData.deluxeDetails.itineraries[index].hotel.beds).map((bedType, bedIndex) => (
                                         <div key={bedIndex} className="bed-type">
@@ -2897,7 +2897,7 @@ console.log(data)
                                             </div>
                                         </div>
                                     ))}
-                                </div> */}
+                                </div>
                                 <label>Room Images</label>
                                 <input
                                     type="file"
@@ -4276,9 +4276,9 @@ console.log(data)
                                         });
                                     }}
                                 />
-                                {/* <div className="premium-details-pricing">
+                                <div className="premium-details-pricing">
                                     <h4>Premium Details: Bed Pricing</h4>
-                                    {Object.keys(tourData.premiumDetails.itineraries[index].hotel.beds).map((bedType, bedIndex) => (
+                                    {Object.keys(tourData.premiumDetails?.itineraries[index]?.hotel?.beds).map((bedType, bedIndex) => (
                                         <div key={bedIndex} className="bed-type">
                                             <h5>{bedType.replace(/([A-Z])/g, " $1").replace("Bed", " Bed")}</h5>
                                             <div className="price-inputs">
@@ -4287,7 +4287,7 @@ console.log(data)
                                                     <input
                                                         type="number"
                                                         placeholder="Enter room price"
-                                                        value={tourData.premiumDetails.itineraries[index].hotel.beds[bedType].price || ""}
+                                                        value={tourData.premiumDetails?.itineraries[index]?.hotel?.beds[bedType]?.price || ""}
                                                         onChange={(e) =>
                                                             handleBedPriceChange('premium', index, bedType, "price", e.target.value)
                                                         }
@@ -4298,7 +4298,7 @@ console.log(data)
                                                     <input
                                                         type="number"
                                                         placeholder="Enter extra bed price"
-                                                        value={tourData.premiumDetails.itineraries[index].hotel.beds[bedType].extraBedPrice || ""}
+                                                        value={tourData.premiumDetails?.itineraries[index]?.hotel.beds[bedType]?.extraBedPrice || ""}
                                                         onChange={(e) =>
                                                             handleBedPriceChange('premium', index, bedType, "extraBedPrice", e.target.value)
                                                         }
@@ -4307,7 +4307,7 @@ console.log(data)
                                             </div>
                                         </div>
                                     ))}
-                                </div> */}
+                                </div>
 
                                 <label>Room Images</label>
                                 <input
