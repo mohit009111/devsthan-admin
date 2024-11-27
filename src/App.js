@@ -13,6 +13,7 @@ import NewBlog from "./pages/newBlog/newBlog";
 import ContactsList from "./pages/contacts/contactsList";
 import BlogsList from "./pages/blogs/blogsList";
 import InquiriesList from './pages/inquiries/inquiryList'
+import AddBanners from './pages/addBanners/addBanners'
 import EditTour from "./pages/edit/EditTour";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { productInputs, userInputs } from "./formSource";
@@ -101,6 +102,12 @@ function App() {
               path="new"
               element={<NewAboutUs title="Add New about" />}
             />
+
+          </Route>
+
+          <Route path="/admin/banners">
+            <Route index element={<AddBanners />} />
+           
 
           </Route>
 

@@ -780,17 +780,17 @@ body {
   }
   
   .delete-banner {
-    position: absolute; /* Position the delete button over the image */
+    position: absolute; 
     top: 5px;
     right: 5px;
-    background: rgba(255, 255, 255, 0.7); /* Slightly transparent white background */
+    background: rgba(255, 255, 255, 0.7);
     border: none;
-    border-radius: 50%; /* Make it round */
+    border-radius: 50%;
     width: 25px;
     height: 25px;
     cursor: pointer;
-    font-size: 16px; /* Size of the delete icon */
-    color: red; /* Color of the delete icon */
+    font-size: 16px;
+    color: red; 
   }
   
   .delete-banner:hover {

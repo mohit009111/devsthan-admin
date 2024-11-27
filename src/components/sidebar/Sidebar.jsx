@@ -33,7 +33,7 @@ const Sidebar = () => {
             <span>Dashboard</span>
           </li>
           <p className="title">LISTS</p>
-     
+
           <Link to="/admin/tours" style={{ textDecoration: "none" }}>
             <li>
               <StoreIcon className="icon" />
@@ -80,6 +80,12 @@ const Sidebar = () => {
             <li>
               <PersonOutlineIcon className="icon" />
               <span>Destinations</span>
+            </li>
+          </Link>
+          <Link to="/admin/banners" style={{ textDecoration: "none" }}>
+            <li>
+              <PersonOutlineIcon className="icon" />
+              <span>Banners</span>
             </li>
           </Link>
           {/* <li>
