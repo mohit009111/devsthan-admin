@@ -7,6 +7,8 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { RotatingLines } from 'react-loader-spinner'
 import { v4 as uuidv4 } from 'uuid';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 // import { v2 as cloudinary } from 'cloudinary';
 
 const NewTour = ({ title }) => {
@@ -31,6 +33,7 @@ const NewTour = ({ title }) => {
     categories: [],
     attributes: [],
     languages: [],
+    termsAndConditions: "",
     country: "",
     city: "",
     state: "",
@@ -1504,16 +1507,15 @@ const NewTour = ({ title }) => {
         </button>
       </div>
 
-
       <div className="formGroup">
         <label>Standard Cancellation Policy</label>
-        <input
-          type="text"
+        <ReactQuill
           name="cancellationPolicy"
           value={tourData.standardDetails.cancellationPolicy}
           onChange={(e) => handleFieldChange("cancellationPolicy", e.target.value, "standardDetails")}
           placeholder="Enter cancellation policy"
         />
+
       </div>
 
 
@@ -2925,13 +2927,13 @@ const NewTour = ({ title }) => {
       {/* Cancellation Policy */}
       <div className="formGroup">
         <label>Deluxe Cancellation Policy</label>
-        <input
-          type="text"
+        <ReactQuill
           name="cancellationPolicy"
           value={tourData.deluxeDetails.cancellationPolicy}
           onChange={(e) => handleFieldChange("cancellationPolicy", e.target.value, "deluxeDetails")}
           placeholder="Enter cancellation policy"
         />
+
       </div>
 
       {/* Highlights */}
@@ -4344,8 +4346,8 @@ const NewTour = ({ title }) => {
       </div>
       <div className="formGroup">
         <label>Premium Cancellation Policy</label>
-        <input
-          type="text"
+
+        <ReactQuill
           name="cancellationPolicy"
           value={tourData.premiumDetails.cancellationPolicy}
           onChange={(e) => handleFieldChange("cancellationPolicy", e.target.value, "premiumDetails")}
@@ -5886,6 +5888,15 @@ const NewTour = ({ title }) => {
                 placeholder="Enter any additional information"
               />
             </div>
+            <div className="formGroup">
+                            <label>Terms and Conditions</label>
+                            <ReactQuill
+                                name="termsAndConditions"
+                                value={tourData.termsAndConditions}
+                                onChange={handleChange}
+                                placeholder="Terms and Conditions"
+                            />
+                        </div>
             <div className="formGroup">
               <label>Upload Banner Image</label>
               <input

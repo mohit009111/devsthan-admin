@@ -8,6 +8,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { RotatingLines } from 'react-loader-spinner'
 import { v4 as uuidv4 } from 'uuid';
 import { useParams } from "react-router-dom";
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 // import { v2 as cloudinary } from 'cloudinary';
 
 const NewTour = ({ title }) => {
@@ -65,18 +67,14 @@ const NewTour = ({ title }) => {
         }));
     };
 
-
     const handleFieldChange = (field, value, category) => {
-
-        setTourData((prevData) => {
-            return {
-                ...prevData,
-                [category]: {
-                    ...prevData[category],
-                    [field]: value,
-                },
-            };
-        });
+        setTourData((prevData) => ({
+            ...prevData,
+            [category]: {
+                ...prevData[category],
+                [field]: value,
+            },
+        }));
     };
     const handleRoomImages = (index, files, section) => {
         const newPhotos = Array.from(files).map((file) => URL.createObjectURL(file));
@@ -786,12 +784,12 @@ const NewTour = ({ title }) => {
                 const responseAttribute = await fetch(`${BASE_URL}/api/attributes`);
                 const tour = await fetch(`${BASE_URL}/api/getTour/${id}`);
                 const tourJson = await tour.json();
-         
+
                 const responseADestinations = await fetch(`${BASE_URL}/api/getAllDestinations`);
                 const attributeData = await responseAttribute.json();
                 const destinationData = await responseADestinations.json();
                 const data = await response.json();
-console.log(data)
+                console.log(data)
                 setTourData(tourJson[0])
                 setAttributes(attributeData)
                 setCategories(data);
@@ -1008,25 +1006,23 @@ console.log(data)
             </div>
 
 
-            <div className="formGroup">
-                <label>Standard Cancellation Policy</label>
-                <input
-                    type="text"
-                    name="cancellationPolicy"
-                    value={tourData.standardDetails?.cancellationPolicy}
-                    onChange={(e) => handleFieldChange("cancellationPolicy", e.target.value, "standardDetails")}
-                    placeholder="Enter cancellation policy"
-                />
-            </div>
+<div className="formGroup">
+    <label>Standard Cancellation Policy</label>
+    <ReactQuill
+        name="cancellationPolicy"
+        value={tourData?.standardDetails?.cancellationPolicy || ''}
+        onChange={(value) => handleFieldChange('cancellationPolicy', value, 'standardDetails')}
+        placeholder="Enter cancellation policy"
+    />
+</div>
 
 
-            {/* Highlights Field */}
             <div className="formGroup">
                 <label>Highlights</label>
                 {tourData.standardDetails?.highlights.map((highlight, index) => (
-              
+
                     <div key={index}>
-                              {console.log(highlight)}
+
                         <input
                             type="text"
                             value={highlight}
@@ -2429,15 +2425,15 @@ console.log(data)
 
             {/* Cancellation Policy */}
             <div className="formGroup">
-                <label>Deluxe Cancellation Policy</label>
-                <input
-                    type="text"
-                    name="cancellationPolicy"
-                    value={tourData.deluxeDetails.cancellationPolicy}
-                    onChange={(e) => handleFieldChange("cancellationPolicy", e.target.value, "deluxeDetails")}
-                    placeholder="Enter cancellation policy"
-                />
-            </div>
+    <label>Deluxe Cancellation Policy</label>
+    <ReactQuill
+        name="cancellationPolicy"
+        value={tourData?.deluxeDetails?.cancellationPolicy || ''}
+        onChange={(value) => handleFieldChange('cancellationPolicy', value, 'deluxeDetails')}
+        placeholder="Enter cancellation policy"
+    />
+</div>
+
 
             {/* Highlights */}
             <div className="formGroup">
@@ -3848,15 +3844,14 @@ console.log(data)
                 </button>
             </div>
             <div className="formGroup">
-                <label>Premium Cancellation Policy</label>
-                <input
-                    type="text"
-                    name="cancellationPolicy"
-                    value={tourData.premiumDetails.cancellationPolicy}
-                    onChange={(e) => handleFieldChange("cancellationPolicy", e.target.value, "premiumDetails")}
-                    placeholder="Enter cancellation policy"
-                />
-            </div>
+    <label>Premium Cancellation Policy</label>
+    <ReactQuill
+        name="cancellationPolicy"
+        value={tourData?.premiumDetails?.cancellationPolicy || ''}
+        onChange={(value) => handleFieldChange('cancellationPolicy', value, 'premiumDetails')}
+        placeholder="Enter cancellation policy"
+    />
+</div>
 
             {/* Highlights Field */}
             <div className="formGroup">
@@ -5335,6 +5330,16 @@ console.log(data)
                                 required
                             />
                         </div>
+                        <div className="formGroup">
+                            <label>Terms and Conditions</label>
+                            <ReactQuill
+                                name="termsAndConditions"
+                                value={tourData?.termsAndConditions}
+                                onChange={handleChange}
+                                placeholder="Terms and Conditions"
+                            />
+                        </div>
+
 
                         <div className="formGroup">
                             <label>Duration</label>
@@ -5618,8 +5623,8 @@ console.log(data)
 
 
                         {selectedTourType === "standard" && renderStandardDetails()}
-            {selectedTourType === "deluxe" && renderDeluxeDetails()}
-            {selectedTourType === "premium" && renderPremiumDetails()}
+                        {selectedTourType === "deluxe" && renderDeluxeDetails()}
+                        {selectedTourType === "premium" && renderPremiumDetails()}
 
                         {loading ? (
                             <RotatingLines
