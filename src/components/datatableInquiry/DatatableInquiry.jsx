@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { BASE_URL } from '../../utils/headers';
 import './DatatableInquiry.css'; // Import the CSS file directly
+import { ToastContainer, toast } from 'react-toastify';
 
-const DatatableContacts = () => {
+const DatatableInquiry = () => {
   const [contacts, setContacts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -15,20 +16,10 @@ const DatatableContacts = () => {
           throw new Error('Failed to fetch contacts');
         }
         const data = await response.json();
-
-        const inquiriesWithTourNames = await Promise.all(
-          data.data.map(async (contact) => {
-            console.log(contact)
-            const tourResponse = await fetch(`${BASE_URL}/api/getTour/${contact.uuid}`);
-            const tourData = await tourResponse.json();
-            console.log(tourData)
-            return {
-              ...contact,
-              tourName: tourData[0].name,
-            };
-          })
-        );
-        setContacts(inquiriesWithTourNames);
+        console.log(data)
+        
+        
+        setContacts(data.data);
         setLoading(false);
       } catch (error) {
         setError('Failed to fetch contacts');
@@ -37,6 +28,34 @@ const DatatableContacts = () => {
     };
     fetchContacts();
   }, []);
+  console.log(contacts)
+
+  const handleMarkAsRead = async (id, currentStatus) => {
+    try {
+      const response = await fetch(`${BASE_URL}/api/markAsReadOrUnread`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id, readStatus: !currentStatus }),  // Toggle the read status
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        setContacts((prevContacts) =>
+          prevContacts.map((contact) =>
+            contact._id === id ? { ...contact, read: !currentStatus } : contact
+          )
+        );
+        toast.success(`Marked as ${!currentStatus ? 'Read' : 'Unread'}!`);
+      } else {
+        toast.error('Failed to update status.');
+      }
+    } catch (error) {
+      console.error('Error updating read status:', error);
+      toast.error('An error occurred. Please try again.');
+    }
+  };
 
   if (loading) {
     return <p>Loading Inquiries...</p>;
@@ -48,34 +67,53 @@ const DatatableContacts = () => {
 
   return (
     <div className="table-container">
+      <ToastContainer position="top-right" autoClose={3000} />
       <h2 className="table-title">Inquiry List</h2>
       <table className="custom-table">
         <thead>
           <tr>
-            <th>Tour Name </th>
+            <th>Tour Name</th>
             <th>Full Name</th>
             <th>Email</th>
             <th>Phone Number</th>
             <th>Message</th>
             <th>Created At</th>
-
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           {contacts.length > 0 ? (
             contacts.map((contact, index) => (
-              <tr key={index}>
+              <tr key={index} className={`query-card ${contact.read ? 'read' : ''}`}>
                 <td>{contact.tourName}</td>
                 <td>{contact.fullName}</td>
                 <td>{contact.email}</td>
                 <td>{contact.phone}</td>
                 <td>{contact.message}</td>
                 <td>{contact.createdAt}</td>
+                <td className="contact-actions">
+                  {/* Separate buttons for Mark as Read and Mark as Unread */}
+                  {!contact.read ? (
+                    <button
+                      onClick={() => handleMarkAsRead(contact._id, contact.read)}
+                      className="btn-read"
+                    >
+                      Mark as Read
+                    </button>
+                  ) : (
+                    <button
+                      onClick={() => handleMarkAsRead(contact._id, contact.read)}
+                      className="btn-unread"
+                    >
+                      Mark as Unread
+                    </button>
+                  )}
+                </td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan="4">No contacts found</td>
+              <td colSpan="7">No inquiries found</td>
             </tr>
           )}
         </tbody>
@@ -84,4 +122,4 @@ const DatatableContacts = () => {
   );
 };
 
-export default DatatableContacts;
+export default DatatableInquiry;

@@ -201,8 +201,10 @@ const NewTour = ({ title }) => {
       pricing: [
         {
           person: 1,
-          price: ""
+          price: "",
+          rooms: ""
         }
+
       ]
       ,
       cancellationPolicy: "",
@@ -361,8 +363,10 @@ const NewTour = ({ title }) => {
       pricing: [
         {
           person: 1,
-          price: ""
+          price: "",
+          rooms:""
         }
+        
       ]
       ,
       cancellationPolicy: "",
@@ -522,8 +526,10 @@ const NewTour = ({ title }) => {
       pricing: [
         {
           person: 1,
-          price: ""
+          price: "",
+          rooms:""
         }
+        
       ]
       ,
       cancellationPolicy: "",
@@ -1068,15 +1074,27 @@ const NewTour = ({ title }) => {
   };
 
   // Handle input change for text fields
+  const handletermsChange = (value, name) => {
+    // Check if 'value' and 'name' are correctly passed
+    console.log(name, value);
+    
+    // Update state based on the input name
+    setTourData((prev) => ({
+      ...prev,
+      [name]: value,  // Use the name and value to update the state
+    }));
+  };
   const handleChange = (e) => {
 
     const { name, value } = e.target;
-
+console.log(name)
+console.log(value)
     setTourData((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
+  
   const handleItineraryPhotos = (index, files, section) => {
     const newPhotos = Array.from(files).map((file) => URL.createObjectURL(file));
 
@@ -1487,6 +1505,15 @@ const NewTour = ({ title }) => {
               }
               placeholder={`Price for ${priceObj.person} person`}
             />
+            <input
+              type="number"
+              value={priceObj.rooms}
+              onChange={(e) =>
+                handlePricingArrayChange(index, { ...priceObj, rooms: e.target.value }, "standardDetails")
+              }
+              placeholder={`No. of rooms`}
+            />
+
             {tourData.standardDetails.pricing.length > 1 && (
               <button
                 type="button"
@@ -2903,6 +2930,14 @@ const NewTour = ({ title }) => {
                 handlePricingArrayChange(index, { ...priceObj, price: e.target.value }, "deluxeDetails")
               }
               placeholder={`Price for ${priceObj.person} person`}
+            />
+              <input
+              type="number"
+              value={priceObj.rooms}
+              onChange={(e) =>
+                handlePricingArrayChange(index, { ...priceObj, rooms: e.target.value }, "deluxeDetails")
+              }
+              placeholder={`No. of rooms`}
             />
             {tourData.deluxeDetails.pricing.length > 1 && (
               <button
@@ -4324,6 +4359,14 @@ const NewTour = ({ title }) => {
                 handlePricingArrayChange(index, { ...priceObj, price: e.target.value }, "premiumDetails")
               }
               placeholder={`Price for ${priceObj.person} person`}
+            />
+              <input
+              type="number"
+              value={priceObj.rooms}
+              onChange={(e) =>
+                handlePricingArrayChange(index, { ...priceObj, rooms: e.target.value }, "premiumDetails")
+              }
+              placeholder={`No. of rooms`}
             />
             {tourData.premiumDetails.pricing.length > 1 && (
               <button
@@ -5889,14 +5932,15 @@ const NewTour = ({ title }) => {
               />
             </div>
             <div className="formGroup">
-                            <label>Terms and Conditions</label>
-                            <ReactQuill
-                                name="termsAndConditions"
-                                value={tourData.termsAndConditions}
-                                onChange={handleChange}
-                                placeholder="Terms and Conditions"
-                            />
-                        </div>
+              <label>Terms and Conditions</label>
+              <ReactQuill
+                 type="text"
+                name="termsAndConditions"
+                value={tourData.termsAndConditions}
+                onChange={(value) => handletermsChange(value, "termsAndConditions")}
+                placeholder="Terms and Conditions"
+              />
+            </div>
             <div className="formGroup">
               <label>Upload Banner Image</label>
               <input

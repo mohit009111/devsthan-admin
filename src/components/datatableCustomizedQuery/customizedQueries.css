@@ -1,0 +1,126 @@
+.query-container {
+    padding: 20px;
+    max-width: 900px;
+    margin: auto;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  h2 {
+    text-align: center;
+    color: #333;
+  }
+  
+  .query-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  
+  .query-card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .query-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+  
+  .query-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  
+  .query-header h3 {
+    margin: 0;
+    font-size: 1.25em;
+    color: #0073e6;
+  }
+  
+  .query-header span {
+    font-size: 0.9em;
+    color: #777;
+  }
+  
+  p {
+    margin: 5px 0;
+    color: #555;
+  }
+  
+  .error-message {
+    color: red;
+    text-align: center;
+  }
+  .query-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .btn-read {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .btn-read:hover {
+    background-color: #0056b3;
+  }
+  
+  .btn-delete {
+    background-color: #ff4d4d;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .btn-delete:hover {
+    background-color: #cc0000;
+  }
+  
+  .query-card.read {
+    background-color: #e0ffe0;
+    border: 1px solid #76c76c;
+  }
+  
+  .query-card {
+    border: 1px solid #ccc;
+    padding: 16px;
+    margin: 10px;
+    border-radius: 8px;
+    background-color: white;
+    transition: background-color 0.3s ease;
+  }
+  
+  .query-card.read {
+    background-color: #e6ffe6; /* Light green background for read messages */
+    border-color: #5cb85c; /* Green border for read queries */
+  }
+  
+  .query-actions {
+    margin-top: 10px;
+  }
+  
+
+  .btn-read:hover {
+    background-color: #0056b3;
+  }
+  
+  .query-card.read .btn-read {
+    background-color: #5cb85c;
+    pointer-events: none;
+    cursor: default;
+  }
+  

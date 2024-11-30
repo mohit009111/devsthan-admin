@@ -59,7 +59,16 @@ const NewTour = ({ title }) => {
         }
     };
 
-
+    const handletermsChange = (value, name) => {
+        // Check if 'value' and 'name' are correctly passed
+        console.log(name, value);
+        
+        // Update state based on the input name
+        setTourData((prev) => ({
+          ...prev,
+          [name]: value,  // Use the name and value to update the state
+        }));
+      };
     const handleDeleteBanner = () => {
         setTourData((prevState) => ({
             ...prevState,
@@ -919,7 +928,7 @@ const NewTour = ({ title }) => {
                 }
 
                 // Upload banner image
-                if (tourData.bannerImage instanceof File) {
+                if (tourData.bannerImage) {
                     tourData.bannerImage = await uploadImageToCloudinary(tourData.bannerImage);
                     uploadedImageUrls.push(tourData.bannerImage);
                 }
@@ -985,6 +994,14 @@ const NewTour = ({ title }) => {
                             }
                             placeholder={`Price for ${priceObj.person} person`}
                         />
+                        <input
+                            type="number"
+                            value={priceObj.rooms && priceObj.rooms}
+                            onChange={(e) =>
+                                handlePricingArrayChange(index, { ...priceObj, rooms: e.target.value }, "standardDetails")
+                            }
+                            placeholder={`No. of rooms`}
+                        />
                         {tourData.standardDetails.pricing.length > 1 && (
                             <button
                                 type="button"
@@ -1006,15 +1023,15 @@ const NewTour = ({ title }) => {
             </div>
 
 
-<div className="formGroup">
-    <label>Standard Cancellation Policy</label>
-    <ReactQuill
-        name="cancellationPolicy"
-        value={tourData?.standardDetails?.cancellationPolicy || ''}
-        onChange={(value) => handleFieldChange('cancellationPolicy', value, 'standardDetails')}
-        placeholder="Enter cancellation policy"
-    />
-</div>
+            <div className="formGroup">
+                <label>Standard Cancellation Policy</label>
+                <ReactQuill
+                    name="cancellationPolicy"
+                    value={tourData?.standardDetails?.cancellationPolicy || ''}
+                    onChange={(value) => handleFieldChange('cancellationPolicy', value, 'standardDetails')}
+                    placeholder="Enter cancellation policy"
+                />
+            </div>
 
 
             <div className="formGroup">
@@ -2403,6 +2420,14 @@ const NewTour = ({ title }) => {
                             }
                             placeholder={`Price for ${priceObj.person} person`}
                         />
+                        <input
+                            type="number"
+                            value={priceObj.rooms && priceObj.rooms}
+                            onChange={(e) =>
+                                handlePricingArrayChange(index, { ...priceObj, rooms: e.target.value }, "deluxeDetails")
+                            }
+                            placeholder={`No. of rooms`}
+                        />
                         {tourData.deluxeDetails.pricing.length > 1 && (
                             <button
                                 type="button"
@@ -2425,14 +2450,14 @@ const NewTour = ({ title }) => {
 
             {/* Cancellation Policy */}
             <div className="formGroup">
-    <label>Deluxe Cancellation Policy</label>
-    <ReactQuill
-        name="cancellationPolicy"
-        value={tourData?.deluxeDetails?.cancellationPolicy || ''}
-        onChange={(value) => handleFieldChange('cancellationPolicy', value, 'deluxeDetails')}
-        placeholder="Enter cancellation policy"
-    />
-</div>
+                <label>Deluxe Cancellation Policy</label>
+                <ReactQuill
+                    name="cancellationPolicy"
+                    value={tourData?.deluxeDetails?.cancellationPolicy || ''}
+                    onChange={(value) => handleFieldChange('cancellationPolicy', value, 'deluxeDetails')}
+                    placeholder="Enter cancellation policy"
+                />
+            </div>
 
 
             {/* Highlights */}
@@ -3824,6 +3849,14 @@ const NewTour = ({ title }) => {
                             }
                             placeholder={`Price for ${priceObj.person} person`}
                         />
+                        <input
+                            type="number"
+                            value={priceObj.rooms && priceObj.rooms}
+                            onChange={(e) =>
+                                handlePricingArrayChange(index, { ...priceObj, rooms: e.target.value }, "premiumDetails")
+                            }
+                            placeholder={`No. of rooms`}
+                        />
                         {tourData.premiumDetails.pricing.length > 1 && (
                             <button
                                 type="button"
@@ -3844,14 +3877,14 @@ const NewTour = ({ title }) => {
                 </button>
             </div>
             <div className="formGroup">
-    <label>Premium Cancellation Policy</label>
-    <ReactQuill
-        name="cancellationPolicy"
-        value={tourData?.premiumDetails?.cancellationPolicy || ''}
-        onChange={(value) => handleFieldChange('cancellationPolicy', value, 'premiumDetails')}
-        placeholder="Enter cancellation policy"
-    />
-</div>
+                <label>Premium Cancellation Policy</label>
+                <ReactQuill
+                    name="cancellationPolicy"
+                    value={tourData?.premiumDetails?.cancellationPolicy || ''}
+                    onChange={(value) => handleFieldChange('cancellationPolicy', value, 'premiumDetails')}
+                    placeholder="Enter cancellation policy"
+                />
+            </div>
 
             {/* Highlights Field */}
             <div className="formGroup">
@@ -5331,14 +5364,15 @@ const NewTour = ({ title }) => {
                             />
                         </div>
                         <div className="formGroup">
-                            <label>Terms and Conditions</label>
-                            <ReactQuill
-                                name="termsAndConditions"
-                                value={tourData?.termsAndConditions}
-                                onChange={handleChange}
-                                placeholder="Terms and Conditions"
-                            />
-                        </div>
+              <label>Terms and Conditions</label>
+              <ReactQuill
+                 type="text"
+                name="termsAndConditions"
+                value={tourData.termsAndConditions}
+                onChange={(value) => handletermsChange(value, "termsAndConditions")}
+                placeholder="Terms and Conditions"
+              />
+            </div>
 
 
                         <div className="formGroup">

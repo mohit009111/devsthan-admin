@@ -82,6 +82,12 @@ const Sidebar = () => {
               <span>Destinations</span>
             </li>
           </Link>
+          <Link to="/admin/customizedQueries" style={{ textDecoration: "none" }}>
+            <li>
+              <PersonOutlineIcon className="icon" />
+              <span>Customized Queries</span>
+            </li>
+          </Link>
           <Link to="/admin/banners" style={{ textDecoration: "none" }}>
             <li>
               <PersonOutlineIcon className="icon" />
