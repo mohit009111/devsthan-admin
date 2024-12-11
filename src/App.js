@@ -8,6 +8,7 @@ import Single from "./pages/single/Single";
 import New from "./pages/new/New";
 import NewDestination from "./pages/newDestination/newDestination";
 import CustomizedQueries from "./pages/customizedQueries/customizedQueries";
+import Orders from "./pages/orders/orders";
 import NewAboutUs from "./pages/about-us/aboutUs";
 import Aboutus from "./pages/about-us/aboutUs";
 import NewBlog from "./pages/newBlog/newBlog";
@@ -108,6 +109,10 @@ function App() {
 
           <Route path="/admin/customizedQueries">
             <Route index element={<CustomizedQueries />} />
+          
+          </Route>
+          <Route path="/admin/orders">
+            <Route index element={<Orders />} />
           
           </Route>
           <Route path="/admin/banners">

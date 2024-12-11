@@ -1002,6 +1002,7 @@ const NewTour = ({ title }) => {
                             }
                             placeholder={`No. of rooms`}
                         />
+                        
                         {tourData.standardDetails.pricing.length > 1 && (
                             <button
                                 type="button"
