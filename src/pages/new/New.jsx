@@ -5855,7 +5855,7 @@ console.log(value)
 
             <div className="formGroup">
               <label>Overview</label>
-              <input
+              <textarea
                 type="text"
                 name="overview"
                 value={tourData.overview}
