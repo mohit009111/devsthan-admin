@@ -1537,11 +1537,12 @@ console.log(value)
       <div className="formGroup">
         <label>Standard Cancellation Policy</label>
         <ReactQuill
-          name="cancellationPolicy"
-          value={tourData.standardDetails.cancellationPolicy}
-          onChange={(e) => handleFieldChange("cancellationPolicy", e.target.value, "standardDetails")}
-          placeholder="Enter cancellation policy"
-        />
+                    name="cancellationPolicy"
+                    value={tourData?.standardDetails?.cancellationPolicy || ''}
+                    onChange={(value) => handleFieldChange('cancellationPolicy', value, 'standardDetails')}
+                    placeholder="Enter cancellation policy"
+                />
+      
 
       </div>
 
