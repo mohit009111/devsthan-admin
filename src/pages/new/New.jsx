@@ -172,6 +172,7 @@ const NewTour = ({ title }) => {
           },
 
           meals: {
+            isAvailable: false,
             breakfast: {
               isAvailable: false,
               name: "",
@@ -337,6 +338,7 @@ const NewTour = ({ title }) => {
           },
 
           meals: {
+            isAvailable: false,
             breakfast: {
               isAvailable: false,
               name: "",
@@ -500,6 +502,7 @@ const NewTour = ({ title }) => {
           },
 
           meals: {
+            isAvailable: false,
             breakfast: {
               isAvailable: false,
               name: "",

@@ -26,7 +26,7 @@ const NewTour = ({ title }) => {
     const [tourData, setTourData] = useState({
 
     });
-
+    {console.log(tourData)}
     const handleDeleteMealPhoto = (itineraryIndex, photoIndex, mealType, tourDetailType) => {
         setTourData((prevState) => {
             const updatedItineraries = [...prevState[tourDetailType].itineraries];
@@ -62,13 +62,13 @@ const NewTour = ({ title }) => {
     const handletermsChange = (value, name) => {
         // Check if 'value' and 'name' are correctly passed
         console.log(name, value);
-        
+
         // Update state based on the input name
         setTourData((prev) => ({
-          ...prev,
-          [name]: value,  // Use the name and value to update the state
+            ...prev,
+            [name]: value,  // Use the name and value to update the state
         }));
-      };
+    };
     const handleDeleteBanner = () => {
         setTourData((prevState) => ({
             ...prevState,
@@ -241,6 +241,7 @@ const NewTour = ({ title }) => {
             },
 
             meals: {
+                isIncluded:false,
                 breakfast: {
                     isAvailable: false,
                     name: "",
@@ -819,7 +820,6 @@ const NewTour = ({ title }) => {
             try {
                 setLoading(true);
     
-                const uploadedImageUrls = [];
                 const cloudinaryURL = "https://api.cloudinary.com/v1_1/dmyzudtut/image/upload";
                 const uploadPreset = "ljqbwqy9";
     
@@ -827,14 +827,15 @@ const NewTour = ({ title }) => {
                 const uploadImageToCloudinary = async (image) => {
                     if (!image) return null; // Skip invalid images
     
-                    // Skip if the image is already a URL (assume it's already uploaded)
+                    // Skip if the image is already a URL
                     if (typeof image === "string" && image.startsWith("http")) {
-                        return image; // Return the existing URL
+                        return image;
                     }
     
                     // If the image is a blob URL, fetch the blob and convert it to a File
                     if (typeof image === "string" && image.startsWith("blob:")) {
                         const blob = await fetch(image).then((res) => res.blob());
+                        console.log("Converted Blob to File:", blob);
                         image = new File([blob], "image.jpg", { type: blob.type });
                     }
     
@@ -849,9 +850,11 @@ const NewTour = ({ title }) => {
     
                     if (response.ok) {
                         const data = await response.json();
+                        console.log("Uploaded to Cloudinary:", data.secure_url);
                         return data.secure_url;
                     } else {
                         const errorData = await response.json();
+                        console.error("Cloudinary Upload Error:", errorData);
                         throw new Error(errorData.error?.message || "Failed to upload image");
                     }
                 };
@@ -860,11 +863,23 @@ const NewTour = ({ title }) => {
                 const uploadImagesForField = async (photos = []) => {
                     if (!Array.isArray(photos)) return [];
                     return await Promise.all(
-                        photos.map(async (photo) => (photo ? await uploadImageToCloudinary(photo) : null))
+                        photos.map(async (photo, index) => {
+                            try {
+                                if (photo) {
+                                    const uploadedUrl = await uploadImageToCloudinary(photo);
+                                    console.log(`Uploaded photo ${index + 1}:`, uploadedUrl);
+                                    return uploadedUrl;
+                                }
+                                return null;
+                            } catch (error) {
+                                console.error(`Error uploading photo ${index + 1}:`, error);
+                                return null;
+                            }
+                        })
                     );
                 };
     
-                // Process and upload images for an itinerary
+                // Helper: Append uploaded image URLs to itinerary fields
                 const appendImagesToItinerary = async (itinerary) => {
                     if (!itinerary) return;
     
@@ -877,10 +892,9 @@ const NewTour = ({ title }) => {
                         { key: "activity.photos", photos: itinerary.activity?.photos },
                     ];
     
-                    // Meals and Transportation logic
                     const mealTypes = ["breakfast", "lunch", "dinner"];
                     mealTypes.forEach((mealType) => {
-                        if (itinerary.meals?.[mealType]?.photos) {
+                        if (Array.isArray(itinerary.meals?.[mealType]?.photos)) {
                             uploadFields.push({
                                 key: `meals.${mealType}.photos`,
                                 photos: itinerary.meals[mealType].photos,
@@ -890,7 +904,7 @@ const NewTour = ({ title }) => {
     
                     const transportModes = ["car", "bus", "train", "flight", "chopper"];
                     transportModes.forEach((mode) => {
-                        if (itinerary.transportation?.[mode]?.photos) {
+                        if (Array.isArray(itinerary.transportation?.[mode]?.photos)) {
                             uploadFields.push({
                                 key: `transportation.${mode}.photos`,
                                 photos: itinerary.transportation[mode].photos,
@@ -898,10 +912,25 @@ const NewTour = ({ title }) => {
                         }
                     });
     
-                    // Process all photo fields
+                    console.log("Upload Fields Before Upload:", uploadFields);
+    
+                    // Process each upload field
                     for (const field of uploadFields) {
                         if (Array.isArray(field.photos)) {
-                            field.photos = await uploadImagesForField(field.photos);
+                            const uploadedUrls = await uploadImagesForField(field.photos);
+                            console.log(`Uploaded photos for ${field.key}:`, uploadedUrls);
+    
+                            // Update the respective field in the itinerary object
+                            const keys = field.key.split(".");
+                            let ref = itinerary;
+    
+                            // Navigate to the correct nested field
+                            for (let i = 0; i < keys.length - 1; i++) {
+                                ref = ref[keys[i]];
+                            }
+    
+                            // Set the uploaded URLs
+                            ref[keys[keys.length - 1]] = uploadedUrls;
                         }
                     }
                 };
@@ -911,6 +940,7 @@ const NewTour = ({ title }) => {
                 for (const category of itineraryCategories) {
                     if (tourData[category]?.itineraries) {
                         for (const itinerary of tourData[category].itineraries) {
+                            console.log(`Processing itinerary for category ${category}:`, itinerary);
                             await appendImagesToItinerary(itinerary);
                         }
                     }
@@ -919,17 +949,18 @@ const NewTour = ({ title }) => {
                 // Upload banner image
                 if (tourData.bannerImage) {
                     tourData.bannerImage = await uploadImageToCloudinary(tourData.bannerImage);
-                    uploadedImageUrls.push(tourData.bannerImage);
+                    console.log("Uploaded Banner Image:", tourData.bannerImage);
                 }
     
                 // Upload additional images
                 if (tourData.images?.length) {
                     tourData.images = await uploadImagesForField(tourData.images);
-                    uploadedImageUrls.push(...tourData.images);
+                    console.log("Uploaded Additional Images:", tourData.images);
                 }
     
-                // Prepare the tourData for submission (don't need FormData here)
+                // Prepare the tourData for submission
                 const cleanTourData = { ...tourData };
+                console.log("Final Payload Before Submission:", cleanTourData);
     
                 // Submit data to the backend
                 const response = await fetch(`${BASE_URL}/api/createTours`, {
@@ -937,7 +968,7 @@ const NewTour = ({ title }) => {
                     headers: {
                         "Content-Type": "application/json",
                     },
-                    body: JSON.stringify(cleanTourData), // Send tourData as JSON
+                    body: JSON.stringify(cleanTourData),
                 });
     
                 if (response.ok) {
@@ -946,6 +977,7 @@ const NewTour = ({ title }) => {
                     console.log("Save response:", responseData);
                 } else {
                     const errorData = await response.json();
+                    console.error("Backend Error Response:", errorData);
                     throw new Error(errorData.error || "Failed to save tour data");
                 }
             } catch (error) {
@@ -959,7 +991,6 @@ const NewTour = ({ title }) => {
         handleSaveChanges();
     };
     
-
     const renderStandardDetails = () => (
         <div className="standardDetails">
             <h3>Standard Tour Details</h3>
@@ -988,7 +1019,7 @@ const NewTour = ({ title }) => {
                             }
                             placeholder={`No. of rooms`}
                         />
-                        
+
                         {tourData.standardDetails.pricing.length > 1 && (
                             <button
                                 type="button"
@@ -1547,7 +1578,7 @@ const NewTour = ({ title }) => {
                                 }
                             />
                         </div>
-                        {itinerary.meals.isAvailable ? <div className="meals-checkbox">
+                        {itinerary?.meals?.isAvailable ? <div className="meals-checkbox">
                             <div className="labels">
                                 <label>   Breakfast
                                 </label>
@@ -1561,7 +1592,7 @@ const NewTour = ({ title }) => {
 
                             </div>
 
-                            {itinerary.meals.breakfast.isAvailable == true && (
+                            {itinerary?.meals?.breakfast?.isAvailable == true && (
                                 <div className="meal-details">
                                     <label>Breakfast Name</label>
                                     <input
@@ -1579,7 +1610,7 @@ const NewTour = ({ title }) => {
                                         onChange={(e) => handleItineraryMealsChange(index, "breakfast", "photos", Array.from(e.target.files), "standardDetails")}
                                     />
 
-                                    {itinerary.meals.breakfast.photos?.length > 0 && (
+                                    {itinerary?.meals?.breakfast?.photos?.length > 0 && (
                                         <div className="photo-preview">
                                             {itinerary.meals.breakfast.photos.map((photo, photoIndex) => (
                                                 <div key={photoIndex} className="photo-container">
@@ -1624,7 +1655,7 @@ const NewTour = ({ title }) => {
                                         onChange={(e) => handleItineraryMealsChange(index, "lunch", "name", e.target.value, "standardDetails")}
                                         placeholder="Enter lunch name"
                                     />
-                                    <label>Breakfast Photos</label>
+                                    <label>Lunch Photos</label>
                                     <input
                                         type="file"
                                         multiple
@@ -2968,7 +2999,7 @@ const NewTour = ({ title }) => {
                                 }
                             />
                         </div>
-                        {itinerary.meals.isAvailable ? <div className="meals-checkbox">
+                        {itinerary?.meals?.isAvailable ? <div className="meals-checkbox">
                             <div className="labels">
                                 <label>   Breakfast
                                 </label>
@@ -3000,7 +3031,7 @@ const NewTour = ({ title }) => {
                                         onChange={(e) => handleItineraryMealsChange(index, "breakfast", "photos", Array.from(e.target.files), "deluxeDetails")}
                                     />
 
-                                    {itinerary.meals.breakfast.photos?.length > 0 && (
+                                    {itinerary?.meals?.breakfast?.photos?.length > 0 && (
                                         <div className="photo-preview">
                                             {itinerary.meals.breakfast.photos.map((photo, photoIndex) => (
                                                 <div key={photoIndex} className="photo-container">
@@ -3035,7 +3066,7 @@ const NewTour = ({ title }) => {
                             </div>
 
 
-                            {itinerary.meals.lunch.isAvailable == true && (
+                            {itinerary?.meals?.lunch.isAvailable == true && (
                                 <div className="meal-details">
                                     <label>LunchName</label>
                                     <input
@@ -3081,7 +3112,7 @@ const NewTour = ({ title }) => {
                                 />
 
                             </div>
-                            {itinerary.meals.dinner.isAvailable == true && (
+                            {itinerary?.meals?.dinner?.isAvailable == true && (
                                 <div className="meal-details">
                                     <label>Dinner Name</label>
                                     <input
@@ -4386,7 +4417,7 @@ const NewTour = ({ title }) => {
                                 }
                             />
                         </div>
-                        {itinerary.meals.isAvailable ? <div className="meals-checkbox">
+                        {itinerary?.meals?.isAvailable ? <div className="meals-checkbox">
                             <div className="labels">
                                 <label>   Breakfast
                                 </label>
@@ -4400,7 +4431,7 @@ const NewTour = ({ title }) => {
 
                             </div>
 
-                            {itinerary.meals.breakfast.isAvailable == true && (
+                            {itinerary?.meals?.breakfast?.isAvailable == true && (
                                 <div className="meal-details">
                                     <label>Breakfast Name</label>
                                     <input
@@ -4418,7 +4449,7 @@ const NewTour = ({ title }) => {
                                         onChange={(e) => handleItineraryMealsChange(index, "breakfast", "photos", Array.from(e.target.files), "premiumDetails")}
                                     />
 
-                                    {itinerary.meals.breakfast.photos?.length > 0 && (
+                                    {itinerary?.meals?.breakfast?.photos?.length > 0 && (
                                         <div className="photo-preview">
                                             {itinerary.meals.breakfast.photos.map((photo, photoIndex) => (
                                                 <div key={photoIndex} className="photo-container">
@@ -4446,7 +4477,7 @@ const NewTour = ({ title }) => {
                                 <input
                                     type="checkbox"
                                     value="lunch"
-                                    checked={itinerary.meals.lunch.isAvailable}
+                                    checked={itinerary?.meals?.lunch.isAvailable}
                                     onChange={(e) => handleMealChange(e, index, "lunch", "premiumDetails")}
                                 />
 
@@ -5327,70 +5358,70 @@ const NewTour = ({ title }) => {
                             </div>
                         )}
 
-<div className="formGroup">
-              <input
-                type="checkbox"
-                name="transportation"
-                checked={tourData.transportation}
-                onChange={(e) => setTourData((prevData) => ({
-                  ...prevData,
-                  transportation: e.target.checked
-                }))}
-              />
-              <span> Include Transportation</span>
-            </div>
+                        <div className="formGroup">
+                            <input
+                                type="checkbox"
+                                name="transportation"
+                                checked={tourData.transportation}
+                                onChange={(e) => setTourData((prevData) => ({
+                                    ...prevData,
+                                    transportation: e.target.checked
+                                }))}
+                            />
+                            <span> Include Transportation</span>
+                        </div>
 
-            <div className="formGroup">
-              <input
-                type="checkbox"
-                name="siteSeen"
-                checked={tourData.siteSeen}
-                onChange={(e) => setTourData((prevData) => ({
-                  ...prevData,
-                  siteSeen: e.target.checked
-                }))}
-              />
-              <span> Include Site Seen</span>
-            </div>
+                        <div className="formGroup">
+                            <input
+                                type="checkbox"
+                                name="siteSeen"
+                                checked={tourData.siteSeen}
+                                onChange={(e) => setTourData((prevData) => ({
+                                    ...prevData,
+                                    siteSeen: e.target.checked
+                                }))}
+                            />
+                            <span> Include Site Seen</span>
+                        </div>
 
-            <div className="formGroup">
-              <input
-                type="checkbox"
-                name="welcomeDrinks"
-                checked={tourData.welcomeDrinks}
-                onChange={(e) => setTourData((prevData) => ({
-                  ...prevData,
-                  welcomeDrinks: e.target.checked
-                }))}
-              />
-              <span> Include Welcome Drinks</span>
-            </div>
+                        <div className="formGroup">
+                            <input
+                                type="checkbox"
+                                name="welcomeDrinks"
+                                checked={tourData.welcomeDrinks}
+                                onChange={(e) => setTourData((prevData) => ({
+                                    ...prevData,
+                                    welcomeDrinks: e.target.checked
+                                }))}
+                            />
+                            <span> Include Welcome Drinks</span>
+                        </div>
 
-            <div className="formGroup">
-              <input
-                type="checkbox"
-                name="meals"
-                checked={tourData.meals}
-                onChange={(e) => setTourData((prevData) => ({
-                  ...prevData,
-                  meals: e.target.checked
-                }))}
-              />
-              <span> Include Meal</span>
-            </div>
+                        <div className="formGroup">
+                            <input
+                                type="checkbox"
+                                name="meals"
+                                checked={tourData.meals}
+                                onChange={(e) => setTourData((prevData) => ({
+                                    ...prevData,
+                                    meals: e.target.checked
+                                }))}
+                            />
+                            <span> Include Meal</span>
+                        </div>
 
-            <div className="formGroup">
-              <input
-                type="checkbox"
-                name="hotel"
-                checked={tourData.hotel}
-                onChange={(e) => setTourData((prevData) => ({
-                  ...prevData,
-                  hotel: e.target.checked
-                }))}
-              />
-              <span> Include Hotel</span>
-            </div>
+                        <div className="formGroup">
+                            <input
+                                type="checkbox"
+                                name="hotel"
+                                checked={tourData.hotel}
+                                onChange={(e) => setTourData((prevData) => ({
+                                    ...prevData,
+                                    hotel: e.target.checked
+                                }))}
+                            />
+                            <span> Include Hotel</span>
+                        </div>
 
 
                         <div className="formGroup">
@@ -5417,15 +5448,15 @@ const NewTour = ({ title }) => {
                             />
                         </div>
                         <div className="formGroup">
-              <label>Terms and Conditions</label>
-              <ReactQuill
-                 type="text"
-                name="termsAndConditions"
-                value={tourData.termsAndConditions}
-                onChange={(value) => handletermsChange(value, "termsAndConditions")}
-                placeholder="Terms and Conditions"
-              />
-            </div>
+                            <label>Terms and Conditions</label>
+                            <ReactQuill
+                                type="text"
+                                name="termsAndConditions"
+                                value={tourData.termsAndConditions}
+                                onChange={(value) => handletermsChange(value, "termsAndConditions")}
+                                placeholder="Terms and Conditions"
+                            />
+                        </div>
 
 
                         <div className="formGroup">
