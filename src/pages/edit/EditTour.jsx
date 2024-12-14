@@ -814,34 +814,39 @@ const NewTour = ({ title }) => {
     console.log(tourData)
     const handleSubmit = (e) => {
         e.preventDefault();
-
+    
         const handleSaveChanges = async () => {
             try {
                 setLoading(true);
-
+    
                 const uploadedImageUrls = [];
                 const cloudinaryURL = "https://api.cloudinary.com/v1_1/dmyzudtut/image/upload";
                 const uploadPreset = "ljqbwqy9";
-
+    
                 // Helper: Upload a single image to Cloudinary
                 const uploadImageToCloudinary = async (image) => {
                     if (!image) return null; // Skip invalid images
-
+    
+                    // Skip if the image is already a URL (assume it's already uploaded)
+                    if (typeof image === "string" && image.startsWith("http")) {
+                        return image; // Return the existing URL
+                    }
+    
                     // If the image is a blob URL, fetch the blob and convert it to a File
                     if (typeof image === "string" && image.startsWith("blob:")) {
                         const blob = await fetch(image).then((res) => res.blob());
                         image = new File([blob], "image.jpg", { type: blob.type });
                     }
-
+    
                     const formData = new FormData();
                     formData.append("file", image);
                     formData.append("upload_preset", uploadPreset);
-
+    
                     const response = await fetch(cloudinaryURL, {
                         method: "POST",
                         body: formData,
                     });
-
+    
                     if (response.ok) {
                         const data = await response.json();
                         return data.secure_url;
@@ -850,7 +855,7 @@ const NewTour = ({ title }) => {
                         throw new Error(errorData.error?.message || "Failed to upload image");
                     }
                 };
-
+    
                 // Helper: Upload multiple images
                 const uploadImagesForField = async (photos = []) => {
                     if (!Array.isArray(photos)) return [];
@@ -858,65 +863,49 @@ const NewTour = ({ title }) => {
                         photos.map(async (photo) => (photo ? await uploadImageToCloudinary(photo) : null))
                     );
                 };
-
+    
                 // Process and upload images for an itinerary
                 const appendImagesToItinerary = async (itinerary) => {
                     if (!itinerary) return;
-
-                    // SiteSeeing Photos
-                    if (itinerary.siteSeen?.photos) {
-                        itinerary.siteSeen.photos = await uploadImagesForField(itinerary.siteSeen.photos);
-                        uploadedImageUrls.push(...itinerary.siteSeen.photos);
-                    }
-                    if (itinerary.photos) {
-                        itinerary.photos = await uploadImagesForField(itinerary.photos);
-                        uploadedImageUrls.push(...itinerary.photos);
-                    }
-
-                    // Hotel Images
-                    if (itinerary.hotel?.hotelImages) {
-                        itinerary.hotel.hotelImages = await uploadImagesForField(itinerary.hotel.hotelImages);
-                        uploadedImageUrls.push(...itinerary.hotel.hotelImages);
-                    }
-                    if (itinerary.tourManager?.photo) {
-                        itinerary.tourManager.photo = await uploadImagesForField(itinerary.tourManager.photo);
-                        uploadedImageUrls.push(...itinerary.tourManager.photo);
-                    }
-                    if (itinerary.hotel?.roomImages) {
-                        itinerary.hotel.roomImages = await uploadImagesForField(itinerary.hotel.roomImages);
-                        uploadedImageUrls.push(...itinerary.hotel.roomImages);
-                    }
-
-
-                    // Activity Photos
-                    if (itinerary.activity?.photos) {
-                        itinerary.activity.photos = await uploadImagesForField(itinerary.activity.photos);
-                        uploadedImageUrls.push(...itinerary.activity.photos);
-                    }
-
-
-                    if (itinerary.meals) {
-                        const mealTypes = ["breakfast", "lunch", "dinner"];
-                        for (const mealType of mealTypes) {
-                            if (itinerary.meals[mealType]?.photos) {
-                                itinerary.meals[mealType].photos = await uploadImagesForField(itinerary.meals[mealType].photos);
-                                uploadedImageUrls.push(...itinerary.meals[mealType].photos);
-                            }
+    
+                    const uploadFields = [
+                        { key: "siteSeen.photos", photos: itinerary.siteSeen?.photos },
+                        { key: "photos", photos: itinerary.photos },
+                        { key: "hotel.hotelImages", photos: itinerary.hotel?.hotelImages },
+                        { key: "hotel.roomImages", photos: itinerary.hotel?.roomImages },
+                        { key: "tourManager.photo", photos: itinerary.tourManager?.photo },
+                        { key: "activity.photos", photos: itinerary.activity?.photos },
+                    ];
+    
+                    // Meals and Transportation logic
+                    const mealTypes = ["breakfast", "lunch", "dinner"];
+                    mealTypes.forEach((mealType) => {
+                        if (itinerary.meals?.[mealType]?.photos) {
+                            uploadFields.push({
+                                key: `meals.${mealType}.photos`,
+                                photos: itinerary.meals[mealType].photos,
+                            });
                         }
-                    }
-
-                    // Transportation Images
-                    if (itinerary.transportation) {
-                        const transportModes = ["car", "bus", "train", "flight", "chopper"];
-                        for (const mode of transportModes) {
-                            if (itinerary.transportation[mode]?.photos) {
-                                itinerary.transportation[mode].photos = await uploadImagesForField(itinerary.transportation[mode].photos);
-                                uploadedImageUrls.push(...itinerary.transportation[mode].photos);
-                            }
+                    });
+    
+                    const transportModes = ["car", "bus", "train", "flight", "chopper"];
+                    transportModes.forEach((mode) => {
+                        if (itinerary.transportation?.[mode]?.photos) {
+                            uploadFields.push({
+                                key: `transportation.${mode}.photos`,
+                                photos: itinerary.transportation[mode].photos,
+                            });
+                        }
+                    });
+    
+                    // Process all photo fields
+                    for (const field of uploadFields) {
+                        if (Array.isArray(field.photos)) {
+                            field.photos = await uploadImagesForField(field.photos);
                         }
                     }
                 };
-
+    
                 // Process all itineraries for each category
                 const itineraryCategories = ["standardDetails", "deluxeDetails", "premiumDetails"];
                 for (const category of itineraryCategories) {
@@ -926,25 +915,22 @@ const NewTour = ({ title }) => {
                         }
                     }
                 }
-
+    
                 // Upload banner image
                 if (tourData.bannerImage) {
                     tourData.bannerImage = await uploadImageToCloudinary(tourData.bannerImage);
                     uploadedImageUrls.push(tourData.bannerImage);
                 }
-
+    
                 // Upload additional images
                 if (tourData.images?.length) {
                     tourData.images = await uploadImagesForField(tourData.images);
                     uploadedImageUrls.push(...tourData.images);
                 }
-
-                // Add all uploaded image URLs to the appropriate places in tourData
-
-
+    
                 // Prepare the tourData for submission (don't need FormData here)
                 const cleanTourData = { ...tourData };
-
+    
                 // Submit data to the backend
                 const response = await fetch(`${BASE_URL}/api/createTours`, {
                     method: "POST",
@@ -953,7 +939,7 @@ const NewTour = ({ title }) => {
                     },
                     body: JSON.stringify(cleanTourData), // Send tourData as JSON
                 });
-
+    
                 if (response.ok) {
                     const responseData = await response.json();
                     toast.success("Tour data saved successfully!");
@@ -969,10 +955,10 @@ const NewTour = ({ title }) => {
                 setLoading(false);
             }
         };
-
+    
         handleSaveChanges();
     };
-
+    
 
     const renderStandardDetails = () => (
         <div className="standardDetails">
@@ -5341,6 +5327,72 @@ const NewTour = ({ title }) => {
                             </div>
                         )}
 
+<div className="formGroup">
+              <input
+                type="checkbox"
+                name="transportation"
+                checked={tourData.transportation}
+                onChange={(e) => setTourData((prevData) => ({
+                  ...prevData,
+                  transportation: e.target.checked
+                }))}
+              />
+              <span> Include Transportation</span>
+            </div>
+
+            <div className="formGroup">
+              <input
+                type="checkbox"
+                name="siteSeen"
+                checked={tourData.siteSeen}
+                onChange={(e) => setTourData((prevData) => ({
+                  ...prevData,
+                  siteSeen: e.target.checked
+                }))}
+              />
+              <span> Include Site Seen</span>
+            </div>
+
+            <div className="formGroup">
+              <input
+                type="checkbox"
+                name="welcomeDrinks"
+                checked={tourData.welcomeDrinks}
+                onChange={(e) => setTourData((prevData) => ({
+                  ...prevData,
+                  welcomeDrinks: e.target.checked
+                }))}
+              />
+              <span> Include Welcome Drinks</span>
+            </div>
+
+            <div className="formGroup">
+              <input
+                type="checkbox"
+                name="meals"
+                checked={tourData.meals}
+                onChange={(e) => setTourData((prevData) => ({
+                  ...prevData,
+                  meals: e.target.checked
+                }))}
+              />
+              <span> Include Meal</span>
+            </div>
+
+            <div className="formGroup">
+              <input
+                type="checkbox"
+                name="hotel"
+                checked={tourData.hotel}
+                onChange={(e) => setTourData((prevData) => ({
+                  ...prevData,
+                  hotel: e.target.checked
+                }))}
+              />
+              <span> Include Hotel</span>
+            </div>
+
+
                         <div className="formGroup">
                             <label>Overview</label>
                             <input
@@ -5379,7 +5431,7 @@ const NewTour = ({ title }) => {
                         <div className="formGroup">
                             <label>Duration</label>
                             <input
-                                type="text"
+                                type="number"
                                 name="duration"
                                 value={tourData.duration}
                                 onChange={handleChange}

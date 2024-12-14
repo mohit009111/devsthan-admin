@@ -27,8 +27,11 @@ const NewTour = ({ title }) => {
     overview: "",
     location: "",
     welcomeDrinks: false,
-    duration: "",
     transportation: false,
+    siteSeen:false,
+    meals:false,
+    hotel:false,
+    duration: null,
     groupSize: "",
     categories: [],
     attributes: [],
@@ -536,7 +539,7 @@ const NewTour = ({ title }) => {
     },
 
   });
-  { console.log(tourData.standardDetails.itineraries) }
+
   const handleDeleteMealPhoto = (itineraryIndex, photoIndex, mealType, tourDetailType) => {
     setTourData((prevState) => {
       const updatedItineraries = [...prevState[tourDetailType].itineraries];
@@ -1085,10 +1088,8 @@ const NewTour = ({ title }) => {
     }));
   };
   const handleChange = (e) => {
-
     const { name, value } = e.target;
-console.log(name)
-console.log(value)
+    console.log(value)
     setTourData((prev) => ({
       ...prev,
       [name]: value,
@@ -5808,10 +5809,74 @@ console.log(value)
                 Fixed Dates Tour
               </label>
             </div>
+            <div className="formGroup">
+              <input
+                type="checkbox"
+                name="transportation"
+                checked={tourData.transportation}
+                onChange={(e) => setTourData((prevData) => ({
+                  ...prevData,
+                  transportation: e.target.checked
+                }))}
+              />
+              <span> Include Transportation</span>
+            </div>
+
+            <div className="formGroup">
+              <input
+                type="checkbox"
+                name="siteSeen"
+                checked={tourData.siteSeen}
+                onChange={(e) => setTourData((prevData) => ({
+                  ...prevData,
+                  siteSeen: e.target.checked
+                }))}
+              />
+              <span> Include Site Seen</span>
+            </div>
+
+            <div className="formGroup">
+              <input
+                type="checkbox"
+                name="welcomeDrinks"
+                checked={tourData.welcomeDrinks}
+                onChange={(e) => setTourData((prevData) => ({
+                  ...prevData,
+                  welcomeDrinks: e.target.checked
+                }))}
+              />
+              <span> Include Welcome Drinks</span>
+            </div>
+
+            <div className="formGroup">
+              <input
+                type="checkbox"
+                name="meals"
+                checked={tourData.meals}
+                onChange={(e) => setTourData((prevData) => ({
+                  ...prevData,
+                  meals: e.target.checked
+                }))}
+              />
+              <span> Include Meal</span>
+            </div>
+
+            <div className="formGroup">
+              <input
+                type="checkbox"
+                name="hotel"
+                checked={tourData.hotel}
+                onChange={(e) => setTourData((prevData) => ({
+                  ...prevData,
+                  hotel: e.target.checked
+                }))}
+              />
+              <span> Include Hotel</span>
+            </div>
 
 
 
-            {/* Conditionally render additional fields for Fixed Dates Tour */}
+   
             {tourData.fixedDates.enabled && (
               <div className="fixedDatesBox">
                 <h4>Fixed Dates Tour Details</h4>
@@ -5880,7 +5945,7 @@ console.log(value)
             <div className="formGroup">
               <label>Duration</label>
               <input
-                type="text"
+                type="number"
                 name="duration"
                 value={tourData.duration}
                 onChange={handleChange}
@@ -5888,6 +5953,7 @@ console.log(value)
                 required
               />
             </div>
+            {console.log(tourData)}
 
             <div className="formGroup">
               <input
