@@ -794,7 +794,7 @@ const NewTour = ({ title }) => {
                 const responseAttribute = await fetch(`${BASE_URL}/api/attributes`);
                 const tour = await fetch(`${BASE_URL}/api/getTour/${id}`);
                 const tourJson = await tour.json();
-
+console.log(tourJson)
                 const responseADestinations = await fetch(`${BASE_URL}/api/getAllDestinations`);
                 const attributeData = await responseAttribute.json();
                 const destinationData = await responseADestinations.json();
@@ -1707,11 +1707,11 @@ const NewTour = ({ title }) => {
                                         multiple
                                         onChange={(e) => handleItineraryMealsChange(index, "dinner", "photos", Array.from(e.target.files), "standardDetails")}
                                     />
-                                    {itinerary.meals.dinner.photos?.length > 0 && (
+                                    {itinerary?.meals?.dinner?.photos?.length > 0 && (
                                         <div className="photo-preview">
                                             {itinerary.meals.dinner.photos.map((photo, photoIndex) => (
                                                 <div key={photoIndex} className="photo-container">
-                                                    <img src={URL.createObjectURL(photo)} alt={`Linch ${photoIndex}`} />
+                                                    <img src={photo} alt={`Linch ${photoIndex}`} />
                                                     <button
                                                         className="delete-photo"
                                                         onClick={() => handleDeleteMealPhoto(index, photoIndex, "dinnerPhotos", "standardDetails")}
