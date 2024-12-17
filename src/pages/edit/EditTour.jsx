@@ -26,7 +26,7 @@ const NewTour = ({ title }) => {
     const [tourData, setTourData] = useState({
 
     });
-    {console.log(tourData)}
+    { console.log(tourData) }
     const handleDeleteMealPhoto = (itineraryIndex, photoIndex, mealType, tourDetailType) => {
         setTourData((prevState) => {
             const updatedItineraries = [...prevState[tourDetailType].itineraries];
@@ -241,7 +241,7 @@ const NewTour = ({ title }) => {
             },
 
             meals: {
-                isIncluded:false,
+                isIncluded: false,
                 breakfast: {
                     isAvailable: false,
                     name: "",
@@ -794,7 +794,7 @@ const NewTour = ({ title }) => {
                 const responseAttribute = await fetch(`${BASE_URL}/api/attributes`);
                 const tour = await fetch(`${BASE_URL}/api/getTour/${id}`);
                 const tourJson = await tour.json();
-console.log(tourJson)
+                console.log(tourJson)
                 const responseADestinations = await fetch(`${BASE_URL}/api/getAllDestinations`);
                 const attributeData = await responseAttribute.json();
                 const destinationData = await responseADestinations.json();
@@ -815,39 +815,39 @@ console.log(tourJson)
     console.log(tourData)
     const handleSubmit = (e) => {
         e.preventDefault();
-    
+
         const handleSaveChanges = async () => {
             try {
                 setLoading(true);
-    
+
                 const cloudinaryURL = "https://api.cloudinary.com/v1_1/dmyzudtut/image/upload";
                 const uploadPreset = "ljqbwqy9";
-    
+
                 // Helper: Upload a single image to Cloudinary
                 const uploadImageToCloudinary = async (image) => {
                     if (!image) return null; // Skip invalid images
-    
+
                     // Skip if the image is already a URL
                     if (typeof image === "string" && image.startsWith("http")) {
                         return image;
                     }
-    
+
                     // If the image is a blob URL, fetch the blob and convert it to a File
                     if (typeof image === "string" && image.startsWith("blob:")) {
                         const blob = await fetch(image).then((res) => res.blob());
                         console.log("Converted Blob to File:", blob);
                         image = new File([blob], "image.jpg", { type: blob.type });
                     }
-    
+
                     const formData = new FormData();
                     formData.append("file", image);
                     formData.append("upload_preset", uploadPreset);
-    
+
                     const response = await fetch(cloudinaryURL, {
                         method: "POST",
                         body: formData,
                     });
-    
+
                     if (response.ok) {
                         const data = await response.json();
                         console.log("Uploaded to Cloudinary:", data.secure_url);
@@ -858,7 +858,7 @@ console.log(tourJson)
                         throw new Error(errorData.error?.message || "Failed to upload image");
                     }
                 };
-    
+
                 // Helper: Upload multiple images
                 const uploadImagesForField = async (photos = []) => {
                     if (!Array.isArray(photos)) return [];
@@ -878,11 +878,11 @@ console.log(tourJson)
                         })
                     );
                 };
-    
+
                 // Helper: Append uploaded image URLs to itinerary fields
                 const appendImagesToItinerary = async (itinerary) => {
                     if (!itinerary) return;
-    
+
                     const uploadFields = [
                         { key: "siteSeen.photos", photos: itinerary.siteSeen?.photos },
                         { key: "photos", photos: itinerary.photos },
@@ -891,7 +891,7 @@ console.log(tourJson)
                         { key: "tourManager.photo", photos: itinerary.tourManager?.photo },
                         { key: "activity.photos", photos: itinerary.activity?.photos },
                     ];
-    
+
                     const mealTypes = ["breakfast", "lunch", "dinner"];
                     mealTypes.forEach((mealType) => {
                         if (Array.isArray(itinerary.meals?.[mealType]?.photos)) {
@@ -901,7 +901,7 @@ console.log(tourJson)
                             });
                         }
                     });
-    
+
                     const transportModes = ["car", "bus", "train", "flight", "chopper"];
                     transportModes.forEach((mode) => {
                         if (Array.isArray(itinerary.transportation?.[mode]?.photos)) {
@@ -911,30 +911,30 @@ console.log(tourJson)
                             });
                         }
                     });
-    
+
                     console.log("Upload Fields Before Upload:", uploadFields);
-    
+
                     // Process each upload field
                     for (const field of uploadFields) {
                         if (Array.isArray(field.photos)) {
                             const uploadedUrls = await uploadImagesForField(field.photos);
                             console.log(`Uploaded photos for ${field.key}:`, uploadedUrls);
-    
+
                             // Update the respective field in the itinerary object
                             const keys = field.key.split(".");
                             let ref = itinerary;
-    
+
                             // Navigate to the correct nested field
                             for (let i = 0; i < keys.length - 1; i++) {
                                 ref = ref[keys[i]];
                             }
-    
+
                             // Set the uploaded URLs
                             ref[keys[keys.length - 1]] = uploadedUrls;
                         }
                     }
                 };
-    
+
                 // Process all itineraries for each category
                 const itineraryCategories = ["standardDetails", "deluxeDetails", "premiumDetails"];
                 for (const category of itineraryCategories) {
@@ -945,23 +945,23 @@ console.log(tourJson)
                         }
                     }
                 }
-    
+
                 // Upload banner image
                 if (tourData.bannerImage) {
                     tourData.bannerImage = await uploadImageToCloudinary(tourData.bannerImage);
                     console.log("Uploaded Banner Image:", tourData.bannerImage);
                 }
-    
+
                 // Upload additional images
                 if (tourData.images?.length) {
                     tourData.images = await uploadImagesForField(tourData.images);
                     console.log("Uploaded Additional Images:", tourData.images);
                 }
-    
+
                 // Prepare the tourData for submission
                 const cleanTourData = { ...tourData };
                 console.log("Final Payload Before Submission:", cleanTourData);
-    
+
                 // Submit data to the backend
                 const response = await fetch(`${BASE_URL}/api/createTours`, {
                     method: "POST",
@@ -970,7 +970,7 @@ console.log(tourJson)
                     },
                     body: JSON.stringify(cleanTourData),
                 });
-    
+
                 if (response.ok) {
                     const responseData = await response.json();
                     toast.success("Tour data saved successfully!");
@@ -987,10 +987,10 @@ console.log(tourJson)
                 setLoading(false);
             }
         };
-    
+
         handleSaveChanges();
     };
-    
+
     const renderStandardDetails = () => (
         <div className="standardDetails">
             <h3>Standard Tour Details</h3>
@@ -1612,23 +1612,28 @@ console.log(tourJson)
 
                                     {itinerary?.meals?.breakfast?.photos?.length > 0 && (
                                         <div className="photo-preview">
-                                            {itinerary.meals.breakfast.photos.map((photo, photoIndex) => (
-                                                <div key={photoIndex} className="photo-container">
-                                                    {/* If the item is a File object, use createObjectURL, otherwise assume it's a string URL */}
-                                                    <img
-                                                        src={photo instanceof File ? URL.createObjectURL(photo) : photo}
-                                                        alt={`Breakfast ${photoIndex}`}
-                                                    />
-                                                    <button
-                                                        className="delete-photo"
-                                                        onClick={() => handleDeleteMealPhoto(index, photoIndex, "breakfast", "standardDetails")}
-                                                    >
-                                                        &times;
-                                                    </button>
-                                                </div>
-                                            ))}
+                                            {itinerary.meals.breakfast.photos.map((photo, photoIndex) => {
+                                                // Check if the photo is a File object
+                                                const photoSrc = photo instanceof File ? URL.createObjectURL(photo) : photo;
+
+                                                return (
+                                                    <div key={photoIndex} className="photo-container">
+                                                        <img
+                                                            src={photoSrc}
+                                                            alt={`Breakfast ${photoIndex}`}
+                                                        />
+                                                        <button
+                                                            className="delete-photo"
+                                                            onClick={() => handleDeleteMealPhoto(index, photoIndex, "breakfast", "standardDetails")}
+                                                        >
+                                                            &times;
+                                                        </button>
+                                                    </div>
+                                                );
+                                            })}
                                         </div>
                                     )}
+
                                 </div>
                             )}
 
@@ -1661,19 +1666,27 @@ console.log(tourJson)
                                         multiple
                                         onChange={(e) => handleItineraryMealsChange(index, "lunch", "photos", Array.from(e.target.files), "standardDetails")}
                                     />
-                                    {itinerary.meals.lunch.photos?.length > 0 && (
+                                    {itinerary?.meals?.lunch?.photos?.length > 0 && (
                                         <div className="photo-preview">
-                                            {itinerary.meals.lunch.photos.map((photo, photoIndex) => (
-                                                <div key={photoIndex} className="photo-container">
-                                                    <img src={URL.createObjectURL(photo)} alt={`Linch ${photoIndex}`} />
-                                                    <button
-                                                        className="delete-photo"
-                                                        onClick={() => handleDeleteMealPhoto(index, photoIndex, "breakfastPhotos", "standardDetails")}
-                                                    >
-                                                        &times;
-                                                    </button>
-                                                </div>
-                                            ))}
+                                            {itinerary.meals.lunch.photos.map((photo, photoIndex) => {
+                                                // Check if the photo is a File object
+                                                const photoSrc = photo instanceof File ? URL.createObjectURL(photo) : photo;
+
+                                                return (
+                                                    <div key={photoIndex} className="photo-container">
+                                                        <img
+                                                            src={photoSrc}
+                                                            alt={`Lunch ${photoIndex}`}
+                                                        />
+                                                        <button
+                                                            className="delete-photo"
+                                                            onClick={() => handleDeleteMealPhoto(index, photoIndex, "lunch", "standardDetails")}
+                                                        >
+                                                            &times;
+                                                        </button>
+                                                    </div>
+                                                );
+                                            })}
                                         </div>
                                     )}
                                 </div>
@@ -1709,17 +1722,25 @@ console.log(tourJson)
                                     />
                                     {itinerary?.meals?.dinner?.photos?.length > 0 && (
                                         <div className="photo-preview">
-                                            {itinerary.meals.dinner.photos.map((photo, photoIndex) => (
-                                                <div key={photoIndex} className="photo-container">
-                                                    <img src={photo} alt={`Linch ${photoIndex}`} />
-                                                    <button
-                                                        className="delete-photo"
-                                                        onClick={() => handleDeleteMealPhoto(index, photoIndex, "dinnerPhotos", "standardDetails")}
-                                                    >
-                                                        &times;
-                                                    </button>
-                                                </div>
-                                            ))}
+                                            {itinerary.meals.dinner.photos.map((photo, photoIndex) => {
+                                                // Check if the photo is a File object
+                                                const photoSrc = photo instanceof File ? URL.createObjectURL(photo) : photo;
+
+                                                return (
+                                                    <div key={photoIndex} className="photo-container">
+                                                        <img
+                                                            src={photoSrc}
+                                                            alt={`Dinner ${photoIndex}`}
+                                                        />
+                                                        <button
+                                                            className="delete-photo"
+                                                            onClick={() => handleDeleteMealPhoto(index, photoIndex, "dinner", "standardDetails")}
+                                                        >
+                                                            &times;
+                                                        </button>
+                                                    </div>
+                                                );
+                                            })}
                                         </div>
                                     )}
                                 </div>
@@ -3033,21 +3054,25 @@ console.log(tourJson)
 
                                     {itinerary?.meals?.breakfast?.photos?.length > 0 && (
                                         <div className="photo-preview">
-                                            {itinerary.meals.breakfast.photos.map((photo, photoIndex) => (
-                                                <div key={photoIndex} className="photo-container">
-                                                    {/* If the item is a File object, use createObjectURL, otherwise assume it's a string URL */}
-                                                    <img
-                                                        src={photo instanceof File ? URL.createObjectURL(photo) : photo}
-                                                        alt={`Breakfast ${photoIndex}`}
-                                                    />
-                                                    <button
-                                                        className="delete-photo"
-                                                        onClick={() => handleDeleteMealPhoto(index, photoIndex, "breakfast", "deluxeDetails")}
-                                                    >
-                                                        &times;
-                                                    </button>
-                                                </div>
-                                            ))}
+                                            {itinerary.meals.breakfast.photos.map((photo, photoIndex) => {
+                                                // Check if the photo is a File object
+                                                const photoSrc = photo instanceof File ? URL.createObjectURL(photo) : photo;
+
+                                                return (
+                                                    <div key={photoIndex} className="photo-container">
+                                                        <img
+                                                            src={photoSrc}
+                                                            alt={`Breakfast ${photoIndex}`}
+                                                        />
+                                                        <button
+                                                            className="delete-photo"
+                                                            onClick={() => handleDeleteMealPhoto(index, photoIndex, "breakfast", "deluxeDetails")}
+                                                        >
+                                                            &times;
+                                                        </button>
+                                                    </div>
+                                                );
+                                            })}
                                         </div>
                                     )}
                                 </div>
@@ -3082,19 +3107,27 @@ console.log(tourJson)
                                         multiple
                                         onChange={(e) => handleItineraryMealsChange(index, "lunch", "photos", Array.from(e.target.files), "deluxeDetails")}
                                     />
-                                    {itinerary.meals.lunch.photos?.length > 0 && (
+                                    {itinerary?.meals?.lunch?.photos?.length > 0 && (
                                         <div className="photo-preview">
-                                            {itinerary.meals.lunch.photos.map((photo, photoIndex) => (
-                                                <div key={photoIndex} className="photo-container">
-                                                    <img src={URL.createObjectURL(photo)} alt={`Linch ${photoIndex}`} />
-                                                    <button
-                                                        className="delete-photo"
-                                                        onClick={() => handleDeleteMealPhoto(index, photoIndex, "breakfastPhotos", "deluxeDetails")}
-                                                    >
-                                                        &times;
-                                                    </button>
-                                                </div>
-                                            ))}
+                                            {itinerary.meals.lunch.photos.map((photo, photoIndex) => {
+                                                // Check if the photo is a File object
+                                                const photoSrc = photo instanceof File ? URL.createObjectURL(photo) : photo;
+
+                                                return (
+                                                    <div key={photoIndex} className="photo-container">
+                                                        <img
+                                                            src={photoSrc}
+                                                            alt={`Lunch ${photoIndex}`}
+                                                        />
+                                                        <button
+                                                            className="delete-photo"
+                                                            onClick={() => handleDeleteMealPhoto(index, photoIndex, "lunch", "deluxeDetails")}
+                                                        >
+                                                            &times;
+                                                        </button>
+                                                    </div>
+                                                );
+                                            })}
                                         </div>
                                     )}
                                 </div>
@@ -3128,19 +3161,27 @@ console.log(tourJson)
                                         multiple
                                         onChange={(e) => handleItineraryMealsChange(index, "dinner", "photos", Array.from(e.target.files), "deluxeDetails")}
                                     />
-                                    {itinerary.meals.dinner.photos?.length > 0 && (
+                                    {itinerary?.meals?.dinner?.photos?.length > 0 && (
                                         <div className="photo-preview">
-                                            {itinerary.meals.dinner.photos.map((photo, photoIndex) => (
-                                                <div key={photoIndex} className="photo-container">
-                                                    <img src={URL.createObjectURL(photo)} alt={`Linch ${photoIndex}`} />
-                                                    <button
-                                                        className="delete-photo"
-                                                        onClick={() => handleDeleteMealPhoto(index, photoIndex, "dinnerPhotos", "deluxeDetails")}
-                                                    >
-                                                        &times;
-                                                    </button>
-                                                </div>
-                                            ))}
+                                            {itinerary.meals.dinner.photos.map((photo, photoIndex) => {
+                                                // Check if the photo is a File object
+                                                const photoSrc = photo instanceof File ? URL.createObjectURL(photo) : photo;
+
+                                                return (
+                                                    <div key={photoIndex} className="photo-container">
+                                                        <img
+                                                            src={photoSrc}
+                                                            alt={`Dinner ${photoIndex}`}
+                                                        />
+                                                        <button
+                                                            className="delete-photo"
+                                                            onClick={() => handleDeleteMealPhoto(index, photoIndex, "dinner", "deluxeDetails")}
+                                                        >
+                                                            &times;
+                                                        </button>
+                                                    </div>
+                                                );
+                                            })}
                                         </div>
                                     )}
                                 </div>
@@ -4448,24 +4489,27 @@ console.log(tourJson)
                                         multiple
                                         onChange={(e) => handleItineraryMealsChange(index, "breakfast", "photos", Array.from(e.target.files), "premiumDetails")}
                                     />
-
                                     {itinerary?.meals?.breakfast?.photos?.length > 0 && (
                                         <div className="photo-preview">
-                                            {itinerary.meals.breakfast.photos.map((photo, photoIndex) => (
-                                                <div key={photoIndex} className="photo-container">
-                                                    {/* If the item is a File object, use createObjectURL, otherwise assume it's a string URL */}
-                                                    <img
-                                                        src={photo instanceof File ? URL.createObjectURL(photo) : photo}
-                                                        alt={`Breakfast ${photoIndex}`}
-                                                    />
-                                                    <button
-                                                        className="delete-photo"
-                                                        onClick={() => handleDeleteMealPhoto(index, photoIndex, "breakfast", "premiumDetails")}
-                                                    >
-                                                        &times;
-                                                    </button>
-                                                </div>
-                                            ))}
+                                            {itinerary.meals.breakfast.photos.map((photo, photoIndex) => {
+                                                // Check if the photo is a File object
+                                                const photoSrc = photo instanceof File ? URL.createObjectURL(photo) : photo;
+
+                                                return (
+                                                    <div key={photoIndex} className="photo-container">
+                                                        <img
+                                                            src={photoSrc}
+                                                            alt={`Breakfast ${photoIndex}`}
+                                                        />
+                                                        <button
+                                                            className="delete-photo"
+                                                            onClick={() => handleDeleteMealPhoto(index, photoIndex, "breakfast", "premiumDetails")}
+                                                        >
+                                                            &times;
+                                                        </button>
+                                                    </div>
+                                                );
+                                            })}
                                         </div>
                                     )}
                                 </div>
@@ -4500,19 +4544,27 @@ console.log(tourJson)
                                         multiple
                                         onChange={(e) => handleItineraryMealsChange(index, "lunch", "photos", Array.from(e.target.files), "premiumDetails")}
                                     />
-                                    {itinerary.meals.lunch.photos?.length > 0 && (
+                                   {itinerary?.meals?.lunch?.photos?.length > 0 && (
                                         <div className="photo-preview">
-                                            {itinerary.meals.lunch.photos.map((photo, photoIndex) => (
-                                                <div key={photoIndex} className="photo-container">
-                                                    <img src={URL.createObjectURL(photo)} alt={`Linch ${photoIndex}`} />
-                                                    <button
-                                                        className="delete-photo"
-                                                        onClick={() => handleDeleteMealPhoto(index, photoIndex, "breakfastPhotos", "premiumDetails")}
-                                                    >
-                                                        &times;
-                                                    </button>
-                                                </div>
-                                            ))}
+                                            {itinerary.meals.lunch.photos.map((photo, photoIndex) => {
+                                                // Check if the photo is a File object
+                                                const photoSrc = photo instanceof File ? URL.createObjectURL(photo) : photo;
+
+                                                return (
+                                                    <div key={photoIndex} className="photo-container">
+                                                        <img
+                                                            src={photoSrc}
+                                                            alt={`Lunch ${photoIndex}`}
+                                                        />
+                                                        <button
+                                                            className="delete-photo"
+                                                            onClick={() => handleDeleteMealPhoto(index, photoIndex, "lunch", "premiumDetails")}
+                                                        >
+                                                            &times;
+                                                        </button>
+                                                    </div>
+                                                );
+                                            })}
                                         </div>
                                     )}
                                 </div>
@@ -4546,19 +4598,27 @@ console.log(tourJson)
                                         multiple
                                         onChange={(e) => handleItineraryMealsChange(index, "dinner", "photos", Array.from(e.target.files), "premiumDetails")}
                                     />
-                                    {itinerary.meals.dinner.photos?.length > 0 && (
+                                    {itinerary?.meals?.dinner?.photos?.length > 0 && (
                                         <div className="photo-preview">
-                                            {itinerary.meals.dinner.photos.map((photo, photoIndex) => (
-                                                <div key={photoIndex} className="photo-container">
-                                                    <img src={URL.createObjectURL(photo)} alt={`Linch ${photoIndex}`} />
-                                                    <button
-                                                        className="delete-photo"
-                                                        onClick={() => handleDeleteMealPhoto(index, photoIndex, "dinnerPhotos", "premiumDetails")}
-                                                    >
-                                                        &times;
-                                                    </button>
-                                                </div>
-                                            ))}
+                                            {itinerary.meals.dinner.photos.map((photo, photoIndex) => {
+                                                // Check if the photo is a File object
+                                                const photoSrc = photo instanceof File ? URL.createObjectURL(photo) : photo;
+
+                                                return (
+                                                    <div key={photoIndex} className="photo-container">
+                                                        <img
+                                                            src={photoSrc}
+                                                            alt={`Dinner ${photoIndex}`}
+                                                        />
+                                                        <button
+                                                            className="delete-photo"
+                                                            onClick={() => handleDeleteMealPhoto(index, photoIndex, "dinner", "premiumDetails")}
+                                                        >
+                                                            &times;
+                                                        </button>
+                                                    </div>
+                                                );
+                                            })}
                                         </div>
                                     )}
                                 </div>
