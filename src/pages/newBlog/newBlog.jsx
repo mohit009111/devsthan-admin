@@ -8,7 +8,9 @@ import 'react-quill/dist/quill.snow.css';
 import { BASE_URL } from '../../utils/headers';
 import { v4 as uuidv4 } from 'uuid';
 import { toast } from 'react-toastify';
+import { RotatingLines } from 'react-loader-spinner';
 const NewBlog = ({ title }) => {
+    const [loading, setLoading] = useState(false);
     // State to store form input values
     const [imagePreview, setImagePreview] = useState(null); // State for image preview
     const [formData, setFormData] = useState({
@@ -45,6 +47,7 @@ const NewBlog = ({ title }) => {
     // Handle form submission
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoading(true);
         try {
             // 1. Upload image to Cloudinary
             const uploadImageToCloudinary = async (image) => {
@@ -101,6 +104,9 @@ const NewBlog = ({ title }) => {
         } catch (error) {
             console.error('Error creating blog:', error);
         }
+     finally {
+        setLoading(false);
+      }
     };
     
 
@@ -149,7 +155,22 @@ const NewBlog = ({ title }) => {
                         placeholder="Enter blog description"
                     />
                 </div>
-                        <button type="submit">Create Blogs</button>
+                        {loading ? (
+                                                   <RotatingLines
+                                                       visible={true}
+                                                       height="60"
+                                                       width="60"
+                                                       color="grey"
+                                                       strokeWidth="5"
+                                                       animationDuration="0.75"
+                                                       ariaLabel="rotating-lines-loading"
+                                                       wrapperStyle={{}}
+                                                       wrapperClass=""
+                                                   />
+                                               ) : (
+                                                   <button type="submit">Create Blog</button>
+                                               )}
+                       
                     </form>
                 </div>
             </div>
