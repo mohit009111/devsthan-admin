@@ -6,8 +6,10 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { BASE_URL } from '../../utils/headers';
 import { FaTrash } from 'react-icons/fa';
+import { RotatingLines } from 'react-loader-spinner';
 
 const NewBlog = ({ title }) => {
+    const [loading, setLoading] = useState({});
     const [banners, setBanners] = useState({
         homeBanner: [],
         aboutUsBanner: [],
@@ -18,12 +20,13 @@ const NewBlog = ({ title }) => {
         blogsBanner: [],
         toursBanner: [],
     });
+    console.log(banners)
     const [validationErrors, setValidationErrors] = useState({});
     const handleDeleteImage = async (type, index) => {
-        
+
         try {
 
-            const imageUrl = banners[type][index];   
+            const imageUrl = banners[type][index];
             const response = await fetch(`${BASE_URL}/api/deleteBannerImage`, {
                 method: "DELETE",
                 headers: {
@@ -37,11 +40,11 @@ const NewBlog = ({ title }) => {
             } else {
                 const errorData = await response.json();
                 console.error("Backend error:", errorData);
-              
+
             }
         } catch (error) {
             console.error("Error deleting image:", error);
-       
+
         }
     };
     // Fetch existing banner images from the backend
@@ -73,7 +76,7 @@ const NewBlog = ({ title }) => {
 
         fetchBanners();
     }, []);
-    console.log(banners)
+
     const handleFileChange = (e, type, multiple = false) => {
         const files = e.target.files;
         let updatedFiles = multiple
@@ -88,10 +91,10 @@ const NewBlog = ({ title }) => {
     const getPreviewUrls = (type) => {
         const banner = banners[type];
 
-      
+
         if (!banner || banner.length === 0) return [];
 
-      
+
         return banner.map((file) => {
             if (file instanceof File) {
                 return URL.createObjectURL(file); // Create URL for File objects
@@ -101,15 +104,16 @@ const NewBlog = ({ title }) => {
     };
 
     const handleSubmit = async (type) => {
-        console.log(type);
+        setLoading((prev) => ({ ...prev, [type]: true })); 
         const bannerData = banners[type];
-
         const cloudinaryURL = "https://api.cloudinary.com/v1_1/dmyzudtut/image/upload";
         const uploadPreset = "ljqbwqy9";
 
         // Helper: Upload a single image to Cloudinary
         const uploadImageToCloudinary = async (image) => {
             try {
+                console.log("Uploading image to Cloudinary:", image);
+
                 const formData = new FormData();
                 formData.append("file", image);
                 formData.append("upload_preset", uploadPreset);
@@ -119,15 +123,15 @@ const NewBlog = ({ title }) => {
                     body: formData,
                 });
 
-                if (response.ok) {
-                    const data = await response.json();
-                    return data.secure_url;
-                } else {
+                if (!response.ok) {
                     const errorData = await response.json();
-                    throw new Error(errorData.error?.message || "Failed to upload image");
+                    throw new Error(errorData.error?.message || "Cloudinary upload failed");
                 }
+
+                const data = await response.json();
+                return data.secure_url;
             } catch (error) {
-                console.error("Error uploading to Cloudinary:", error);
+                console.error("Error uploading to Cloudinary:", error.message);
                 throw error;
             }
         };
@@ -138,17 +142,23 @@ const NewBlog = ({ title }) => {
             if (Array.isArray(bannerData)) {
                 // Separate new images (File instances) from already uploaded URLs
                 const newImages = bannerData.filter((image) => image instanceof File);
+                const existingUrls = bannerData.filter((image) => typeof image === 'string');
 
-                // Upload only the new images
+                // Upload only the new images to Cloudinary
                 for (const image of newImages) {
-                    const url = await uploadImageToCloudinary(image);
-                    uploadedImageUrls.push(url);
+                    try {
+                        const uploadedUrl = await uploadImageToCloudinary(image);
+                        uploadedImageUrls.push(uploadedUrl);
+                    } catch (uploadError) {
+                        console.error("Failed to upload one of the images:", uploadError.message);
+                    }
                 }
 
-                // Add already existing URLs to the final array
-                const existingUrls = bannerData.filter((image) => typeof image === 'string');
+                // Merge uploaded URLs and existing URLs
                 uploadedImageUrls.push(...existingUrls);
             }
+
+            console.log("Final Image URLs to send to backend:", uploadedImageUrls);
 
             // Send the uploaded and existing URLs to the backend
             const response = await fetch(`${BASE_URL}/api/addBannerImages?page=${type}`, {
@@ -165,14 +175,18 @@ const NewBlog = ({ title }) => {
                 alert(`${type} banner uploaded successfully!`);
             } else {
                 const errorData = await response.json();
-                console.error("Backend error:", errorData);
+                console.error("Backend error:", errorData.message || "Unknown error occurred");
                 alert(`Failed to save ${type} banner.`);
             }
         } catch (error) {
-            console.error("Error in handleSubmit:", error);
-            alert("An error occurred while uploading the banner.");
+            console.error("Error in handleSubmit:", error.message);
+            alert("An error occurred while uploading the banner. Check console for details.");
+        }
+        finally {
+            setLoading((prev) => ({ ...prev, [type]: false })); // Stop loading
         }
     };
+
 
     return (
         <div className="new">
@@ -194,19 +208,19 @@ const NewBlog = ({ title }) => {
                             />
                             {validationErrors.homeBanner && <div className="error">{validationErrors.homeBanner}</div>}
                             <div className="preview">
-                {getPreviewUrls('homeBanner').map((url, index) => (
-                    <div key={index} className="preview-image-container">
-                        <img src={url} alt={`Preview ${index}`} />
-                        <button
-                            className="delete-banner"
-                            onClick={() => handleDeleteImage('homeBanner', index)}
-                            aria-label={`Delete Preview ${index}`}
-                        >
-                            <FaTrash />
-                        </button>
-                    </div>
-                ))}
-            </div>
+                                {getPreviewUrls('homeBanner').map((url, index) => (
+                                    <div key={index} className="preview-image-container">
+                                        <img src={url} alt={`Preview ${index}`} />
+                                        <button
+                                            className="delete-banner"
+                                            onClick={() => handleDeleteImage('homeBanner', index)}
+                                            aria-label={`Delete Preview ${index}`}
+                                        >
+                                            <FaTrash />
+                                        </button>
+                                    </div>
+                                ))}
+                            </div>
                             <button
                                 type="button"
                                 onClick={() => handleSubmit('homeBanner')}
@@ -232,25 +246,40 @@ const NewBlog = ({ title }) => {
                                 />
                                 {validationErrors[id] && <div className="error">{validationErrors[id]}</div>}
                                 <div className="preview">
-                {getPreviewUrls(id).map((url, index) => (
-                    <div key={index} className="preview-image-container">
-                        <img src={url} alt={`Preview ${label} ${index}`} />
-                        <button
-                            className="delete-banner"
-                            onClick={() => handleDeleteImage(id, index)}
-                            aria-label={`Delete ${label} Preview ${index}`}
-                        >
-                            <FaTrash />
-                        </button>
-                    </div>
-                ))}
-            </div>
+                                    {getPreviewUrls(id).map((url, index) => (
+                                        <div key={index} className="preview-image-container">
+                                            <img src={url} alt={`Preview ${label} ${index}`} />
+                                            <button
+                                                className="delete-banner"
+                                                onClick={() => handleDeleteImage(id, index)}
+                                                aria-label={`Delete ${label} Preview ${index}`}
+                                            >
+                                                <FaTrash />
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
                                 <button
-                                    type="button"
-                                    onClick={() => handleSubmit(id)}
-                                >
-                                    Save {label}
-                                </button>
+    type="button"
+    onClick={() => handleSubmit(id)}
+    disabled={loading[id]} // Disable the button while loading
+>
+    {loading[id] ? (
+          <RotatingLines
+                                                             visible={true}
+                                                             height="60"
+                                                             width="60"
+                                                             color="grey"
+                                                             strokeWidth="5"
+                                                             animationDuration="0.75"
+                                                             ariaLabel="rotating-lines-loading"
+                                                             wrapperStyle={{}}
+                                                             wrapperClass=""
+                                                         />
+    ) : (
+        `Save ${label}`
+    )}
+</button>
                             </div>
                         ))}
                     </form>
