@@ -28,9 +28,9 @@ const NewTour = ({ title }) => {
     location: "",
     welcomeDrinks: false,
     transportation: false,
-    siteSeen:false,
-    meals:false,
-    hotel:false,
+    siteSeen: false,
+    meals: false,
+    hotel: false,
     duration: null,
     groupSize: "",
     categories: [],
@@ -369,9 +369,9 @@ const NewTour = ({ title }) => {
         {
           person: 1,
           price: "",
-          rooms:""
+          rooms: ""
         }
-        
+
       ]
       ,
       cancellationPolicy: "",
@@ -533,9 +533,9 @@ const NewTour = ({ title }) => {
         {
           person: 1,
           price: "",
-          rooms:""
+          rooms: ""
         }
-        
+
       ]
       ,
       cancellationPolicy: "",
@@ -837,6 +837,23 @@ const NewTour = ({ title }) => {
       };
     });
   };
+  const handleItineraryDescriptionChange = (index, field, value, category) => {
+    if (!tourData[category] || !tourData[category].itineraries) {
+        console.error(`Category "${category}" or itineraries are undefined.`);
+        return;
+    }
+
+    const updatedItineraries = [...tourData[category].itineraries];
+    updatedItineraries[index][field] = value;
+
+    setTourData((prevState) => ({
+        ...prevState,
+        [category]: {
+            ...prevState[category],
+            itineraries: updatedItineraries,
+        },
+    }));
+};
   const handleDeleteHotelPhoto = (itineraryIndex, photoIndex, itineraryType) => {
     setTourData((prevData) => {
       const updatedItineraries = [...prevData.standardDetails.itineraries];
@@ -1083,7 +1100,7 @@ const NewTour = ({ title }) => {
   const handletermsChange = (value, name) => {
     // Check if 'value' and 'name' are correctly passed
     console.log(name, value);
-    
+
     // Update state based on the input name
     setTourData((prev) => ({
       ...prev,
@@ -1098,7 +1115,7 @@ const NewTour = ({ title }) => {
       [name]: value,
     }));
   };
-  
+
   const handleItineraryPhotos = (index, files, section) => {
     const newPhotos = Array.from(files).map((file) => URL.createObjectURL(file));
 
@@ -1541,12 +1558,12 @@ const NewTour = ({ title }) => {
       <div className="formGroup">
         <label>Standard Cancellation Policy</label>
         <ReactQuill
-                    name="cancellationPolicy"
-                    value={tourData?.standardDetails?.cancellationPolicy || ''}
-                    onChange={(value) => handleFieldChange('cancellationPolicy', value, 'standardDetails')}
-                    placeholder="Enter cancellation policy"
-                />
-      
+          name="cancellationPolicy"
+          value={tourData?.standardDetails?.cancellationPolicy || ''}
+          onChange={(value) => handleFieldChange('cancellationPolicy', value, 'standardDetails')}
+          placeholder="Enter cancellation policy"
+        />
+
 
       </div>
 
@@ -1671,12 +1688,18 @@ const NewTour = ({ title }) => {
               onChange={(e) => handleItineraryChange(index, "title", e.target.value, "standardDetails")}
               placeholder="Enter itinerary title"
             />
-            <input
+                 <ReactQuill
+                                                name="description"
+                                                value={itinerary.description}
+                                                onChange={(e) => handleItineraryDescriptionChange(index, "description", e.target.value, "standardDetails")}
+                                                placeholder="Enter itinerary description"
+                                               />
+            {/* <input
               name="description"
               value={itinerary.description}
               onChange={(e) => handleItineraryChange(index, "description", e.target.value, "standardDetails")}
               placeholder="Enter itinerary description"
-            />
+            /> */}
 
 
 
@@ -2936,7 +2959,7 @@ const NewTour = ({ title }) => {
               }
               placeholder={`Price for ${priceObj.person} person`}
             />
-              <input
+            <input
               type="number"
               value={priceObj.rooms}
               onChange={(e) =>
@@ -3095,12 +3118,12 @@ const NewTour = ({ title }) => {
               onChange={(e) => handleItineraryChange(index, "title", e.target.value, "deluxeDetails")}
               placeholder="Enter itinerary title"
             />
-            <input
-              name="description"
-              value={itinerary.description}
-              onChange={(e) => handleItineraryChange(index, "description", e.target.value, "deluxeDetails")}
-              placeholder="Enter itinerary description"
-            />
+            <ReactQuill
+                                           name="description"
+                                           value={itinerary.description}
+                                           onChange={(e) => handleItineraryDescriptionChange(index, "description", e.target.value, "deluxeDetails")}
+                                           placeholder="Enter itinerary description"
+                                          />
             <div className="labels">
               <label>
                 Welcome Drinks
@@ -4365,7 +4388,7 @@ const NewTour = ({ title }) => {
               }
               placeholder={`Price for ${priceObj.person} person`}
             />
-              <input
+            <input
               type="number"
               value={priceObj.rooms}
               onChange={(e) =>
@@ -4512,12 +4535,12 @@ const NewTour = ({ title }) => {
               onChange={(e) => handleItineraryChange(index, "title", e.target.value, "premiumDetails")}
               placeholder="Enter itinerary title"
             />
-            <input
-              name="description"
-              value={itinerary.description}
-              onChange={(e) => handleItineraryChange(index, "description", e.target.value, "premiumDetails")}
-              placeholder="Enter itinerary description"
-            />
+            <ReactQuill
+                                           name="description"
+                                           value={itinerary.description}
+                                           onChange={(e) => handleItineraryDescriptionChange(index, "description", e.target.value, "premiumDetails")}
+                                           placeholder="Enter itinerary description"
+                                          />
 
             <div className="labels">
               <label>
@@ -5879,7 +5902,7 @@ const NewTour = ({ title }) => {
 
 
 
-   
+
             {tourData.fixedDates.enabled && (
               <div className="fixedDatesBox">
                 <h4>Fixed Dates Tour Details</h4>
@@ -6004,7 +6027,7 @@ const NewTour = ({ title }) => {
             <div className="formGroup">
               <label>Terms and Conditions</label>
               <ReactQuill
-                 type="text"
+                type="text"
                 name="termsAndConditions"
                 value={tourData.termsAndConditions}
                 onChange={(value) => handletermsChange(value, "termsAndConditions")}

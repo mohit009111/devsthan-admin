@@ -17,6 +17,7 @@ import BlogsList from "./pages/blogs/blogsList";
 import InquiriesList from './pages/inquiries/inquiryList'
 import AddBanners from './pages/addBanners/addBanners'
 import EditTour from "./pages/edit/EditTour";
+import EditDestination from "./pages/editDestination/editDestination";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { productInputs, userInputs } from "./formSource";
 import "./style/dark.scss";
@@ -115,6 +116,9 @@ function App() {
             <Route index element={<Orders />} />
           
           </Route>
+          <Route path="/admin/editDestination/:id"
+            element={<EditDestination title="Edit Tour" />}
+          ></Route>
           <Route path="/admin/banners">
             <Route index element={<AddBanners />} />
            
@@ -125,6 +129,7 @@ function App() {
           <Route path="/admin/editTour/:id"
             element={<EditTour title="Edit Tour" />}
           >
+               
 
 
           </Route>

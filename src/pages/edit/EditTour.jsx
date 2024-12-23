@@ -682,6 +682,23 @@ const NewTour = ({ title }) => {
             },
         }));
     };
+    const handleItineraryDescriptionChange = (index, field, value, category) => {
+        if (!tourData[category] || !tourData[category].itineraries) {
+            console.error(`Category "${category}" or itineraries are undefined.`);
+            return;
+        }
+    
+        const updatedItineraries = [...tourData[category].itineraries];
+        updatedItineraries[index][field] = value;
+    
+        setTourData((prevState) => ({
+            ...prevState,
+            [category]: {
+                ...prevState[category],
+                itineraries: updatedItineraries,
+            },
+        }));
+    };
     const handleFileChange = (event) => {
         const files = Array.from(event.target.files);
 
@@ -1173,12 +1190,12 @@ const NewTour = ({ title }) => {
                             onChange={(e) => handleItineraryChange(index, "title", e.target.value, "standardDetails")}
                             placeholder="Enter itinerary title"
                         />
-                        <input
-                            name="description"
-                            value={itinerary.description}
-                            onChange={(e) => handleItineraryChange(index, "description", e.target.value, "standardDetails")}
-                            placeholder="Enter itinerary description"
-                        />
+                        <ReactQuill
+                                name="description"
+                                value={itinerary.description}
+                                onChange={(e) => handleItineraryDescriptionChange(index, "description", e.target.value, "standardDetails")}
+                                placeholder="Enter itinerary description"
+                               />
 
 
 
@@ -2618,12 +2635,12 @@ const NewTour = ({ title }) => {
                             onChange={(e) => handleItineraryChange(index, "title", e.target.value, "deluxeDetails")}
                             placeholder="Enter itinerary title"
                         />
-                        <input
-                            name="description"
-                            value={itinerary.description}
-                            onChange={(e) => handleItineraryChange(index, "description", e.target.value, "deluxeDetails")}
-                            placeholder="Enter itinerary description"
-                        />
+                        <ReactQuill
+                                name="description"
+                                value={itinerary.description}
+                                onChange={(e) => handleItineraryDescriptionChange(index, "description", e.target.value, "deluxeDetails")}
+                                placeholder="Enter itinerary description"
+                               />
                         <div className="labels">
                             <label>
                                 Welcome Drinks
@@ -4054,12 +4071,12 @@ const NewTour = ({ title }) => {
                             onChange={(e) => handleItineraryChange(index, "title", e.target.value, "premiumDetails")}
                             placeholder="Enter itinerary title"
                         />
-                        <input
-                            name="description"
-                            value={itinerary.description}
-                            onChange={(e) => handleItineraryChange(index, "description", e.target.value, "premiumDetails")}
-                            placeholder="Enter itinerary description"
-                        />
+                     <ReactQuill
+                                name="description"
+                                value={itinerary.description}
+                                onChange={(e) => handleItineraryDescriptionChange(index, "description", e.target.value, "premiumDetails")}
+                                placeholder="Enter itinerary description"
+                               />
 
                         <div className="labels">
                             <label>

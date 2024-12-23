@@ -27,8 +27,9 @@ const Datatable = () => {
         },
       });
       const data = await response.json();
-
+console.log(data)
       const mappedData = data.map((tour, index) => ({
+      
         id: tour.uuid || index,
         name: tour.country.label,
         location: tour.state.label,
@@ -83,7 +84,7 @@ console.log(allTours)
       renderCell: () => {
         return (
           <div className="cellAction">
-            <Link to={`/editTour/${allTours[0].id}`} style={{ textDecoration: "none" }}>
+            <Link to={`/admin/editDestination/${allTours[0].id}`} style={{ textDecoration: "none" }}>
               <div className="viewButton">Edit</div>
             </Link>
             <div
