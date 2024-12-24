@@ -1190,12 +1190,13 @@ const NewTour = ({ title }) => {
                             onChange={(e) => handleItineraryChange(index, "title", e.target.value, "standardDetails")}
                             placeholder="Enter itinerary title"
                         />
-                        <ReactQuill
-                                name="description"
-                                value={itinerary.description}
-                                onChange={(e) => handleItineraryDescriptionChange(index, "description", e.target.value, "standardDetails")}
-                                placeholder="Enter itinerary description"
-                               />
+                       <ReactQuill
+    name="description"
+    value={itinerary.description}
+    onChange={(value) => handleItineraryDescriptionChange(index, "description", value, "standardDetails")}
+    placeholder="Enter itinerary description"
+/>
+
 
 
 
@@ -2635,12 +2636,13 @@ const NewTour = ({ title }) => {
                             onChange={(e) => handleItineraryChange(index, "title", e.target.value, "deluxeDetails")}
                             placeholder="Enter itinerary title"
                         />
-                        <ReactQuill
-                                name="description"
-                                value={itinerary.description}
-                                onChange={(e) => handleItineraryDescriptionChange(index, "description", e.target.value, "deluxeDetails")}
-                                placeholder="Enter itinerary description"
-                               />
+                      <ReactQuill
+    name="description"
+    value={itinerary.description}
+    onChange={(value) => handleItineraryDescriptionChange(index, "description", value, "deluxeDetails")}
+    placeholder="Enter itinerary description"
+/>
+
                         <div className="labels">
                             <label>
                                 Welcome Drinks
@@ -4071,13 +4073,12 @@ const NewTour = ({ title }) => {
                             onChange={(e) => handleItineraryChange(index, "title", e.target.value, "premiumDetails")}
                             placeholder="Enter itinerary title"
                         />
-                     <ReactQuill
-                                name="description"
-                                value={itinerary.description}
-                                onChange={(e) => handleItineraryDescriptionChange(index, "description", e.target.value, "premiumDetails")}
-                                placeholder="Enter itinerary description"
-                               />
-
+                   <ReactQuill
+    name="description"
+    value={itinerary.description}
+    onChange={(value) => handleItineraryDescriptionChange(index, "description", value, "premiumDetails")}
+    placeholder="Enter itinerary description"
+/>
                         <div className="labels">
                             <label>
                                 Tour Manager:
