@@ -7,7 +7,7 @@ import 'react-quill/dist/quill.snow.css';
 import { BASE_URL } from '../../utils/headers';
 import { FaTrash } from 'react-icons/fa';
 import { RotatingLines } from 'react-loader-spinner';
-import { toast } from 'react-hot-toast';
+import { toast,Toaster } from 'react-hot-toast';
 const NewBlog = ({ title }) => {
     const [loading, setLoading] = useState({});
     const [banners, setBanners] = useState({
@@ -133,9 +133,8 @@ const NewBlog = ({ title }) => {
             file instanceof File ? URL.createObjectURL(file) : file
         );
     };
-    const handleSubmit = async (type, event) => {
-        event.preventDefault();  // Prevent the default page reload behavior
-    
+
+    const handleSubmit = async (type) => {
         setLoading((prev) => ({ ...prev, [type]: true }));
     
         const devices = ['desktop', 'mobile', 'tablet'];
@@ -268,7 +267,7 @@ const NewBlog = ({ title }) => {
                 </div>
 
             </div>
-   
+              <Toaster />
         </div>
     );
 };
