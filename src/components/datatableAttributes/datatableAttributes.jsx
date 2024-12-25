@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './datatableAttributes.css'; // Your styling file
 import { BASE_URL } from '../../utils/headers';
-import { toast } from 'react-toastify';
+import { toast,ToastContainer } from 'react-hot-toast';
 import 'react-toastify/dist/ReactToastify.css';
 
 const DatatableAttributes = () => {

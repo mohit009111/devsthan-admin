@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './customizedQueries.css';
 import { BASE_URL } from '../../utils/headers';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast,Toaster  } from 'react-hot-toast';
 
 const DatatableCustomizedQuery = () => {
     const [queries, setQueries] = useState([]);
@@ -55,7 +55,7 @@ const DatatableCustomizedQuery = () => {
 
     return (
         <div className="query-container">
-            <ToastContainer position="top-right" autoClose={3000} />
+            <Toaster position="top-right" autoClose={3000} />
             <h2>Customized Queries</h2>
             {error ? (
                 <p className="error-message">{error}</p>

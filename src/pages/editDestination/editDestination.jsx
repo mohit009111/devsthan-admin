@@ -8,7 +8,7 @@ import { BASE_URL } from '../../utils/headers';
 import { RotatingLines } from 'react-loader-spinner'
 import { useParams } from "react-router-dom";
 import { v4 as uuidv4 } from 'uuid';
-import { toast } from 'react-toastify';
+import { toast,ToastContainer } from 'react-hot-toast';
 const NewDestination = ({ title }) => {
     const { id } = useParams();
     const [countries, setCountries] = useState([]);

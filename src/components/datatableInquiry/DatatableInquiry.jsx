@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { BASE_URL } from '../../utils/headers';
 import './DatatableInquiry.css'; // Import the CSS file directly
-import { ToastContainer, toast } from 'react-toastify';
+import { toast,Toaster} from 'react-hot-toast';
 
 const DatatableInquiry = () => {
   const [contacts, setContacts] = useState([]);
@@ -67,7 +67,7 @@ const DatatableInquiry = () => {
 
   return (
     <div className="table-container">
-      <ToastContainer position="top-right" autoClose={3000} />
+      <Toaster position="top-right" autoClose={3000} />
       <h2 className="table-title">Inquiry List</h2>
       <table className="custom-table">
         <thead>

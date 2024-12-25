@@ -7,7 +7,7 @@ import { Country, State, City } from 'country-state-city';
 import { BASE_URL } from '../../utils/headers';
 import { RotatingLines } from 'react-loader-spinner'
 import { v4 as uuidv4 } from 'uuid';
-import { toast } from 'react-toastify';
+import { toast,ToastContainer } from 'react-hot-toast';
 const NewDestination = ({ title }) => {
     const [countries, setCountries] = useState([]);
     const [states, setStates] = useState([]);

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { BASE_URL } from '../../utils/headers';
 import './DatatableContacts.css';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast,Toaster } from 'react-hot-toast';
 
 const DatatableContacts = () => {
   const [contacts, setContacts] = useState([]);
@@ -33,7 +33,7 @@ const DatatableContacts = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ id, readStatus: !currentStatus }),  // Toggle the read status
+        body: JSON.stringify({ id, readStatus: !currentStatus }),  
       });
 
       const result = await response.json();
@@ -63,7 +63,7 @@ const DatatableContacts = () => {
 
   return (
     <div className="table-container">
-      <ToastContainer position="top-right" autoClose={3000} />
+      <Toaster position="top-right" autoClose={3000} />
       <h2 className="table-title">Contact List</h2>
       <table className="custom-table">
         <thead>

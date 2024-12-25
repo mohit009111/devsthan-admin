@@ -3,7 +3,7 @@ import Sidebar from '../../components/sidebar/Sidebar';
 import Navbar from '../../components/navbar/Navbar';
 import './orders.css';
 import { BASE_URL } from '../../utils/headers';
-import { toast } from 'react-toastify';
+import { toast,ToastContainer } from 'react-hot-toast';
 
 const NewBlog = ({ title }) => {
   const [orders, setOrders] = useState([]);

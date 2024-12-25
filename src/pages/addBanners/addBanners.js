@@ -7,46 +7,57 @@ import 'react-quill/dist/quill.snow.css';
 import { BASE_URL } from '../../utils/headers';
 import { FaTrash } from 'react-icons/fa';
 import { RotatingLines } from 'react-loader-spinner';
-
+import { toast } from 'react-hot-toast';
 const NewBlog = ({ title }) => {
     const [loading, setLoading] = useState({});
     const [banners, setBanners] = useState({
-        homeBanner: [],
-        aboutUsBanner: [],
-        contactBanner: [],
-        destinationBanner: [],
-        destinationsBanner: [],
-        blogBanner: [],
-        blogsBanner: [],
-        toursBanner: [],
+        homeBanner: { desktop: [], mobile: [], tablet: [] },
+        aboutUsBanner: { desktop: [], mobile: [], tablet: [] },
+        contactBanner: { desktop: [], mobile: [], tablet: [] },
+        destinationBanner: { desktop: [], mobile: [], tablet: [] },
+        destinationsBanner: { desktop: [], mobile: [], tablet: [] },
+        blogBanner: { desktop: [], mobile: [], tablet: [] },
+        blogsBanner: { desktop: [], mobile: [], tablet: [] },
+        toursBanner: { desktop: [], mobile: [], tablet: [] },
     });
     console.log(banners)
     const [validationErrors, setValidationErrors] = useState({});
-    const handleDeleteImage = async (type, index) => {
-
+    const handleDeleteImage = async (type, device, imageUrl) => {
         try {
-
-            const imageUrl = banners[type][index];
+            // Make the DELETE request to the backend
             const response = await fetch(`${BASE_URL}/api/deleteBannerImage`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
                 },
-                body: JSON.stringify({ imageUrl, page: type }),
+                body: JSON.stringify({ imageUrl, page: type, device }),
             });
-
-            if (response.ok) {
-                alert("Image deleted successfully!");
+    
+            // Check if the request was successful
+            if (response.success) {
+                toast.success("Image deleted successfully!");
+    
+                // Update local state to reflect the deleted image
+                setBanners((prev) => {
+                    const updatedBanners = { ...prev };
+                    updatedBanners[type][device] = updatedBanners[type][device].filter(
+                        (url) => url !== imageUrl
+                    );
+                    return updatedBanners;
+                });
             } else {
+                // If the response is not OK, handle the error
                 const errorData = await response.json();
-                console.error("Backend error:", errorData);
-
+              
+                toast.error(`Failed to delete image: ${errorData.error || 'Unknown error'}`);
             }
         } catch (error) {
+            // Catch any unexpected errors
             console.error("Error deleting image:", error);
-
+            toast.error("An error occurred while deleting the image.");
         }
     };
+    
     // Fetch existing banner images from the backend
     useEffect(() => {
         const fetchBanners = async () => {
@@ -76,118 +87,111 @@ const NewBlog = ({ title }) => {
 
         fetchBanners();
     }, []);
-
-    const handleFileChange = (e, type, multiple = false) => {
-        const files = e.target.files;
-        let updatedFiles = multiple
-            ? [...banners[type], ...Array.from(files)]
-            : [files[0]];  // Ensure it's wrapped in an array
+    const handleFileChange = (e, type, device) => {
+        const files = Array.from(e.target.files);
 
         setBanners((prev) => ({
             ...prev,
-            [type]: updatedFiles,
+            [type]: {
+                ...prev[type],
+                [device]: [...(prev[type]?.[device] || []), ...files], // Fallback to an empty array if undefined
+            },
         }));
     };
-    const getPreviewUrls = (type) => {
-        const banner = banners[type];
 
+    const uploadImageToCloudinary = async (imageFile) => {
+        const formData = new FormData();
+        formData.append('file', imageFile); // Image file to upload
+        formData.append('upload_preset', 'ljqbwqy9'); // Your Cloudinary upload preset
 
-        if (!banner || banner.length === 0) return [];
-
-
-        return banner.map((file) => {
-            if (file instanceof File) {
-                return URL.createObjectURL(file); // Create URL for File objects
-            }
-            return file; // If it's already a URL (for example, from Cloudinary), return it
-        });
-    };
-
-    const handleSubmit = async (type) => {
-        setLoading((prev) => ({ ...prev, [type]: true })); 
-        const bannerData = banners[type];
         const cloudinaryURL = "https://api.cloudinary.com/v1_1/dmyzudtut/image/upload";
-        const uploadPreset = "ljqbwqy9";
-
-        // Helper: Upload a single image to Cloudinary
-        const uploadImageToCloudinary = async (image) => {
-            try {
-                console.log("Uploading image to Cloudinary:", image);
-
-                const formData = new FormData();
-                formData.append("file", image);
-                formData.append("upload_preset", uploadPreset);
-
-                const response = await fetch(cloudinaryURL, {
-                    method: "POST",
-                    body: formData,
-                });
-
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error?.message || "Cloudinary upload failed");
-                }
-
-                const data = await response.json();
-                return data.secure_url;
-            } catch (error) {
-                console.error("Error uploading to Cloudinary:", error.message);
-                throw error;
-            }
-        };
 
         try {
-            const uploadedImageUrls = [];
-
-            if (Array.isArray(bannerData)) {
-                // Separate new images (File instances) from already uploaded URLs
-                const newImages = bannerData.filter((image) => image instanceof File);
-                const existingUrls = bannerData.filter((image) => typeof image === 'string');
-
-                // Upload only the new images to Cloudinary
-                for (const image of newImages) {
-                    try {
-                        const uploadedUrl = await uploadImageToCloudinary(image);
-                        uploadedImageUrls.push(uploadedUrl);
-                    } catch (uploadError) {
-                        console.error("Failed to upload one of the images:", uploadError.message);
-                    }
-                }
-
-                // Merge uploaded URLs and existing URLs
-                uploadedImageUrls.push(...existingUrls);
-            }
-
-            console.log("Final Image URLs to send to backend:", uploadedImageUrls);
-
-            // Send the uploaded and existing URLs to the backend
-            const response = await fetch(`${BASE_URL}/api/addBannerImages?page=${type}`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ bannerUrls: uploadedImageUrls }),
+            const response = await fetch(cloudinaryURL, {
+                method: 'POST',
+                body: formData,
             });
 
-            if (response.ok) {
-                const result = await response.json();
-                console.log("Backend response:", result);
-                alert(`${type} banner uploaded successfully!`);
-            } else {
-                const errorData = await response.json();
-                console.error("Backend error:", errorData.message || "Unknown error occurred");
-                alert(`Failed to save ${type} banner.`);
+            if (!response.ok) {
+                throw new Error('Failed to upload image to Cloudinary');
             }
+
+            const data = await response.json();
+            return data.secure_url; // Returns the URL of the uploaded image
         } catch (error) {
-            console.error("Error in handleSubmit:", error.message);
-            alert("An error occurred while uploading the banner. Check console for details.");
-        }
-        finally {
-            setLoading((prev) => ({ ...prev, [type]: false })); // Stop loading
+            console.error('Error uploading image:', error.message);
+            throw error;
         }
     };
 
 
+    const getPreviewUrls = (type, device) => {
+        const banner = banners[type]?.[device];
+        if (!banner || banner.length === 0) return [];
+
+        return banner.map((file) =>
+            file instanceof File ? URL.createObjectURL(file) : file
+        );
+    };
+    const handleSubmit = async (type, event) => {
+        event.preventDefault();  // Prevent the default page reload behavior
+    
+        setLoading((prev) => ({ ...prev, [type]: true }));
+    
+        const devices = ['desktop', 'mobile', 'tablet'];
+        const uploadedImages = {
+            desktop: [],
+            mobile: [],
+            tablet: []
+        };
+    
+        try {
+            // Iterate through devices to handle each banner type
+            for (const device of devices) {
+                const bannerData = banners[type]?.[device] || []; // Safely access the data (use empty array if undefined)
+    
+                // Filter the images for files (File type) and URLs (String type)
+                const newImages = bannerData.filter((image) => image instanceof File);
+                const existingUrls = bannerData.filter((image) => typeof image === 'string');
+    
+                // Upload new images to Cloudinary
+                if (newImages.length > 0) {
+                    const uploadPromises = newImages.map((image) => uploadImageToCloudinary(image));
+                    const uploadedUrls = await Promise.all(uploadPromises);
+    
+                    // Add the newly uploaded URLs to the final device's array
+                    uploadedImages[device] = [...uploadedUrls, ...existingUrls];
+                } else {
+                    // If no new images to upload, just include existing URLs
+                    uploadedImages[device] = existingUrls;
+                }
+            }
+    
+            // Send the final uploaded images for each device to the backend
+            const response = await fetch(`${BASE_URL}/api/addBannerImages?page=${type}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(uploadedImages),  // Send separate arrays for each device
+            });
+    
+            if (response.ok) {
+                toast.success(`${type} banners uploaded successfully!`);
+            } else {
+                const errorData = await response.json();
+                console.error('Backend error:', errorData);
+                toast.error(`Failed to save ${type} banners.`);
+            }
+        } catch (error) {
+            console.error('Error in handleSubmit:', error.message);
+            toast.error(`An error occurred: ${error.message}`);
+        } finally {
+            setLoading((prev) => ({ ...prev, [type]: false }));
+        }
+    };
+    
+    
     return (
         <div className="new">
             <Sidebar />
@@ -198,37 +202,8 @@ const NewBlog = ({ title }) => {
                 </div>
                 <div className="bottom">
                     <form>
-                        <div className="formGroup">
-                            <label htmlFor="homeBanner">Home Banner (Multiple Images)</label>
-                            <input
-                                type="file"
-                                id="homeBanner"
-                                multiple
-                                onChange={(e) => handleFileChange(e, 'homeBanner', true)}
-                            />
-                            {validationErrors.homeBanner && <div className="error">{validationErrors.homeBanner}</div>}
-                            <div className="preview">
-                                {getPreviewUrls('homeBanner').map((url, index) => (
-                                    <div key={index} className="preview-image-container">
-                                        <img src={url} alt={`Preview ${index}`} />
-                                        <button
-                                            className="delete-banner"
-                                            onClick={() => handleDeleteImage('homeBanner', index)}
-                                            aria-label={`Delete Preview ${index}`}
-                                        >
-                                            <FaTrash />
-                                        </button>
-                                    </div>
-                                ))}
-                            </div>
-                            <button
-                                type="button"
-                                onClick={() => handleSubmit('homeBanner')}
-                            >
-                                Save Home Banner
-                            </button>
-                        </div>
                         {[
+                            { id: 'homeBanner', label: 'Home Banner' },
                             { id: 'aboutUsBanner', label: 'About Us Page Banner' },
                             { id: 'contactBanner', label: 'Contact Page Banner' },
                             { id: 'destinationBanner', label: 'Destination Page Banner' },
@@ -238,53 +213,62 @@ const NewBlog = ({ title }) => {
                             { id: 'toursBanner', label: 'Tours Page Banner' },
                         ].map(({ id, label }) => (
                             <div className="formGroup" key={id}>
-                                <label htmlFor={id}>{label}</label>
-                                <input
-                                    type="file"
-                                    id={id}
-                                    onChange={(e) => handleFileChange(e, id)}
-                                />
-                                {validationErrors[id] && <div className="error">{validationErrors[id]}</div>}
-                                <div className="preview">
-                                    {getPreviewUrls(id).map((url, index) => (
-                                        <div key={index} className="preview-image-container">
-                                            <img src={url} alt={`Preview ${label} ${index}`} />
-                                            <button
-                                                className="delete-banner"
-                                                onClick={() => handleDeleteImage(id, index)}
-                                                aria-label={`Delete ${label} Preview ${index}`}
-                                            >
-                                                <FaTrash />
-                                            </button>
-                                        </div>
-                                    ))}
-                                </div>
+                                <h3>{label}</h3>
+
+                                {['desktop', 'mobile', 'tablet'].map((device) => (
+                                    <div key={`${id}-${device}`} className="device-group">
+                                        <label htmlFor={`${id}-${device}`}>
+                                            {`${label} (${device.charAt(0).toUpperCase() + device.slice(1)})`}
+                                        </label>
+                                        <input
+                                            type="file"
+                                            id={`${id}-${device}`}
+                                            multiple
+                                            onChange={(e) => handleFileChange(e, id, device)}
+                                        />
+                                        <div className="preview">
+    {getPreviewUrls(id, device).map((url, index) => (
+        <div key={index} className="preview-image-container">
+            <img src={url} alt={`Preview ${device} ${index}`} />
+            <button
+                className="delete-banner"
+                onClick={() => handleDeleteImage(id, device, url)}
+                aria-label={`Delete ${device} Preview ${index}`}
+            >
+                <FaTrash />
+            </button>
+        </div>
+    ))}
+</div>
+                                    </div>
+                                ))}
+
                                 <button
-    type="button"
-    onClick={() => handleSubmit(id)}
-    disabled={loading[id]} // Disable the button while loading
->
-    {loading[id] ? (
-          <RotatingLines
-                                                             visible={true}
-                                                             height="60"
-                                                             width="60"
-                                                             color="grey"
-                                                             strokeWidth="5"
-                                                             animationDuration="0.75"
-                                                             ariaLabel="rotating-lines-loading"
-                                                             wrapperStyle={{}}
-                                                             wrapperClass=""
-                                                         />
-    ) : (
-        `Save ${label}`
-    )}
-</button>
+                                    type="button"
+                                    onClick={() => handleSubmit(id)}
+                                    disabled={loading[id]}
+                                >
+                                    {loading[id] ? (
+                                        <RotatingLines
+                                            visible={true}
+                                            height="60"
+                                            width="60"
+                                            color="grey"
+                                            strokeWidth="5"
+                                            animationDuration="0.75"
+                                            ariaLabel="rotating-lines-loading"
+                                        />
+                                    ) : (
+                                        `Save ${label}`
+                                    )}
+                                </button>
                             </div>
                         ))}
                     </form>
                 </div>
+
             </div>
+   
         </div>
     );
 };

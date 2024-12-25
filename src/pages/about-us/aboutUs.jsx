@@ -7,7 +7,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { BASE_URL } from '../../utils/headers';
 import { v4 as uuidv4 } from 'uuid';
-import { toast } from 'react-toastify';
+import { toast,ToastContainer } from 'react-hot-toast';
 const NewBlog = ({ title }) => {
    
     const [imagePreview, setImagePreview] = useState(null); // State for image preview

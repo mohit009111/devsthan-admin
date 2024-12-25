@@ -3,7 +3,7 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import "./new.css";
 import { BASE_URL } from "../../utils/headers";
-import { toast } from 'react-toastify';
+import { toast,ToastContainer } from 'react-hot-toast';
 import 'react-toastify/dist/ReactToastify.css';
 import { RotatingLines } from 'react-loader-spinner'
 import { v4 as uuidv4 } from 'uuid';
