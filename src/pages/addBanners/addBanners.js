@@ -7,7 +7,7 @@ import 'react-quill/dist/quill.snow.css';
 import { BASE_URL } from '../../utils/headers';
 import { FaTrash } from 'react-icons/fa';
 import { RotatingLines } from 'react-loader-spinner';
-import { toast,Toaster } from 'react-hot-toast';
+import { toast, Toaster } from 'react-hot-toast';
 const NewBlog = ({ title }) => {
     const [loading, setLoading] = useState({});
     const [banners, setBanners] = useState({
@@ -23,6 +23,9 @@ const NewBlog = ({ title }) => {
     console.log(banners)
     const [validationErrors, setValidationErrors] = useState({});
     const handleDeleteImage = async (type, device, imageUrl) => {
+        console.log("Type:", type); // Check if the correct type is passed
+        console.log("Device:", device); // Check if the correct device is passed
+        console.log("Image URL:", imageUrl); // Verify the URL being deleted
         try {
             // Make the DELETE request to the backend
             const response = await fetch(`${BASE_URL}/api/deleteBannerImage`, {
@@ -33,8 +36,10 @@ const NewBlog = ({ title }) => {
                 body: JSON.stringify({ imageUrl, page: type, device }),
             });
     
-            // Check if the request was successful
-            if (response.success) {
+            const result = await response.json(); // Ensure response is parsed
+    
+            // Check if the response was successful
+            if (result.success) {
                 toast.success("Image deleted successfully!");
     
                 // Update local state to reflect the deleted image
@@ -47,9 +52,8 @@ const NewBlog = ({ title }) => {
                 });
             } else {
                 // If the response is not OK, handle the error
-                const errorData = await response.json();
-              
-                toast.error(`Failed to delete image: ${errorData.error || 'Unknown error'}`);
+                console.error("Backend error:", result.error);
+                toast.error(`Failed to delete image: ${result.error || 'Unknown error'}`);
             }
         } catch (error) {
             // Catch any unexpected errors
@@ -58,6 +62,7 @@ const NewBlog = ({ title }) => {
         }
     };
     
+
     // Fetch existing banner images from the backend
     useEffect(() => {
         const fetchBanners = async () => {
@@ -136,28 +141,28 @@ const NewBlog = ({ title }) => {
 
     const handleSubmit = async (type) => {
         setLoading((prev) => ({ ...prev, [type]: true }));
-    
+
         const devices = ['desktop', 'mobile', 'tablet'];
         const uploadedImages = {
             desktop: [],
             mobile: [],
             tablet: []
         };
-    
+
         try {
             // Iterate through devices to handle each banner type
             for (const device of devices) {
                 const bannerData = banners[type]?.[device] || []; // Safely access the data (use empty array if undefined)
-    
+
                 // Filter the images for files (File type) and URLs (String type)
                 const newImages = bannerData.filter((image) => image instanceof File);
                 const existingUrls = bannerData.filter((image) => typeof image === 'string');
-    
+
                 // Upload new images to Cloudinary
                 if (newImages.length > 0) {
                     const uploadPromises = newImages.map((image) => uploadImageToCloudinary(image));
                     const uploadedUrls = await Promise.all(uploadPromises);
-    
+
                     // Add the newly uploaded URLs to the final device's array
                     uploadedImages[device] = [...uploadedUrls, ...existingUrls];
                 } else {
@@ -165,7 +170,7 @@ const NewBlog = ({ title }) => {
                     uploadedImages[device] = existingUrls;
                 }
             }
-    
+
             // Send the final uploaded images for each device to the backend
             const response = await fetch(`${BASE_URL}/api/addBannerImages?page=${type}`, {
                 method: 'POST',
@@ -174,7 +179,7 @@ const NewBlog = ({ title }) => {
                 },
                 body: JSON.stringify(uploadedImages),  // Send separate arrays for each device
             });
-    
+
             if (response.ok) {
                 toast.success(`${type} banners uploaded successfully!`);
             } else {
@@ -189,8 +194,8 @@ const NewBlog = ({ title }) => {
             setLoading((prev) => ({ ...prev, [type]: false }));
         }
     };
-    
-    
+
+
     return (
         <div className="new">
             <Sidebar />
@@ -226,25 +231,29 @@ const NewBlog = ({ title }) => {
                                             onChange={(e) => handleFileChange(e, id, device)}
                                         />
                                         <div className="preview">
-    {getPreviewUrls(id, device).map((url, index) => (
-        <div key={index} className="preview-image-container">
-            <img src={url} alt={`Preview ${device} ${index}`} />
-            <button
-                className="delete-banner"
-                onClick={() => handleDeleteImage(id, device, url)}
-                aria-label={`Delete ${device} Preview ${index}`}
-            >
-                <FaTrash />
-            </button>
-        </div>
-    ))}
-</div>
+                                            {getPreviewUrls(id, device).map((url, index) => (
+                                                <div key={index} className="preview-image-container">
+                                                    <img src={url} alt={`Preview ${device} ${index}`} />
+                                                    <button
+                                                        className="delete-banner"
+                                                        onClick={(e) => {
+                                                            e.preventDefault(); // Prevent form submission
+                                                            handleDeleteImage(id, device, url);
+                                                          }}
+                                                        aria-label={`Delete ${device} Preview ${index}`}
+                                                    >
+                                                        <FaTrash />
+                                                    </button>
+                                                </div>
+                                            ))}
+                                        </div>
                                     </div>
                                 ))}
 
                                 <button
                                     type="button"
-                                    onClick={() => handleSubmit(id)}
+                                    onClick={() => 
+                                         handleSubmit(id)}
                                     disabled={loading[id]}
                                 >
                                     {loading[id] ? (
@@ -267,7 +276,7 @@ const NewBlog = ({ title }) => {
                 </div>
 
             </div>
-              <Toaster />
+            <Toaster />
         </div>
     );
 };
