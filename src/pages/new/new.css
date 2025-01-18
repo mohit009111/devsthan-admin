@@ -1,0 +1,952 @@
+/* Global Styles */
+body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  background-color: var(--background-color, #f9f9f9);
+  color: var(--text-color, #333);
+}
+.category-options {
+  position: absolute;
+  border: 1px solid #ddd;
+  background-color: white;
+  z-index: 1000;
+  max-height: 150px;
+  overflow-y: auto;
+}
+.labels{
+  display: flex;
+  margin-block: 20px;
+  align-items: center;
+}
+.category-options div {
+  padding: 8px;
+  cursor: pointer;
+}
+.bed-pricing-section {
+  margin-top: 20px;
+}
+
+.bed-type {
+  margin: 15px 0;
+}
+
+.price-inputs {
+  display: flex;
+  gap: 20px;
+}
+
+.price-inputs label {
+  display: flex;
+  flex-direction: column;
+}
+
+.category-options div:hover {
+  background-color: #f0f0f0;
+}
+.fixedDatesBox {
+  padding: 20px; /* Add padding for inner spacing */
+  border: 1px solid #007bff; /* Border color */
+  border-radius: 8px; /* Rounded corners */
+  background-color: #f9f9f9; /* Light background color */
+  margin-top: 20px; /* Space above the box */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+}
+
+.fixedDatesBox h4 {
+  margin-bottom: 15px; /* Space below the header */
+  font-size: 18px; /* Font size for the header */
+  color: #333; /* Header color */
+}
+
+.fixedDatesBox .formGroup {
+  margin-bottom: 15px; /* Space between form groups */
+}
+
+.fixedDatesBox label {
+  display: block; /* Ensure labels take full width */
+  margin-bottom: 5px; /* Space below the label */
+  font-size: 16px; /* Font size for labels */
+  color: #555; /* Label color */
+}
+
+.fixedDatesBox input[type="number"] {
+  padding: 10px; /* Inner padding for inputs */
+  border: 1px solid #ccc; /* Border color for inputs */
+  border-radius: 5px; /* Rounded corners for inputs */
+  width: 100%; /* Full width for inputs */
+  transition: border-color 0.3s ease; /* Transition effect for border color */
+}
+
+.fixedDatesBox input[type="number"]:focus {
+  border-color: #007bff; /* Change border color on focus */
+}
+
+.openHoursBox {
+  padding: 20px; /* Add padding for inner spacing */
+  border: 1px solid #007bff; /* Border color */
+  border-radius: 8px; /* Rounded corners */
+  background-color: #f9f9f9; /* Light background color */
+  margin-top: 20px; /* Space above the box */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+}
+
+.openHoursBox h4 {
+  margin-bottom: 15px; /* Space below the header */
+  font-size: 18px; /* Font size for the header */
+  color: #333; /* Header color */
+}
+
+.openHoursBox .formGroup {
+  margin-bottom: 15px; /* Space between form groups */
+}
+
+.openHoursBox label {
+  display: block; /* Ensure labels take full width */
+  margin-bottom: 5px; /* Space below the label */
+  font-size: 16px; /* Font size for labels */
+  color: #555; /* Label color */
+}
+
+.openHoursBox input[type="number"] {
+  padding: 10px; /* Inner padding for inputs */
+  border: 1px solid #ccc; /* Border color for inputs */
+  border-radius: 5px; /* Rounded corners for inputs */
+  width: 100%; /* Full width for inputs */
+  transition: border-color 0.3s ease; /* Transition effect for border color */
+}
+
+.openHoursBox input[type="number"]:focus {
+  border-color: #007bff; /* Change border color on focus */
+}
+
+/* Main Container */
+.new {
+  display: flex;
+  width: 100%;
+ 
+
+  .newContainer {
+    flex: 4;
+    padding: 20px;
+
+    .top {
+      padding: 20px;
+      border-bottom: 1px solid #ccc;
+      margin-bottom: 20px;
+
+      h1 {
+        font-size: 24px;
+        color: #333;
+      }
+    }
+
+    /* Padding for Highlight Fields and Bottom Sections */
+    .highlightField,
+    .bottom {
+      padding-inline: 20px;
+    }
+
+    /* Highlight Fields */
+    .highlightField {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+
+      input {
+        flex: 1;
+        padding: 10px;
+        margin-right: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        transition: border-color 0.3s ease;
+      }
+
+      input:focus {
+        border-color: #007bff;
+      }
+
+      /* Delete Button */
+      .delete-btn {
+        padding: 8px 12px;
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .delete-btn:hover {
+        background-color: #c82333;
+      }
+    }
+
+    /* Add More Button */
+    .add-more {
+      margin-top: 10px;
+      padding: 8px 15px;
+      background-color: #28a745;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .add-more:hover {
+      background-color: #218838;
+    }
+
+    /* Category Selection Buttons */
+    .category-selection {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+      max-width: 300px;
+      margin-inline: auto;
+
+      button {
+        padding: 12px 20px;
+        background-color: #f0f0f0;
+        border: 2px solid transparent;
+        border-radius: 10px;
+        font-size: 16px;
+        color: #333;
+        font-weight: bold;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+        &:hover {
+          background-color: #007bff;
+          color: white;
+          transform: scale(1.05);
+        }
+
+        &.active {
+          background-color: #007bff;
+          color: white;
+          border-color: #007bff;
+          box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+      }
+    }
+
+    /* Tour Type Buttons */
+    .tourTypeButtons {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+
+      button {
+        padding: 12px 20px;
+        margin: 0 10px;
+        background-color: #f0f0f0;
+        border: 2px solid transparent;
+        border-radius: 8px;
+        font-size: 16px;
+        font-weight: bold;
+        color: #333;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+        text-transform: uppercase;
+
+        &:hover {
+          background-color: #007bff;
+          color: white;
+          transform: translateY(-2px);
+        }
+
+        &.active {
+          background-color: #007bff;
+          color: white;
+          border-color: #007bff;
+          box-shadow: 0 5px 7px rgba(0, 0, 0, 0.15);
+          transform: translateY(0);
+        }
+      }
+    }
+
+    /* Bottom Section (Form Styling) */
+    .bottom {
+      padding: 20px;
+      background-color: #f5f5f5;
+      border-radius: 10px;
+      box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+
+      form {
+        .formGroup {
+          margin-bottom: 15px;
+
+          label {
+            margin-bottom: 5px;
+            font-size: 16px;
+            color: #555;
+            display: flex;
+            min-width: 500px;
+            align-items: center;
+          }
+
+          input {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            width: 100%;
+            transition: border-color 0.3s ease;
+
+            &:focus {
+              border-color: #007bff;
+            }
+          }
+
+          /* Submit Button */
+          button[type="submit"] {
+            margin-top: 15px;
+            padding: 10px 15px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+
+            &:hover {
+              background-color: #218838;
+            }
+          }
+        }
+      }
+    }
+
+    /* Checkbox Styles for Fixed Dates and Open Hours */
+    .checkbox-group {
+      display: flex;
+      justify-content: center;
+      margin-top: 20px;
+      margin-bottom: 20px;
+
+      label {
+        margin-right: 20px;
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+
+        input {
+          margin-right: 10px;
+        }
+      }
+    }
+  }
+}
+
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+  .newContainer {
+    .category-selection,
+    .tourTypeButtons {
+      flex-direction: column;
+      align-items: center;
+
+      button {
+        margin-bottom: 10px;
+        width: 100%;
+        text-align: center;
+      }
+    }
+
+    .highlightField,
+    .bottom {
+      padding-inline: 10px;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .newContainer {
+    padding: 10px;
+
+    .top h1 {
+      font-size: 20px;
+    }
+
+    .highlightField input {
+      padding: 8px;
+      font-size: 14px;
+    }
+
+    .add-more,
+    .delete-btn {
+      padding: 6px 10px;
+    }
+
+    .bottom form .formGroup input {
+      padding: 8px;
+    }
+
+    .bottom form .formGroup button[type="submit"] {
+      padding: 8px 10px;
+    }
+  }
+}
+/* Global Styles */
+body {
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  background-color: var(--background-color, #f9f9f9);
+  color: var(--text-color, #333);
+}
+
+.fixedDatesBox {
+  padding: 20px;
+  border: 1px solid #007bff;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  margin-top: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.fixedDatesBox h4 {
+  margin-bottom: 15px;
+  font-size: 18px;
+  color: #333;
+}
+
+.fixedDatesBox .formGroup {
+  margin-bottom: 15px;
+}
+
+.fixedDatesBox label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 16px;
+  color: #555;
+}
+
+.fixedDatesBox input[type="number"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  transition: border-color 0.3s ease;
+}
+
+.fixedDatesBox input[type="number"]:focus {
+  border-color: #007bff;
+}
+
+.openHoursBox {
+  padding: 20px;
+  border: 1px solid #007bff;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  margin-top: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.openHoursBox h4 {
+  margin-bottom: 15px;
+  font-size: 18px;
+  color: #333;
+}
+
+.openHoursBox .formGroup {
+  margin-bottom: 15px;
+}
+
+.openHoursBox label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 16px;
+  color: #555;
+}
+
+.openHoursBox input[type="number"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  transition: border-color 0.3s ease;
+}
+
+.openHoursBox input[type="number"]:focus {
+  border-color: #007bff;
+}
+
+/* Main Container */
+.new {
+  display: flex;
+  width: 100%;
+ 
+}
+
+.newContainer {
+  flex: 4;
+  padding: 20px;
+}
+
+.newContainer .top {
+  padding: 20px;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 20px;
+}
+
+.newContainer .top h1 {
+  font-size: 24px;
+  color: #333;
+}
+
+.newContainer .highlightField,
+.newContainer .bottom {
+  padding-inline: 20px;
+}
+
+.newContainer .highlightField {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.newContainer .highlightField input {
+  flex: 1;
+  padding: 10px;
+  margin-right: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  transition: border-color 0.3s ease;
+}
+
+.newContainer .highlightField input:focus {
+  border-color: #007bff;
+}
+
+.newContainer .highlightField .delete-btn {
+  padding: 8px 12px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.newContainer .highlightField .delete-btn:hover {
+  background-color: #c82333;
+}
+
+.newContainer .add-more {
+  margin-top: 10px;
+  padding: 8px 15px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.newContainer .add-more:hover {
+  background-color: #218838;
+}
+
+.newContainer .category-selection {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  max-width: 300px;
+  margin-inline: auto;
+}
+
+.newContainer .category-selection button {
+  padding: 12px 20px;
+  background-color: #f0f0f0;
+  border: 2px solid transparent;
+  border-radius: 10px;
+  font-size: 16px;
+  color: #333;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.newContainer .category-selection button:hover {
+  background-color: #007bff;
+  color: white;
+  transform: scale(1.05);
+}
+
+.newContainer .category-selection button.active {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.newContainer .tourTypeButtons {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.newContainer .tourTypeButtons button {
+  padding: 12px 20px;
+  margin: 0 10px;
+  background-color: #f0f0f0;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+  text-transform: uppercase;
+}
+
+.newContainer .tourTypeButtons button:hover {
+  background-color: #007bff;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.newContainer .tourTypeButtons button.active {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+  box-shadow: 0 5px 7px rgba(0, 0, 0, 0.15);
+  transform: translateY(0);
+}
+
+.newContainer .bottom {
+  padding: 20px;
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.newContainer .bottom form .formGroup {
+  margin-bottom: 15px;
+}
+
+.newContainer .bottom form .formGroup label {
+  margin-bottom: 5px;
+  font-size: 16px;
+  color: #555;
+  display: block;
+}
+
+.newContainer .bottom form .formGroup input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  transition: border-color 0.3s ease;
+}
+
+.newContainer .bottom form .formGroup input:focus {
+  border-color: #007bff;
+}
+
+.newContainer .bottom form .formGroup button[type="submit"] {
+  margin-top: 15px;
+  padding: 10px 15px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.newContainer .bottom form .formGroup button[type="submit"]:hover {
+  background-color: #218838;
+}
+
+.newContainer .checkbox-group {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.newContainer .checkbox-group label {
+  margin-right: 20px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.newContainer .checkbox-group label input {
+  margin-right: 10px;
+}
+
+.formGroup input[type="file"] {
+  padding: 5px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  width: 100%;
+  font-size: 1em;
+  margin-top: 8px;
+  cursor: pointer;
+  transition: border-color 0.3s;
+}
+
+.formGroup input[type="file"]:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Custom styling for the file selector button */
+.formGroup input[type="file"]::file-selector-button {
+  margin-right: 10px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.formGroup input[type="file"]::file-selector-button:hover {
+  background-color: #0056b3;
+}
+
+.photo-preview {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.photo-preview img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.photo-preview {
+  display: flex;
+  flex-wrap: wrap; /* Allow images to wrap to the next line */
+  margin-top: 10px;
+}
+
+.photo-container {
+  position: relative; /* Needed for positioning the delete button */
+  margin-right: 10px; /* Space between images */
+  margin-bottom: 10px; /* Space below images */
+}
+
+.photo-container img {
+  width: 100px; /* Set a width for the images */
+  height: auto; /* Maintain aspect ratio */
+  border-radius: 4px; /* Optional: for rounded corners */
+}
+
+.delete-photo {
+  position: absolute; /* Position the delete button over the image */
+  top: 5px;
+  right: 5px;
+  background: rgba(255, 255, 255, 0.7); /* Slightly transparent white background */
+  border: none;
+  border-radius: 50%; /* Make it round */
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  font-size: 16px; /* Size of the delete icon */
+  color: red; /* Color of the delete icon */
+}
+
+.delete-photo:hover {
+  background: rgba(255, 0, 0, 0.8); /* Darken on hover */
+}
+
+.banner-preview {
+  position: relative; /* Needed for positioning the delete button */
+  margin-top: 10px; /* Space above the banner preview */
+}
+
+.banner-preview img {
+  width: 100%; /* Full width of the container */
+  max-width: 600px; /* Optional: maximum width for the banner */
+  height: auto; /* Maintain aspect ratio */
+  border-radius: 4px; /* Optional: for rounded corners */
+}
+
+.delete-banner {
+  position: absolute; /* Position the delete button over the image */
+  top: 5px;
+  right: 5px;
+  background: rgba(255, 255, 255, 0.7); /* Slightly transparent white background */
+  border: none;
+  border-radius: 50%; /* Make it round */
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+  font-size: 16px; /* Size of the delete icon */
+  color: red; /* Color of the delete icon */
+}
+
+.delete-banner:hover {
+  background: rgba(255, 0, 0, 0.8); /* Darken on hover */
+}
+
+#categoriesInput {
+ 
+}
+
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  max-height: 200px;
+  overflow-y: auto;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.dropdown-item {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.dropdown-item.selected {
+  background-color: #f0f0f0;
+}
+.formGroup {
+  position: relative;
+  width: 100%;
+}
+
+#categoriesInput {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  cursor: pointer;
+  width: 100%;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.dropdown-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  z-index: 100;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.dropdown-item {
+  padding: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-item label {
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-item input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+.selected {
+  background-color: #f0f0f0;
+}
+
+.selectedCategories {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.categoryTag {
+  display: flex;
+  align-items: center;
+  background-color: #e0e0e0;
+  padding: 5px 10px;
+  border-radius: 20px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+
+.deleteIcon {
+  margin-left: 5px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: #ff0000;
+}
+.selectedAttributes {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.attributeTag {
+  display: flex;
+  align-items: center;
+  background-color: #e0e0e0;
+  padding: 5px 10px;
+  border-radius: 20px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+
+.deleteIcon {
+  margin-left: 5px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-size: 16px;
+  color: #ff0000;
+}
+
+
+.deleteButton {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s ease;
+}
+
+.deleteButton:hover {
+  background-color: #ff1a1a;
+}
+
+.deleteButton:active {
+  background-color: #cc0000;
+}
+
+.deleteButton:focus {
+  outline: none;
+  box-shadow: 0 0 5px #ff1a1a;
+}
