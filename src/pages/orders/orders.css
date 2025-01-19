@@ -1,0 +1,166 @@
+.order-details-admin {
+   
+    margin: 20px auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+
+  
+  
+  .order-details-admin h1 {
+    text-align: center;
+    padding: 20px;
+    background-color: #4caf50;
+    color: #fff;
+    margin: 0;
+    font-size: 1.8rem;
+  }
+  .loader {
+    position: fixed;  /* Fixed positioning to keep it on the screen */
+    top: 50%;  /* Vertically center */
+    left: 50%;  /* Horizontally center */
+    transform: translate(-50%, -50%);  /* Offset the element by half of its width/height to truly center it */
+    z-index: 9999;  /* Ensure it's on top of other content */
+  }
+  
+  .order-table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+  
+  .order-table thead {
+    background-color: #f4f4f4;
+  }
+  
+  .order-table th,
+  .order-table td {
+    text-align: left;
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+    vertical-align: top;
+    word-wrap: break-word;
+  }
+  
+  .order-table th {
+    font-weight: bold;
+    color: #555;
+  }
+  
+  .order-table td {
+    font-size: 0.9rem;
+    color: #333;
+  }
+  
+  .order-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  .order-table tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .order-table ul {
+    margin: 0;
+    padding-left: 20px;
+  }
+  
+  .order-table ul li {
+    list-style-type: disc;
+    margin-bottom: 5px;
+  }
+  
+  .room-details {
+    margin-top: 10px;
+    padding-left: 10px;
+  }
+  
+  .room-details strong {
+    display: inline-block;
+    margin-bottom: 5px;
+  }
+  
+  .room-details ul {
+    margin-top: 5px;
+    padding-left: 20px;
+  }
+  
+  @media (max-width: 768px) {
+    .order-details-admin {
+      width: 100%;
+      margin: 10px;
+    }
+  
+    .order-table th,
+    .order-table td {
+      font-size: 0.8rem;
+      padding: 8px;
+    }
+  
+    .order-details-admin h1 {
+      font-size: 1.5rem;
+    }
+  }
+  .approve-btn {
+    background-color: green;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  .reject-btn {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  .modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .modal-actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .confirm-btn {
+    background-color: green;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .cancel-btn {
+    background-color: red;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
