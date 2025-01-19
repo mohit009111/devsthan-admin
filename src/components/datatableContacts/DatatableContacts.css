@@ -1,0 +1,40 @@
+.table-container {
+    padding: 20px;
+    overflow-x: auto;
+  }
+
+  .loader {
+    position: fixed;  /* Fixed positioning to keep it on the screen */
+    top: 50%;  /* Vertically center */
+    left: 50%;  /* Horizontally center */
+    transform: translate(-50%, -50%);  /* Offset the element by half of its width/height to truly center it */
+    z-index: 9999;  /* Ensure it's on top of other content */
+  }
+  
+  
+  .table-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .custom-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .custom-table th, .custom-table td {
+    padding: 12px;
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+  
+  .custom-table th {
+    background-color: #f4f4f4;
+  }
+  
+  .message-column {
+    width: 40%; /* Adjust width to give more space to the message column */
+    white-space: normal; /* Allows text wrapping */
+    word-break: break-word; /* Ensures long words or URLs wrap */
+  }
+  

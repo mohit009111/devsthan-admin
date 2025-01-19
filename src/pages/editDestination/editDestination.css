@@ -1,0 +1,7 @@
+.loader-container {
+    display: flex;
+    justify-content: center;  /* Horizontally center the loader */
+    width: 100%; 
+    margin-bottom: 10px;        /* Ensures the container takes up full width */
+  }
+  
