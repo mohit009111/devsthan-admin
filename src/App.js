@@ -16,8 +16,8 @@ import Aboutus from "./pages/about-us/aboutUs";
 import NewBlog from "./pages/newBlog/newBlog";
 import ContactsList from "./pages/contacts/contactsList";
 import BlogsList from "./pages/blogs/blogsList";
-import InquiriesList from './pages/inquiries/inquiryList'
-import AddBanners from './pages/addBanners/addBanners'
+import InquiriesList from "./pages/inquiries/inquiryList";
+import AddBanners from "./pages/addBanners/addBanners";
 import EditTour from "./pages/edit/EditTour";
 import EditDestination from "./pages/editDestination/editDestination";
 import EditBlog from "./pages/editBlog/editBlog";
@@ -26,8 +26,9 @@ import { productInputs, userInputs } from "./formSource";
 import "./style/dark.scss";
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
-import { ToastContainer } from 'react-toastify';
-import { Toaster } from 'react-hot-toast';
+import { ToastContainer } from "react-toastify";
+import { Toaster } from "react-hot-toast";
+import ProtectedRoute from "./ProtectedRoute";
 function App() {
   const { darkMode } = useContext(DarkModeContext);
 
@@ -37,129 +38,275 @@ function App() {
       <Toaster />
       <BrowserRouter>
         <Routes>
+          <Route
+            path="/"
+            element={
+              <Navigate
+                to={
+                  localStorage.getItem("userToken")
+                    ? "/admin/home"
+                    : "/admin/login"
+                }
+              />
+            }
+          />
 
           <Route path="/admin" element={<Navigate to="/admin/login" />} />
 
-
           <Route path="/admin/login" element={<Login />} />
-          <Route path="/admin/home" element={<Home />} />
+          <Route
+            path="/admin/home"
+            element={
+              <ProtectedRoute>
+                <Home />
+              </ProtectedRoute>
+            }
+          />
+
           <Route path="/admin/category">
-            <Route index element={<CategoryList />} />
-
-
-
+            <Route
+              index
+              element={
+                <ProtectedRoute>
+                  <CategoryList />
+                </ProtectedRoute>
+              }
+            />
           </Route>
           <Route path="/admin/attributes">
-            <Route index element={<AttributesList />} />
-
-
-
+            <Route
+              index
+              element={
+                <ProtectedRoute>
+                  <AttributesList />
+                </ProtectedRoute>
+              }
+            />
           </Route>
 
-
-
-
           <Route path="/admin/createCoupon">
-            <Route index element={<CreateCoupon />} />
-
-
-
+            <Route
+              index
+              element={
+                <ProtectedRoute>
+                  <CreateCoupon />
+                </ProtectedRoute>
+              }
+            />
           </Route>
 
           <Route path="/admin/contacts">
-            <Route index element={<ContactsList />} />
-
-
-
+            <Route
+              index
+              element={
+                <ProtectedRoute>
+                  <ContactsList />
+                </ProtectedRoute>
+              }
+            />
           </Route>
           <Route path="/admin/inquiries">
-            <Route index element={<InquiriesList />} />
-
-
-
+            <Route
+              index
+              element={
+                <ProtectedRoute>
+                  <InquiriesList />
+                </ProtectedRoute>
+              }
+            />
           </Route>
-         
+
           <Route path="/admin/blogs">
-            <Route index element={<BlogsList />} />
-            <Route path=":userId" element={<Single />} />
+            <Route
+              index
+              element={
+                <ProtectedRoute>
+                  <BlogsList />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path=":userId"
+              element={
+                <ProtectedRoute>
+                  <Single />
+                </ProtectedRoute>
+              }
+            />
             <Route
               path="new"
-              element={<NewBlog title="Add New Blog" />}
+              element={
+                <ProtectedRoute>
+                  <NewBlog title="Add New Blog" />
+                </ProtectedRoute>
+              }
             />
             {/* <Route
               path="editBlog/:id"
               element={<EditBlog title="Add New Blog" />}
             /> */}
-
           </Route>
           <Route path="/admin/tours">
-            <Route index element={<List />} />
-            <Route path=":userId" element={<Single />} />
+            <Route
+              index
+              element={
+                <ProtectedRoute>
+                  <List />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path=":userId"
+              element={
+                <ProtectedRoute>
+                  <Single />
+                </ProtectedRoute>
+              }
+            />
             <Route
               path="new"
-              element={<New title="Add New Tour" />}
+              element={
+                <ProtectedRoute>
+                  <New title="Add New Tour" />
+                </ProtectedRoute>
+              }
             />
-
           </Route>
           <Route path="/admin/destinations">
-            <Route index element={<DestinationsList />} />
-            <Route path=":userId" element={<Single />} />
+            <Route
+              index
+              element={
+                <ProtectedRoute>
+                  <DestinationsList />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path=":userId"
+              element={
+                <ProtectedRoute>
+                  <Single />
+                </ProtectedRoute>
+              }
+            />
             <Route
               path="new"
-              element={<NewDestination title="Add New Destination" />}
+              element={
+                <ProtectedRoute>
+                  <NewDestination title="Add New Destination" />
+                </ProtectedRoute>
+              }
             />
-
           </Route>
 
           <Route path="/admin/about-us">
-            <Route index element={<Aboutus />} />
-            <Route path=":userId" element={<Single />} />
+            <Route
+              index
+              element={
+                <ProtectedRoute>
+                  <Aboutus />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path=":userId"
+              element={
+                <ProtectedRoute>
+                  <Single />
+                </ProtectedRoute>
+              }
+            />
             <Route
               path="new"
-              element={<NewAboutUs title="Add New about" />}
+              element={
+                <ProtectedRoute>
+                  <NewAboutUs title="Add New about" />
+                </ProtectedRoute>
+              }
             />
-
           </Route>
 
           <Route path="/admin/customizedQueries">
-            <Route index element={<CustomizedQueries />} />
-          
+            <Route
+              index
+              element={
+                <ProtectedRoute>
+                  <CustomizedQueries />
+                </ProtectedRoute>
+              }
+            />
           </Route>
           <Route path="/admin/orders">
-            <Route index element={<Orders />} />
-          
+            <Route
+              index
+              element={
+                <ProtectedRoute>
+                  <Orders />
+                </ProtectedRoute>
+              }
+            />
           </Route>
-          <Route path="/admin/editDestination/:id"
-            element={<EditDestination title="Edit Tour" />}
-          >
+          <Route
+            path="/admin/editDestination/:id"
+            element={
+              <ProtectedRoute>
+                <EditDestination title="Edit Tour" />
+              </ProtectedRoute>
+            }
+          ></Route>
 
-          </Route>
-
-              <Route path="/admin/editBlog/:id"
-            element={<EditBlog title="Edit Tour" />}
+          <Route
+            path="/admin/editBlog/:id"
+            element={
+              <ProtectedRoute>
+                <EditBlog title="Edit Tour" />
+              </ProtectedRoute>
+            }
           ></Route>
 
           <Route path="/admin/banners">
-            <Route index element={<AddBanners />} />
-           
-
+            <Route
+              index
+              element={
+                <ProtectedRoute>
+                  <AddBanners />
+                </ProtectedRoute>
+              }
+            />
           </Route>
 
-
-          <Route path="/admin/editTour/:id"
-            element={<EditTour title="Edit Tour" />}
-          >
-            
-               
-
-
-          </Route>
+          <Route
+            path="/admin/editTour/:id"
+            element={
+              <ProtectedRoute>
+                <EditTour title="Edit Tour" />
+              </ProtectedRoute>
+            }
+          ></Route>
           <Route path="/admin/products">
-            <Route index element={<List />} />
-            <Route path=":productId" element={<Single />} />
+            <Route
+              index
+              element={
+                <ProtectedRoute>
+                  <List />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path=":productId"
+              element={
+                <ProtectedRoute>
+                  <Single />
+                </ProtectedRoute>
+              }
+            />
             <Route
               path="new"
-              element={<New inputs={productInputs} title="Add New Product" />}
+              element={
+                <ProtectedRoute>
+                  <New inputs={productInputs} title="Add New Product" />
+                </ProtectedRoute>
+              }
             />
           </Route>
         </Routes>

@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./login.scss";
+import { BASE_URL } from "../../utils/headers";
+ // Base URL for the API
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -8,22 +10,60 @@ const Login = () => {
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
+    setError(""); // Clear previous error
 
-   
-    const correctUsername = "admin";
-    const correctPassword = "123";
-
-    // Check if the entered credentials are correct
-    if (username === correctUsername && password === correctPassword) {
-      // If correct, redirect to the admin dashboard
-      navigate("/admin/home");
-    } else {
-      // If incorrect, show an error message
-      setError("Invalid username or password");
+    try {
+      // Send login request to the API
+      const response = await fetch(`${BASE_URL}/api/adminLogin`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: username, // Use 'email' as required by your API
+          password,
+        }),
+      });
+      const data = await response.json();
+      console.log(response);
+      if (data.success) {
+        
+        console.log(data);
+        if (data.data.token) {
+          // Save the token to localStorage
+          localStorage.setItem("token", data.data.token);
+          // Redirect to the admin dashboard
+          navigate("/admin/home");
+        } else {
+          setError("Failed to log in: No token received.");
+        }
+      } else {
+        setError("Invalid username or password.");
+      }
+    } catch (err) {
+      console.error("Error during login:", err);
+      setError("An error occurred. Please try again.");
     }
   };
+
+
+// for test
+// const handleLogin = async (e) => {
+//   e.preventDefault();
+
+//   try {
+//     // Simulate successful login by setting a dummy token
+//     const dummyToken = "mocked-local-token-12345";
+//     localStorage.setItem("userToken", dummyToken);
+//     navigate("/admin/home");
+//   } catch (err) {
+//     console.error("Error during login:", err);
+//     setError("An error occurred. Please try again.");
+//   }
+// };
+
 
   return (
     <div className="login">
@@ -31,7 +71,7 @@ const Login = () => {
         <h1>Admin Login</h1>
         <form onSubmit={handleLogin}>
           <div className="form-group">
-            <label htmlFor="username">Username</label>
+            <label htmlFor="username">Username (Email)</label>
             <input
               type="text"
               id="username"
