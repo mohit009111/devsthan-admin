@@ -8,11 +8,33 @@ const CreateCoupons = () => {
     discount: '',
     influencerEmail: '',
     applicableTours: 'all', // 'all' or 'specific'
-    specificTours: '', // comma-separated UUIDs for specific tours
+    specificTours: [], // comma-separated UUIDs for specific tours
   });
+  console.log(couponData)
   const [coupons, setCoupons] = useState([]); // List of coupons
   const [loading, setLoading] = useState(false);
+  const [tours, setTours] = useState([]);
+  const [selectedTours, setSelectedTours] = useState([]);
 
+  const handleOptionClick = (uuid) => {
+    setSelectedTours((prevSelectedTours) => {
+      const updatedSelectedTours = prevSelectedTours.includes(uuid)
+        ? prevSelectedTours.filter((id) => id !== uuid)
+        : [...prevSelectedTours, uuid];
+
+      // Update specificTours field in couponData as an array
+      setCouponData((prevCouponData) => ({
+        ...prevCouponData,
+        specificTours: updatedSelectedTours, // Keep it as an array
+      }));
+
+      return updatedSelectedTours;
+    });
+  };
+  const selectedTourNames = tours
+    .filter((tour) => selectedTours.includes(tour.uuid))
+    .map((tour) => tour.name)
+    .join(', ');
 
 
   // Handle form input changes
@@ -28,6 +50,16 @@ const CreateCoupons = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+
+
+    // Add the selected tours to couponData if 'specific' is chosen
+    if (couponData.applicableTours === 'specific') {
+      setCouponData((prevData) => ({
+        ...prevData,
+        specificTours: selectedTours.join(', '),
+      }));
+    }
+
 
     try {
       const response = await fetch(`${BASE_URL}/api/createCoupon`, {
@@ -47,6 +79,9 @@ const CreateCoupons = () => {
           applicableTours: 'all',
           specificTours: '',
         });
+
+        setSelectedTours([]); // Reset selected tours
+
         fetchCoupons(); // Refresh the list of coupons
       } else {
         const errorData = await response.json();
@@ -82,10 +117,34 @@ const CreateCoupons = () => {
     }
   };
 
+
+  // Fetch tours
+  const fetchTours = async () => {
+    setLoading(true);
+
+    try {
+      const response = await fetch(`${BASE_URL}/api/tourSelectedDetails`, {
+        method: 'GET',
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setTours(data.data);
+      } else {
+        console.error('Failed to fetch tours');
+      }
+    } catch (error) {
+      console.error('Error fetching tours:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // Delete a coupon
   const handleDelete = async (id) => {
     try {
-      const response = await fetch(`${BASE_URL}/coupons/${id}`, {
+      const response = await fetch(`${BASE_URL}/api/deleteCoupon/${id}`, {
+
         method: 'DELETE',
       });
 
@@ -100,9 +159,12 @@ const CreateCoupons = () => {
     }
   };
 
-  // Fetch coupons on component mount
+
+  // Fetch coupons and tours on component mount
   useEffect(() => {
     fetchCoupons();
+    fetchTours();
+
   }, []);
 
   return (
@@ -150,24 +212,62 @@ const CreateCoupons = () => {
             id="applicableTours"
             name="applicableTours"
             value={couponData.applicableTours}
-            onChange={handleChange}
+
+            onChange={(e) =>
+              setCouponData((prev) => ({
+                ...prev,
+                applicableTours: e.target.value,
+              }))
+            }
+
           >
             <option value="all">All Tours</option>
             <option value="specific">Specific Tours</option>
           </select>
         </div>
+
+
+        {/* Custom dropdown for selecting specific tours */}
         {couponData.applicableTours === 'specific' && (
           <div className="form-group">
-            <label htmlFor="specificTours">Enter Tour IDs (comma-separated):</label>
-            <input
-              type="text"
-              id="specificTours"
-              name="specificTours"
-              value={couponData.specificTours}
-              onChange={handleChange}
-            />
+            <label htmlFor="specificTours">Select Tours:</label>
+            <div className="custom-dropdown">
+              <input
+                type="text"
+                id="specificTours"
+                name="specificTours"
+                placeholder="Click to select tours"
+                value={selectedTourNames}
+                readOnly
+              />
+              <select multiple>
+                <option disabled>Select Tours</option>
+                {tours.map((tour) => (
+                  <option
+                    key={tour.uuid}
+                    value={tour.uuid}
+                    onClick={() => handleOptionClick(tour.uuid)}
+                    className={selectedTours.includes(tour.uuid) ? 'selected' : ''}
+                  >
+                    {tour.name}
+                  </option>
+                ))}
+              </select>
+              <div>
+                <h4>Selected Tours:</h4>
+                <ul>
+                  {tours
+                    .filter((tour) => selectedTours.includes(tour.uuid))
+                    .map((tour) => (
+                      <li key={tour.uuid}>{tour.name}</li>
+                    ))}
+                </ul>
+              </div>
+            </div>
           </div>
         )}
+
+
         <button type="submit" disabled={loading}>
           {loading ? 'Creating...' : 'Create Coupon'}
         </button>
@@ -176,17 +276,26 @@ const CreateCoupons = () => {
       <h2>Existing Coupons</h2>
       {loading && <p>Loading coupons...</p>}
       {!loading && coupons.length === 0 && <p>No coupons found.</p>}
+
+      {console.log(coupons
+      )}
       <ul className="coupon-list">
         {coupons.map((coupon) => (
-          <li key={coupon.id} className="coupon-item">
-            <p><strong>Code:</strong> {coupon.code}</p>
-            <p><strong>Discount:</strong> {coupon.discount}%</p>
-            <p><strong>Influencer Email:</strong> {coupon.influencerEmail}</p>
-            <p><strong>Applicable Tours:</strong> {coupon.applicableTours}</p>
-            <button onClick={() => handleDelete(coupon.id)} className="delete-button">
-              Delete
-            </button>
-          </li>
+
+          <>
+            <a href={`/admin/createCoupon/couponDetails/${coupon.code}`}>
+              <li key={coupon.id} className="coupon-item">
+                <p><strong>Code:</strong> {coupon.code}</p>
+                <p><strong>Discount:</strong> {coupon.discount}%</p>
+                <p><strong>Influencer Email:</strong> {coupon.influencerEmail}</p>
+                <p><strong>Applicable Tours:</strong> {coupon.applicableTours}</p>
+                <button onClick={() => handleDelete(coupon._id)} className="delete-button">
+                  Delete
+                </button>
+              </li>
+            </a>
+          </>
+
         ))}
       </ul>
     </div>

@@ -18,6 +18,7 @@ import { useContext } from "react";
 const Sidebar = () => {
   const { dispatch } = useContext(DarkModeContext);
 
+
   const handleLogout = () => {
     localStorage.clear(); // Clears all items from local storage
     alert("You have been logged out!");
@@ -25,6 +26,7 @@ const Sidebar = () => {
     window.location.href = "/admin/login"; // Adjust the path to your login route
   };
   
+
   return (
     <div className="sidebar">
       <div className="top">
@@ -48,6 +50,14 @@ const Sidebar = () => {
               <span>Tours</span>
             </li>
           </Link>
+
+          <Link to="/admin/createCoupon" style={{ textDecoration: "none" }}>
+            <li>
+              <StoreIcon className="icon" />
+              <span>Coupons</span>
+            </li>
+          </Link>
+
           <Link to="/admin/inquiries" style={{ textDecoration: "none" }}>
             <li>
               <StoreIcon className="icon" />
@@ -97,10 +107,9 @@ const Sidebar = () => {
               <span>Destinations</span>
             </li>
           </Link>
-          <Link
-            to="/admin/customizedQueries"
-            style={{ textDecoration: "none" }}
-          >
+
+          <Link to="/admin/customizedQueries" style={{ textDecoration: "none" }}>
+
             <li>
               <PersonOutlineIcon className="icon" />
               <span>Customized Queries</span>
@@ -147,7 +156,10 @@ const Sidebar = () => {
             <AccountCircleOutlinedIcon className="icon" />
             <span>Profile</span>
           </li>
+
           <li onClick={handleLogout}>
+
+
             <ExitToAppIcon className="icon" />
             <span>Logout</span>
           </li>

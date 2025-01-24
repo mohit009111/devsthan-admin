@@ -9,6 +9,8 @@ import New from "./pages/new/New";
 import NewDestination from "./pages/newDestination/newDestination";
 import CreateCoupon from "./pages/coupon/index";
 
+import CouponDetails from "./pages/couponDetails/couponDetails";
+
 import CustomizedQueries from "./pages/customizedQueries/customizedQueries";
 import Orders from "./pages/orders/orders";
 import NewAboutUs from "./pages/about-us/aboutUs";
@@ -16,8 +18,10 @@ import Aboutus from "./pages/about-us/aboutUs";
 import NewBlog from "./pages/newBlog/newBlog";
 import ContactsList from "./pages/contacts/contactsList";
 import BlogsList from "./pages/blogs/blogsList";
+
 import InquiriesList from "./pages/inquiries/inquiryList";
 import AddBanners from "./pages/addBanners/addBanners";
+
 import EditTour from "./pages/edit/EditTour";
 import EditDestination from "./pages/editDestination/editDestination";
 import EditBlog from "./pages/editBlog/editBlog";
@@ -26,9 +30,11 @@ import { productInputs, userInputs } from "./formSource";
 import "./style/dark.scss";
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext";
+
 import { ToastContainer } from "react-toastify";
 import { Toaster } from "react-hot-toast";
 import ProtectedRoute from "./ProtectedRoute";
+
 function App() {
   const { darkMode } = useContext(DarkModeContext);
 
@@ -38,6 +44,7 @@ function App() {
       <Toaster />
       <BrowserRouter>
         <Routes>
+
           <Route
             path="/"
             element={
@@ -140,11 +147,13 @@ function App() {
                   <NewBlog title="Add New Blog" />
                 </ProtectedRoute>
               }
-            />
-            {/* <Route
-              path="editBlog/:id"
-              element={<EditBlog title="Add New Blog" />}
-            /> */}
+          >
+          </Route>
+          </Route>
+          <Route path="/admin/createCoupon/couponDetails/:id">
+            <Route index element={ <ProtectedRoute>
+              <CouponDetails />
+            </ProtectedRoute>} />
           </Route>
           <Route path="/admin/tours">
             <Route
@@ -225,6 +234,8 @@ function App() {
               }
             />
           </Route>
+
+          
 
           <Route path="/admin/customizedQueries">
             <Route
@@ -307,6 +318,7 @@ function App() {
                   <New inputs={productInputs} title="Add New Product" />
                 </ProtectedRoute>
               }
+
             />
           </Route>
         </Routes>
@@ -316,3 +328,5 @@ function App() {
 }
 
 export default App;
+
+
