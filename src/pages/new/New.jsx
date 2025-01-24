@@ -1425,43 +1425,45 @@ const NewTour = ({ title }) => {
       try {
         setLoading(true);
 
-        const uploadedImageUrls = [];
-        const awsRegion = process.env.AWS_REGION;
-        const awsBucketName = process.env.AWS_BUCKET_NAME;
+        const cloudinaryURL =
+          "https://api.cloudinary.com/v1_1/drsexfijb/image/upload";
+        const uploadPreset = "devsthan";
 
-        // Configure AWS S3
-        AWS.config.update({
-          accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-          secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-          region: awsRegion,
-        });
-
-        const s3 = new AWS.S3();
-
-        // Helper: Upload a single image to AWS S3
-        const uploadImageToS3 = async (image) => {
+        // Helper: Upload a single image to Cloudinary
+        const uploadImageToCloudinary = async (image) => {
           if (!image) return null; // Skip invalid images
+
+          // Skip if the image is already a URL
+          if (typeof image === "string" && image.startsWith("http")) {
+            return image;
+          }
 
           // If the image is a blob URL, fetch the blob and convert it to a File
           if (typeof image === "string" && image.startsWith("blob:")) {
             const blob = await fetch(image).then((res) => res.blob());
+            console.log("Converted Blob to File:", blob);
             image = new File([blob], "image.jpg", { type: blob.type });
           }
 
-          const fileName = `${Date.now()}-${image.name}`;
-          const params = {
-            Bucket: awsBucketName, // S3 bucket name
-            Key: fileName, // File name to save in S3
-            Body: image,
-            ContentType: image.type,
-            ACL: "public-read", // Make the file publicly accessible
-          };
+          const formData = new FormData();
+          formData.append("file", image);
+          formData.append("upload_preset", uploadPreset);
 
-          try {
-            const data = await s3.upload(params).promise();
-            return data.Location; // This is the URL to access the uploaded image
-          } catch (error) {
-            throw new Error(error.message || "Failed to upload image to S3");
+          const response = await fetch(cloudinaryURL, {
+            method: "POST",
+            body: formData,
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            console.log("Uploaded to Cloudinary:", data.secure_url);
+            return data.secure_url;
+          } else {
+            const errorData = await response.json();
+            console.error("Cloudinary Upload Error:", errorData);
+            throw new Error(
+              errorData.error?.message || "Failed to upload image"
+            );
           }
         };
 
@@ -1469,87 +1471,78 @@ const NewTour = ({ title }) => {
         const uploadImagesForField = async (photos = []) => {
           if (!Array.isArray(photos)) return [];
           return await Promise.all(
-            photos.map(async (photo) =>
-              photo ? await uploadImageToS3(photo) : null
-            )
+            photos.map(async (photo, index) => {
+              try {
+                if (photo) {
+                  const uploadedUrl = await uploadImageToCloudinary(photo);
+                  console.log(`Uploaded photo ${index + 1}:`, uploadedUrl);
+                  return uploadedUrl;
+                }
+                return null;
+              } catch (error) {
+                console.error(`Error uploading photo ${index + 1}:`, error);
+                return null;
+              }
+            })
           );
         };
 
-        // Process and upload images for an itinerary
+        // Helper: Append uploaded image URLs to itinerary fields
         const appendImagesToItinerary = async (itinerary) => {
           if (!itinerary) return;
 
-          // SiteSeeing Photos
-          if (itinerary.siteSeen?.photos) {
-            itinerary.siteSeen.photos = await uploadImagesForField(
-              itinerary.siteSeen.photos
-            );
-            uploadedImageUrls.push(...itinerary.siteSeen.photos);
-          }
-          if (itinerary.welcomeDrinks?.photos) {
-            itinerary.welcomeDrinks.photos = await uploadImagesForField(
-              itinerary.welcomeDrinks.photos
-            );
-            uploadedImageUrls.push(...itinerary.welcomeDrinks.photos);
-          }
-          if (itinerary.photos) {
-            itinerary.photos = await uploadImagesForField(itinerary.photos);
-            uploadedImageUrls.push(...itinerary.photos);
-          }
+          const uploadFields = [
+            { key: "siteSeen.photos", photos: itinerary.siteSeen?.photos },
+            {
+              key: "welcomeDrinks.photos",
+              photos: itinerary.welcomeDrinks?.photos,
+            },
+            { key: "photos", photos: itinerary.photos },
+            { key: "hotel.hotelImages", photos: itinerary.hotel?.hotelImages },
+            { key: "hotel.roomImages", photos: itinerary.hotel?.roomImages },
+            { key: "tourManager.photo", photos: itinerary.tourManager?.photo },
+            { key: "activity.photos", photos: itinerary.activity?.photos },
+          ];
 
-          // Hotel Images
-          if (itinerary.hotel?.hotelImages) {
-            itinerary.hotel.hotelImages = await uploadImagesForField(
-              itinerary.hotel.hotelImages
-            );
-            uploadedImageUrls.push(...itinerary.hotel.hotelImages);
-          }
-          if (itinerary.tourManager?.photo) {
-            itinerary.tourManager.photo = await uploadImagesForField(
-              itinerary.tourManager.photo
-            );
-            uploadedImageUrls.push(...itinerary.tourManager.photo);
-          }
-          if (itinerary.hotel?.roomImages) {
-            itinerary.hotel.roomImages = await uploadImagesForField(
-              itinerary.hotel.roomImages
-            );
-            uploadedImageUrls.push(...itinerary.hotel.roomImages);
-          }
-
-          // Activity Photos
-          if (itinerary.activity?.photos) {
-            itinerary.activity.photos = await uploadImagesForField(
-              itinerary.activity.photos
-            );
-            uploadedImageUrls.push(...itinerary.activity.photos);
-          }
-
-          if (itinerary.meals) {
-            const mealTypes = ["breakfast", "lunch", "dinner"];
-            for (const mealType of mealTypes) {
-              if (itinerary.meals[mealType]?.photos) {
-                itinerary.meals[mealType].photos = await uploadImagesForField(
-                  itinerary.meals[mealType].photos
-                );
-                uploadedImageUrls.push(...itinerary.meals[mealType].photos);
-              }
+          const mealTypes = ["breakfast", "lunch", "dinner"];
+          mealTypes.forEach((mealType) => {
+            if (Array.isArray(itinerary.meals?.[mealType]?.photos)) {
+              uploadFields.push({
+                key: `meals.${mealType}.photos`,
+                photos: itinerary.meals[mealType].photos,
+              });
             }
-          }
+          });
 
-          // Transportation Images
-          if (itinerary.transportation) {
-            const transportModes = ["car", "bus", "train", "flight", "chopper"];
-            for (const mode of transportModes) {
-              if (itinerary.transportation[mode]?.photos) {
-                itinerary.transportation[mode].photos =
-                  await uploadImagesForField(
-                    itinerary.transportation[mode].photos
-                  );
-                uploadedImageUrls.push(
-                  ...itinerary.transportation[mode].photos
-                );
+          const transportModes = ["car", "bus", "train", "flight", "chopper"];
+          transportModes.forEach((mode) => {
+            if (Array.isArray(itinerary.transportation?.[mode]?.photos)) {
+              uploadFields.push({
+                key: `transportation.${mode}.photos`,
+                photos: itinerary.transportation[mode].photos,
+              });
+            }
+          });
+
+          console.log("Upload Fields Before Upload:", uploadFields);
+
+          // Process each upload field
+          for (const field of uploadFields) {
+            if (Array.isArray(field.photos)) {
+              const uploadedUrls = await uploadImagesForField(field.photos);
+              console.log(`Uploaded photos for ${field.key}:`, uploadedUrls);
+
+              // Update the respective field in the itinerary object
+              const keys = field.key.split(".");
+              let ref = itinerary;
+
+              // Navigate to the correct nested field
+              for (let i = 0; i < keys.length - 1; i++) {
+                ref = ref[keys[i]];
               }
+
+              // Set the uploaded URLs
+              ref[keys[keys.length - 1]] = uploadedUrls;
             }
           }
         };
@@ -1563,6 +1556,10 @@ const NewTour = ({ title }) => {
         for (const category of itineraryCategories) {
           if (tourData[category]?.itineraries) {
             for (const itinerary of tourData[category].itineraries) {
+              console.log(
+                `Processing itinerary for category ${category}:`,
+                itinerary
+              );
               await appendImagesToItinerary(itinerary);
             }
           }
@@ -1570,20 +1567,21 @@ const NewTour = ({ title }) => {
 
         // Upload banner image
         if (tourData.bannerImage) {
-          tourData.bannerImage = await uploadImageToS3(tourData.bannerImage);
-          uploadedImageUrls.push(tourData.bannerImage);
+          tourData.bannerImage = await uploadImageToCloudinary(
+            tourData.bannerImage
+          );
+          console.log("Uploaded Banner Image:", tourData.bannerImage);
         }
 
         // Upload additional images
         if (tourData.images?.length) {
           tourData.images = await uploadImagesForField(tourData.images);
-          uploadedImageUrls.push(...tourData.images);
+          console.log("Uploaded Additional Images:", tourData.images);
         }
 
-        // Add all uploaded image URLs to the appropriate places in tourData
-
-        // Prepare the tourData for submission (don't need FormData here)
+        // Prepare the tourData for submission
         const cleanTourData = { ...tourData };
+        console.log("Final Payload Before Submission:", cleanTourData);
 
         // Submit data to the backend
         const response = await fetch(`${BASE_URL}/api/createTours`, {
@@ -1591,7 +1589,7 @@ const NewTour = ({ title }) => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(cleanTourData), // Send tourData as JSON
+          body: JSON.stringify(cleanTourData),
         });
 
         if (response.ok) {
@@ -1600,6 +1598,7 @@ const NewTour = ({ title }) => {
           console.log("Save response:", responseData);
         } else {
           const errorData = await response.json();
+          console.error("Backend Error Response:", errorData);
           throw new Error(errorData.error || "Failed to save tour data");
         }
       } catch (error) {

@@ -83,10 +83,12 @@ const EditBlog = ({ title }) => {
         setLoading(true);
         try {
             const uploadImageToCloudinary = async (image) => {
-                const cloudinaryURL = 'https://api.cloudinary.com/v1_1/dmyzudtut/image/upload';
+             
+      
+                const cloudinaryURL = ' "https://api.cloudinary.com/v1_1/drsexfijb/image/upload";';
                 const formData = new FormData();
                 formData.append('file', image);
-                formData.append('upload_preset', 'ljqbwqy9');
+                formData.append('upload_preset', 'devsthan');
 
                 const response = await fetch(cloudinaryURL, {
                     method: 'POST',

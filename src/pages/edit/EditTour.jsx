@@ -902,8 +902,8 @@ const NewTour = ({ title }) => {
         setLoading(true);
 
         const cloudinaryURL =
-          "https://api.cloudinary.com/v1_1/dmyzudtut/image/upload";
-        const uploadPreset = "ljqbwqy9";
+          "https://api.cloudinary.com/v1_1/drsexfijb/image/upload";
+        const uploadPreset = "devsthan";
 
         // Helper: Upload a single image to Cloudinary
         const uploadImageToCloudinary = async (image) => {
