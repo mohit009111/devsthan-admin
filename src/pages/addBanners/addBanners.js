@@ -191,7 +191,7 @@ const NewBlog = ({ title }) => {
     formData.append("file", imageFile); // Image file to upload
     formData.append("upload_preset", "devsthan"); // Your Cloudinary upload preset
 
-    const cloudinaryURL = ' "https://api.cloudinary.com/v1_1/drsexfijb/image/upload";';
+    const cloudinaryURL = "https://api.cloudinary.com/v1_1/drsexfijb/image/upload";
 
     try {
       const response = await fetch(cloudinaryURL, {

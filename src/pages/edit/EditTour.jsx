@@ -980,6 +980,8 @@ const NewTour = ({ title }) => {
             { key: "activity.photos", photos: itinerary.activity?.photos },
           ];
 
+          
+
           const mealTypes = ["breakfast", "lunch", "dinner"];
           mealTypes.forEach((mealType) => {
             if (Array.isArray(itinerary.meals?.[mealType]?.photos)) {
