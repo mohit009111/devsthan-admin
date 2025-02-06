@@ -1,0 +1,7 @@
+.loader-container{
+    position: fixed;  /* Fixed positioning to keep it on the screen */
+    top: 50%;  /* Vertically center */
+    left: 50%;  /* Horizontally center */
+    transform: translate(-50%, -50%);  /* Offset the element by half of its width/height to truly center it */
+    z-index: 9999;  /* Ensure it's on top of other content */
+}

@@ -1,0 +1,111 @@
+.new {
+    display: flex;
+}
+
+.newContainer {
+    flex: 6;
+    padding: 20px;
+    background-color: #f9f9f9;
+}
+.preview {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    flex-wrap: wrap;
+}
+
+.preview img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.imagePreview {
+    position: relative;
+    /* display: inline-block; */
+    margin: 5px;
+}
+
+.imagePreview img {
+    max-width: 150px;
+    border-radius: 5px;
+}
+
+
+.top {
+    margin-bottom: 20px;
+}
+
+.top h1 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+}
+
+.bottom {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+}
+
+.formGroup label {
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #555;
+}
+
+.formGroup input[type="file"] {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f5f5f5;
+    cursor: pointer;
+}
+
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+.preview {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.preview-image-container {
+    position: relative;
+    display: inline-block;
+}
+
+img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+}
