@@ -1,0 +1,11 @@
+.editorContainer {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    background-color: #fff;
+    min-height: 200px;
+  }
+  .ck-editor__editable_inline {
+    min-height: 150px;
+  }
+  
