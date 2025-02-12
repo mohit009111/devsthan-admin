@@ -127,6 +127,12 @@ const Sidebar = () => {
               <span>Banners</span>
             </li>
           </Link>
+          <Link to="/admin/faqs" style={{ textDecoration: "none" }}>
+            <li>
+              <PersonOutlineIcon className="icon" />
+              <span>FAQS</span>
+            </li>
+          </Link>
           {/* <li>
             <CreditCardIcon className="icon" />
             <span>Orders</span>

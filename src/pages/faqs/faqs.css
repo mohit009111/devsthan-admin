@@ -1,0 +1,91 @@
+.new {
+    display: flex;
+  }
+  
+  .newContainer {
+    flex: 1;
+    padding: 20px;
+  }
+  
+  .top {
+    margin-bottom: 20px;
+  }
+  
+  .tourList {
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .tourList h2 {
+    margin-bottom: 10px;
+  }
+  
+  .tourList ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .tourList li {
+    padding: 10px;
+    background: #fff;
+    margin-bottom: 8px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.3s;
+  }
+  
+  .tourList li:hover {
+    background: #ececec;
+  }
+  
+  .faqSection {
+    margin-top: 20px;
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .faqSection h2 {
+    margin-bottom: 10px;
+  }
+  
+  .faqSection ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .faqSection li {
+    background: #f9f9f9;
+    padding: 8px;
+    margin-bottom: 5px;
+    border-radius: 4px;
+  }
+  
+  .faqSection input {
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-top: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .faqSection button {
+    display: block;
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .faqSection button:hover {
+    background: #0056b3;
+  }
+  

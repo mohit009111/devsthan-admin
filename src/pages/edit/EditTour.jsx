@@ -1442,126 +1442,129 @@ console.log(tourData)
               placeholder="Enter itinerary description"
             />
 
-            <div className="labels">
-              {" "}
+<div className="labels">
               <label>Siteseen:</label>
               <input
                 type="checkbox"
-                checked={itinerary.siteSeen?.isAvailable || false}
+                checked={itinerary.siteSeen?.length > 0}
                 onChange={(e) =>
                   handleItineraryChange(
                     index,
                     "siteSeen",
-                    { ...itinerary.siteSeen, isAvailable: e.target.checked },
+                    e.target.checked ? [{ name: "", description: "", photos: [] }] : [],
                     "standardDetails"
                   )
                 }
               />
             </div>
 
-            {itinerary.siteSeen?.isAvailable && (
+            {itinerary.siteSeen?.length > 0 && (
               <div className="siteseen-section">
                 <h4>Siteseen Details</h4>
 
-                {/* Siteseen Name */}
-                <input
-                  type="text"
-                  placeholder="Enter Siteseen name"
-                  value={itinerary.siteSeen.name || ""}
-                  onChange={(e) =>
-                    handleItineraryChange(
-                      index,
-                      "siteSeen",
-                      { ...itinerary.siteSeen, name: e.target.value },
-                      "standardDetails"
-                    )
-                  }
-                />
+                {itinerary?.siteSeen?.map((site, siteIndex) => (
 
-                {/* Siteseen Description */}
-                <textarea
-                  placeholder="Enter Siteseen description"
-                  value={itinerary.siteSeen.description || ""}
-                  onChange={(e) =>
-                    handleItineraryChange(
-                      index,
-                      "siteSeen",
-                      { ...itinerary.siteSeen, description: e.target.value },
-                      "standardDetails"
-                    )
-                  }
-                ></textarea>
-
-                {/* Siteseen Photos */}
-                <label>Upload Siteseen Photos(width: 800px , height: 350px)</label>
-                <input
-                  type="file"
-                  multiple
-                  onChange={(e) => {
-                    const files = Array.from(e.target.files).map((file) =>
-                      URL.createObjectURL(file)
-                    );
-                    handleItineraryChange(
-                      index,
-                      "siteSeen",
-                      {
-                        ...itinerary.siteSeen,
-                        photos: [
-                          ...(itinerary.siteSeen.photos || []),
-                          ...files,
-                        ],
-                      },
-                      "standardDetails"
-                    );
-                  }}
-                />
-
-                <div className="preview-photos">
-                  {itinerary.siteSeen?.photos &&
-                    itinerary.siteSeen.photos.map((photo, photoIndex) => (
-                      <div
-                        key={photoIndex}
-                        style={{
-                          display: "inline-block",
-                          position: "relative",
-                          margin: "5px",
+                  <>
+                    <h3>siteseen {siteIndex + 1}</h3>
+                    <div key={siteIndex} className="siteseen-entry">
+                      {/* Siteseen Name */}
+                      <input
+                        type="text"
+                        placeholder="Enter Siteseen name"
+                        value={site.name}
+                        onChange={(e) => {
+                          const updatedSites = [...itinerary.siteSeen];
+                          updatedSites[siteIndex].name = e.target.value;
+                          handleItineraryChange(index, "siteSeen", updatedSites, "standardDetails");
                         }}
-                      >
-                        <img
-                          src={photo}
-                          alt={`Siteseen photo ${photoIndex + 1}`}
-                          width="100"
-                          style={{ display: "block" }}
-                        />
-                        <button
-                          style={{
-                            position: "absolute",
-                            top: 0,
-                            right: 0,
-                            backgroundColor: "red",
-                            color: "white",
-                            border: "none",
-                            cursor: "pointer",
-                            padding: "5px",
-                          }}
-                          onClick={() => {
-                            const updatedPhotos =
-                              itinerary.siteSeen.photos.filter(
-                                (_, i) => i !== photoIndex
-                              );
-                            handleItineraryChange(
-                              index,
-                              "siteSeen",
-                              { ...itinerary.siteSeen, photos: updatedPhotos },
-                              "standardDetails"
-                            );
-                          }}
-                        >
-                          ×
-                        </button>
+                      />
+
+                      {/* Siteseen Description */}
+                      <textarea
+                        placeholder="Enter Siteseen description"
+                        value={site.description}
+                        onChange={(e) => {
+                          const updatedSites = [...itinerary.siteSeen];
+                          updatedSites[siteIndex].description = e.target.value;
+                          handleItineraryChange(index, "siteSeen", updatedSites, "standardDetails");
+                        }}
+                      ></textarea>
+
+                      {/* Siteseen Photos */}
+                      <label>Upload Siteseen Photos(width: 800px, height:350px)</label>
+                      <input
+                        type="file"
+                        multiple
+                        onChange={(e) => {
+                          const files = Array.from(e.target.files).map((file) => URL.createObjectURL(file));
+                          const updatedSites = [...itinerary.siteSeen];
+                          updatedSites[siteIndex].photos = [...(updatedSites[siteIndex].photos || []), ...files];
+                          handleItineraryChange(index, "siteSeen", updatedSites, "standardDetails");
+                        }}
+                      />
+
+                      <div className="preview-photos">
+                        {site.photos &&
+                          site.photos.map((photo, photoIndex) => (
+                            <div
+                              key={photoIndex}
+                              style={{
+                                display: "inline-block",
+                                position: "relative",
+                                margin: "5px",
+                              }}
+                            >
+                              <img src={photo} alt={`Siteseen photo ${photoIndex + 1}`} width="100" />
+                              <button
+                                style={{
+                                  position: "absolute",
+                                  top: 0,
+                                  right: 0,
+                                  backgroundColor: "red",
+                                  color: "white",
+                                  border: "none",
+                                  cursor: "pointer",
+                                  padding: "5px",
+                                }}
+                                onClick={() => {
+                                  const updatedPhotos = site.photos.filter((_, i) => i !== photoIndex);
+                                  const updatedSites = [...itinerary.siteSeen];
+                                  updatedSites[siteIndex].photos = updatedPhotos;
+                                  handleItineraryChange(index, "siteSeen", updatedSites, "standardDetails");
+                                }}
+                              >
+                                ×
+                              </button>
+                            </div>
+                          ))}
                       </div>
-                    ))}
-                </div>
+
+                      {/* Remove Siteseen */}
+                      <button
+                        onClick={() => {
+                          const updatedSites = itinerary.siteSeen.filter((_, i) => i !== siteIndex);
+                          handleItineraryChange(index, "siteSeen", updatedSites, "standardDetails");
+                        }}
+                        style={{ backgroundColor: "red", color: "white", marginTop: "10px" }}
+                      >
+                        Remove Siteseen
+                      </button>
+                    </div>
+
+                  </>
+
+                ))}
+{console.log(itinerary.siteSeen)}
+                {/* Add New Siteseen */}
+                <button
+                  onClick={() => {
+                    const updatedSites = [...itinerary.siteSeen, { name: "", description: "", photos: [] }];
+                    handleItineraryChange(index, "siteSeen", updatedSites, "standardDetails");
+                  }}
+                  style={{ marginTop: "10px", backgroundColor: "green", color: "white" }}
+                >
+                  Add Siteseen
+                </button>
               </div>
             )}
 
@@ -2355,129 +2358,138 @@ console.log(tourData)
                 )}
               </div>
             ) : null}
-            <div className="labels">
-              <label> Include Activity</label>
-              <input
-                type="checkbox"
-                checked={itinerary.activity?.isIncluded || false}
-                onChange={(e) =>
-                  handleItineraryChange(
-                    index,
-                    "activity",
-                    { ...itinerary.activity, isIncluded: e.target.checked },
-                    "standardDetails"
-                  )
-                }
-              />
-            </div>
-
-            {itinerary.activity?.isIncluded && (
-              <div className="activity-details">
-                <input
-                  type="text"
-                  placeholder="Enter activity name"
-                  value={itinerary.activity.name || ""}
-                  onChange={(e) =>
-                    handleItineraryChange(
-                      index,
-                      "activity",
-                      { ...itinerary.activity, name: e.target.value },
-                      "standardDetails"
-                    )
-                  }
-                />
-                <textarea
-                  placeholder="Enter activity description"
-                  value={itinerary.activity.description || ""}
-                  onChange={(e) =>
-                    handleItineraryChange(
-                      index,
-                      "activity",
-                      { ...itinerary.activity, description: e.target.value },
-                      "standardDetails"
-                    )
-                  }
-                />
-
-                <input
-                  type="number"
-                  placeholder="Enter activity price"
-                  value={itinerary.activity.price || ""}
-                  onChange={(e) =>
-                    handleItineraryChange(
-                      index,
-                      "activity",
-                      { ...itinerary.activity, price: e.target.value },
-                      "standardDetails"
-                    )
-                  }
-                />
-
-                <label>Upload Photos (width: 800px , height: 350px)</label>
-                <input
-                  type="file"
-                  multiple
-                  onChange={(e) =>
-                    handleActivityPhotos(
-                      index,
-                      "activity",
-                      e.target.files,
-                      "standardDetails"
-                    )
-                  }
-                />
-                {itinerary.activity.photos.length > 0 && (
-                  <div className="preview-photos">
-                    {itinerary.activity.photos.map((photo, photoIndex) => (
-                      <div
-                        key={photoIndex}
-                        className="photo-container"
-                        style={{
-                          position: "relative",
-                          display: "inline-block",
-                          margin: "5px",
-                        }}
-                      >
-                        <img
-                          src={photo}
-                          alt={`Activity photo ${photoIndex + 1}`}
-                          width="100"
-                          style={{ display: "block" }}
+               <div className="labels">
+                        <label>Include Activity</label>
+                        <input
+                          type="checkbox"
+                          checked={itinerary.activities?.length > 0}
+                          onChange={(e) =>
+                            handleItineraryChange(
+                              index,
+                              "activities",
+                              e.target.checked ? [{ name: "", description: "", price: "", photos: [] }] : [],
+                              "standardDetails"
+                            )
+                          }
                         />
-                        <button
-                          onClick={() => {
-                            // Remove the selected photo
-                            const updatedActivityPhotos =
-                              itinerary.activity.photos.filter(
-                                (_, i) => i !== photoIndex
-                              );
-                            const updatedItineraries = [
-                              ...tourData.standardDetails.itineraries,
-                            ];
-                            updatedItineraries[index] = {
-                              ...itinerary,
-                              activity: {
-                                ...itinerary.activity,
-                                photos: updatedActivityPhotos, // Update activity photos
-                              },
-                            };
-                            setTourData({
-                              ...tourData,
-                              standardDetails: {
-                                ...tourData.standardDetails,
-                                itineraries: updatedItineraries,
-                              },
-                            });
-                          }}
-                        >
-                          ×
-                        </button>
                       </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
+
+                      {itinerary.activities?.length > 0 && (
+                        <div className="activity-details">
+                          <h4>Activity Details</h4>
+
+                          {itinerary.activities.map((activity, activityIndex) => (
+                            <div key={activityIndex} className="activity-entry">
+                              {/* Activity Name */}
+                              <input
+                                type="text"
+                                placeholder="Enter activity name"
+                                value={activity.name || ""}
+                                onChange={(e) => {
+                                  const updatedActivities = [...itinerary.activities];
+                                  updatedActivities[activityIndex].name = e.target.value;
+                                  handleItineraryChange(index, "activities", updatedActivities, "standardDetails");
+                                }}
+                              />
+
+                              {/* Activity Description */}
+                              <textarea
+                                placeholder="Enter activity description"
+                                value={activity.description || ""}
+                                onChange={(e) => {
+                                  const updatedActivities = [...itinerary.activities];
+                                  updatedActivities[activityIndex].description = e.target.value;
+                                  handleItineraryChange(index, "activities", updatedActivities, "standardDetails");
+                                }}
+                              ></textarea>
+
+                              {/* Activity Price */}
+                              <input
+                                type="number"
+                                placeholder="Enter activity price"
+                                value={activity.price || ""}
+                                onChange={(e) => {
+                                  const updatedActivities = [...itinerary.activities];
+                                  updatedActivities[activityIndex].price = e.target.value;
+                                  handleItineraryChange(index, "activities", updatedActivities, "standardDetails");
+                                }}
+                              />
+
+                              {/* Upload Photos */}
+                              <label>Upload Photos(width: 800px, height:350px)</label>
+                              <input
+                                type="file"
+                                multiple
+                                onChange={(e) => {
+                                  const files = Array.from(e.target.files).map((file) => URL.createObjectURL(file));
+                                  const updatedActivities = [...itinerary.activities];
+                                  updatedActivities[activityIndex].photos = [...(updatedActivities[activityIndex].photos || []), ...files];
+                                  handleItineraryChange(index, "activities", updatedActivities, "standardDetails");
+                                }}
+                              />
+
+                              {/* Display Uploaded Photos */}
+                              <div className="preview-photos">
+                                {activity.photos &&
+                                  activity.photos.map((photo, photoIndex) => (
+                                    <div
+                                      key={photoIndex}
+                                      style={{
+                                        display: "inline-block",
+                                        position: "relative",
+                                        margin: "5px",
+                                      }}
+                                    >
+                                      <img src={photo} alt={`Activity photo ${photoIndex + 1}`} width="100" />
+                                      <button
+                                        style={{
+                                          position: "absolute",
+                                          top: 0,
+                                          right: 0,
+                                          backgroundColor: "red",
+                                          color: "white",
+                                          border: "none",
+                                          cursor: "pointer",
+                                          padding: "5px",
+                                        }}
+                                        onClick={() => {
+                                          const updatedPhotos = activity.photos.filter((_, i) => i !== photoIndex);
+                                          const updatedActivities = [...itinerary.activities];
+                                          updatedActivities[activityIndex].photos = updatedPhotos;
+                                          handleItineraryChange(index, "activities", updatedActivities, "standardDetails");
+                                        }}
+                                      >
+                                        ×
+                                      </button>
+                                    </div>
+                                  ))}
+                              </div>
+
+                              {/* Remove Activity Button */}
+                              <button
+                                onClick={() => {
+                                  const updatedActivities = itinerary.activities.filter((_, i) => i !== activityIndex);
+                                  handleItineraryChange(index, "activities", updatedActivities, "standardDetails");
+                                }}
+                                style={{ backgroundColor: "red", color: "white", marginTop: "10px" }}
+                              >
+                                Remove Activity
+                              </button>
+                            </div>
+                          ))}
+
+                          {/* Add New Activity Button */}
+                          <button
+                            onClick={() => {
+                              const updatedActivities = [...itinerary.activities, { name: "", description: "", price: "", photos: [] }];
+                              handleItineraryChange(index, "activities", updatedActivities, "standardDetails");
+                            }}
+                            style={{ marginTop: "10px", backgroundColor: "green", color: "white" }}
+                          >
+                            Add Activity
+                          </button>
+                        </div>
+                      )}
             <div className="labels">
               <label> Include Transportation</label>
               <input
@@ -3859,109 +3871,129 @@ console.log(tourData)
               </div>
             )}
 
-            <div className="labels">
-              {" "}
+<div className="labels">
               <label>Siteseen:</label>
               <input
                 type="checkbox"
-                checked={itinerary.siteSeen?.isAvailable || false}
+                checked={itinerary.siteSeen?.length > 0}
                 onChange={(e) =>
                   handleItineraryChange(
                     index,
                     "siteSeen",
-                    { ...itinerary.siteSeen, isAvailable: e.target.checked },
+                    e.target.checked ? [{ name: "", description: "", photos: [] }] : [],
                     "deluxeDetails"
                   )
                 }
               />
             </div>
 
-            {itinerary.siteSeen?.isAvailable && (
+            {itinerary.siteSeen?.length > 0 && (
               <div className="siteseen-section">
                 <h4>Siteseen Details</h4>
 
-                {/* Siteseen Name */}
-                <input
-                  type="text"
-                  placeholder="Enter Siteseen name"
-                  value={itinerary.siteSeen.name || ""}
-                  onChange={(e) =>
-                    handleItineraryChange(
-                      index,
-                      "siteSeen",
-                      { ...itinerary.siteSeen, name: e.target.value },
-                      "deluxeDetails"
-                    )
-                  }
-                />
+                {itinerary?.siteSeen?.map((site, siteIndex) => (
 
-                {/* Siteseen Description */}
-                <textarea
-                  placeholder="Enter Siteseen description"
-                  value={itinerary.siteSeen.description || ""}
-                  onChange={(e) =>
-                    handleItineraryChange(
-                      index,
-                      "siteSeen",
-                      { ...itinerary.siteSeen, description: e.target.value },
-                      "deluxeDetails"
-                    )
-                  }
-                ></textarea>
+                  <>
+                    <h3>siteseen {siteIndex + 1}</h3>
+                    <div key={siteIndex} className="siteseen-entry">
+                      {/* Siteseen Name */}
+                      <input
+                        type="text"
+                        placeholder="Enter Siteseen name"
+                        value={site.name}
+                        onChange={(e) => {
+                          const updatedSites = [...itinerary.siteSeen];
+                          updatedSites[siteIndex].name = e.target.value;
+                          handleItineraryChange(index, "siteSeen", updatedSites, "deluxeDetails");
+                        }}
+                      />
 
-                {/* Siteseen Photos */}
-                <label>Upload Siteseen Photos ( width: 800px , height: 350px)</label>
-                <input
-                  type="file"
-                  multiple
-                  onChange={(e) => {
-                    const files = Array.from(e.target.files).map((file) =>
-                      URL.createObjectURL(file)
-                    );
-                    handleItineraryChange(
-                      index,
-                      "siteSeen",
-                      {
-                        ...itinerary.siteSeen,
-                        photos: [
-                          ...(itinerary.siteSeen.photos || []),
-                          ...files,
-                        ],
-                      },
-                      "deluxeDetails"
-                    );
-                  }}
-                />
+                      {/* Siteseen Description */}
+                      <textarea
+                        placeholder="Enter Siteseen description"
+                        value={site.description}
+                        onChange={(e) => {
+                          const updatedSites = [...itinerary.siteSeen];
+                          updatedSites[siteIndex].description = e.target.value;
+                          handleItineraryChange(index, "siteSeen", updatedSites, "deluxeDetails");
+                        }}
+                      ></textarea>
 
-                <div className="preview-photos">
-                  {itinerary.siteSeen.photos &&
-                    itinerary.siteSeen.photos.map((photo, photoIndex) => (
-                      <div key={photoIndex} className="photo-container">
-                        <img
-                          src={photo}
-                          alt={`Siteseen photo ${photoIndex + 1}`}
-                          width="100"
-                        />
-                        <button
-                          className="delete-photo"
-                          onClick={() => {
-                            const updatedPhotos =
-                              itinerary.siteSeen.photos.filter(
-                                (_, i) => i !== photoIndex
-                              );
-                            handleItineraryChange(
-                              index,
-                              "siteSeen",
-                              { ...itinerary.siteSeen, photos: updatedPhotos },
-                              "deluxeDetails"
-                            );
-                          }}
-                        >
-                          &times;
-                        </button>
+                      {/* Siteseen Photos */}
+                      <label>Upload Siteseen Photos(width: 800px, height:350px)</label>
+                      <input
+                        type="file"
+                        multiple
+                        onChange={(e) => {
+                          const files = Array.from(e.target.files).map((file) => URL.createObjectURL(file));
+                          const updatedSites = [...itinerary.siteSeen];
+                          updatedSites[siteIndex].photos = [...(updatedSites[siteIndex].photos || []), ...files];
+                          handleItineraryChange(index, "siteSeen", updatedSites, "deluxeDetails");
+                        }}
+                      />
+
+                      <div className="preview-photos">
+                        {site.photos &&
+                          site.photos.map((photo, photoIndex) => (
+                            <div
+                              key={photoIndex}
+                              style={{
+                                display: "inline-block",
+                                position: "relative",
+                                margin: "5px",
+                              }}
+                            >
+                              <img src={photo} alt={`Siteseen photo ${photoIndex + 1}`} width="100" />
+                              <button
+                                style={{
+                                  position: "absolute",
+                                  top: 0,
+                                  right: 0,
+                                  backgroundColor: "red",
+                                  color: "white",
+                                  border: "none",
+                                  cursor: "pointer",
+                                  padding: "5px",
+                                }}
+                                onClick={() => {
+                                  const updatedPhotos = site.photos.filter((_, i) => i !== photoIndex);
+                                  const updatedSites = [...itinerary.siteSeen];
+                                  updatedSites[siteIndex].photos = updatedPhotos;
+                                  handleItineraryChange(index, "siteSeen", updatedSites, "deluxeDetails");
+                                }}
+                              >
+                                ×
+                              </button>
+                            </div>
+                          ))}
                       </div>
-                    ))}
-                </div>
+
+                      {/* Remove Siteseen */}
+                      <button
+                        onClick={() => {
+                          const updatedSites = itinerary.siteSeen.filter((_, i) => i !== siteIndex);
+                          handleItineraryChange(index, "siteSeen", updatedSites, "deluxeDetails");
+                        }}
+                        style={{ backgroundColor: "red", color: "white", marginTop: "10px" }}
+                      >
+                        Remove Siteseen
+                      </button>
+                    </div>
+
+                  </>
+
+                ))}
+{console.log(itinerary.siteSeen)}
+                {/* Add New Siteseen */}
+                <button
+                  onClick={() => {
+                    const updatedSites = [...itinerary.siteSeen, { name: "", description: "", photos: [] }];
+                    handleItineraryChange(index, "siteSeen", updatedSites, "deluxeDetails");
+                  }}
+                  style={{ marginTop: "10px", backgroundColor: "green", color: "white" }}
+                >
+                  Add Siteseen
+                </button>
               </div>
             )}
 
@@ -4589,121 +4621,138 @@ console.log(tourData)
                 )}
               </div>
             ) : null}
-            <div className="labels">
-              <label> Include Activity</label>
-              <input
-                type="checkbox"
-                checked={itinerary.activity?.isIncluded || false}
-                onChange={(e) =>
-                  handleItineraryChange(
-                    index,
-                    "activity",
-                    { ...itinerary.activity, isIncluded: e.target.checked },
-                    "deluxeDetails"
-                  )
-                }
-              />
-            </div>
-
-            {itinerary.activity?.isIncluded && (
-              <div className="activity-details">
-                <input
-                  type="text"
-                  placeholder="Enter activity name"
-                  value={itinerary.activity.name || ""}
-                  onChange={(e) =>
-                    handleItineraryChange(
-                      index,
-                      "activity",
-                      { ...itinerary.activity, name: e.target.value },
-                      "deluxeDetails"
-                    )
-                  }
-                />
-                <textarea
-                  placeholder="Enter activity description"
-                  value={itinerary.activity.description || ""}
-                  onChange={(e) =>
-                    handleItineraryChange(
-                      index,
-                      "activity",
-                      { ...itinerary.activity, description: e.target.value },
-                      "deluxeDetails"
-                    )
-                  }
-                />
-
-                <input
-                  type="number"
-                  placeholder="Enter activity price"
-                  value={itinerary.activity.price || ""}
-                  onChange={(e) =>
-                    handleItineraryChange(
-                      index,
-                      "activity",
-                      { ...itinerary.activity, price: e.target.value },
-                      "deluxeDetails"
-                    )
-                  }
-                />
-
-                <label>Upload Photos ( width: 800px , height: 350px)</label>
-                <input
-                  type="file"
-                  multiple
-                  onChange={(e) =>
-                    handleActivityPhotos(
-                      index,
-                      "activity",
-                      e.target.files,
-                      "deluxeDetails"
-                    )
-                  }
-                />
-                {itinerary.activity.photos.length > 0 && (
-                  <div className="preview-photos">
-                    {itinerary.activity.photos.map((photo, photoIndex) => (
-                      <div key={photoIndex} className="photo-container">
-                        <img
-                          src={photo}
-                          alt={`Activity photo ${photoIndex + 1}`}
-                          width="100"
+               <div className="labels">
+                        <label>Include Activity</label>
+                        <input
+                          type="checkbox"
+                          checked={itinerary.activities?.length > 0}
+                          onChange={(e) =>
+                            handleItineraryChange(
+                              index,
+                              "activities",
+                              e.target.checked ? [{ name: "", description: "", price: "", photos: [] }] : [],
+                              "deluxeDetails"
+                            )
+                          }
                         />
-                        <button
-                          className="delete-photo"
-                          onClick={() => {
-                            // Remove the selected photo
-                            const updatedActivityPhotos =
-                              itinerary.activity.photos.filter(
-                                (_, i) => i !== photoIndex
-                              );
-                            const updatedItineraries = [
-                              ...tourData.deluxeDetails.itineraries,
-                            ];
-                            updatedItineraries[index] = {
-                              ...itinerary,
-                              activity: {
-                                ...itinerary.activity,
-                                photos: updatedActivityPhotos, // Update activity photos
-                              },
-                            };
-                            setTourData({
-                              ...tourData,
-                              deluxeDetails: {
-                                ...tourData.deluxeDetails,
-                                itineraries: updatedItineraries,
-                              },
-                            });
-                          }}
-                        >
-                          &times;
-                        </button>
                       </div>
-                    ))}
-                  </div>
-                )}
-              </div>
-            )}
+
+                      {itinerary.activities?.length > 0 && (
+                        <div className="activity-details">
+                          <h4>Activity Details</h4>
+
+                          {itinerary.activities.map((activity, activityIndex) => (
+                            <div key={activityIndex} className="activity-entry">
+                              {/* Activity Name */}
+                              <input
+                                type="text"
+                                placeholder="Enter activity name"
+                                value={activity.name || ""}
+                                onChange={(e) => {
+                                  const updatedActivities = [...itinerary.activities];
+                                  updatedActivities[activityIndex].name = e.target.value;
+                                  handleItineraryChange(index, "activities", updatedActivities, "deluxeDetails");
+                                }}
+                              />
+
+                              {/* Activity Description */}
+                              <textarea
+                                placeholder="Enter activity description"
+                                value={activity.description || ""}
+                                onChange={(e) => {
+                                  const updatedActivities = [...itinerary.activities];
+                                  updatedActivities[activityIndex].description = e.target.value;
+                                  handleItineraryChange(index, "activities", updatedActivities, "deluxeDetails");
+                                }}
+                              ></textarea>
+
+                              {/* Activity Price */}
+                              <input
+                                type="number"
+                                placeholder="Enter activity price"
+                                value={activity.price || ""}
+                                onChange={(e) => {
+                                  const updatedActivities = [...itinerary.activities];
+                                  updatedActivities[activityIndex].price = e.target.value;
+                                  handleItineraryChange(index, "activities", updatedActivities, "deluxeDetails");
+                                }}
+                              />
+
+                              {/* Upload Photos */}
+                              <label>Upload Photos(width: 800px, height:350px)</label>
+                              <input
+                                type="file"
+                                multiple
+                                onChange={(e) => {
+                                  const files = Array.from(e.target.files).map((file) => URL.createObjectURL(file));
+                                  const updatedActivities = [...itinerary.activities];
+                                  updatedActivities[activityIndex].photos = [...(updatedActivities[activityIndex].photos || []), ...files];
+                                  handleItineraryChange(index, "activities", updatedActivities, "deluxeDetails");
+                                }}
+                              />
+
+                              {/* Display Uploaded Photos */}
+                              <div className="preview-photos">
+                                {activity.photos &&
+                                  activity.photos.map((photo, photoIndex) => (
+                                    <div
+                                      key={photoIndex}
+                                      style={{
+                                        display: "inline-block",
+                                        position: "relative",
+                                        margin: "5px",
+                                      }}
+                                    >
+                                      <img src={photo} alt={`Activity photo ${photoIndex + 1}`} width="100" />
+                                      <button
+                                        style={{
+                                          position: "absolute",
+                                          top: 0,
+                                          right: 0,
+                                          backgroundColor: "red",
+                                          color: "white",
+                                          border: "none",
+                                          cursor: "pointer",
+                                          padding: "5px",
+                                        }}
+                                        onClick={() => {
+                                          const updatedPhotos = activity.photos.filter((_, i) => i !== photoIndex);
+                                          const updatedActivities = [...itinerary.activities];
+                                          updatedActivities[activityIndex].photos = updatedPhotos;
+                                          handleItineraryChange(index, "activities", updatedActivities, "deluxeDetails");
+                                        }}
+                                      >
+                                        ×
+                                      </button>
+                                    </div>
+                                  ))}
+                              </div>
+
+                              {/* Remove Activity Button */}
+                              <button
+                                onClick={() => {
+                                  const updatedActivities = itinerary.activities.filter((_, i) => i !== activityIndex);
+                                  handleItineraryChange(index, "activities", updatedActivities, "deluxeDetails");
+                                }}
+                                style={{ backgroundColor: "red", color: "white", marginTop: "10px" }}
+                              >
+                                Remove Activity
+                              </button>
+                            </div>
+                          ))}
+
+                          {/* Add New Activity Button */}
+                          <button
+                            onClick={() => {
+                              const updatedActivities = [...itinerary.activities, { name: "", description: "", price: "", photos: [] }];
+                              handleItineraryChange(index, "activities", updatedActivities, "deluxeDetails");
+                            }}
+                            style={{ marginTop: "10px", backgroundColor: "green", color: "white" }}
+                          >
+                            Add Activity
+                          </button>
+                        </div>
+                      )}
             <div className="labels">
               <label> Include Transportation</label>
               <input
@@ -6306,117 +6355,129 @@ console.log(tourData)
               </div>
             )}
 
-            <div className="labels">
-              {" "}
+<div className="labels">
               <label>Siteseen:</label>
               <input
                 type="checkbox"
-                checked={itinerary?.siteSeen?.isAvailable || false}
+                checked={itinerary.siteSeen?.length > 0}
                 onChange={(e) =>
                   handleItineraryChange(
                     index,
                     "siteSeen",
-                    { ...itinerary.siteSeen, isAvailable: e.target.checked },
+                    e.target.checked ? [{ name: "", description: "", photos: [] }] : [],
                     "premiumDetails"
                   )
                 }
               />
             </div>
 
-            {itinerary.siteSeen?.isAvailable && (
+            {itinerary.siteSeen?.length > 0 && (
               <div className="siteseen-section">
                 <h4>Siteseen Details</h4>
 
-                {/* Siteseen Name */}
-                <input
-                  type="text"
-                  placeholder="Enter Siteseen name"
-                  value={itinerary.siteSeen.name || ""}
-                  onChange={(e) =>
-                    handleItineraryChange(
-                      index,
-                      "siteSeen",
-                      { ...itinerary.siteSeen, name: e.target.value },
-                      "premiumDetails"
-                    )
-                  }
-                />
+                {itinerary?.siteSeen?.map((site, siteIndex) => (
 
-                {/* Siteseen Description */}
-                <textarea
-                  placeholder="Enter Siteseen description"
-                  value={itinerary.siteSeen.description || ""}
-                  onChange={(e) =>
-                    handleItineraryChange(
-                      index,
-                      "siteSeen",
-                      { ...itinerary.siteSeen, description: e.target.value },
-                      "premiumDetails"
-                    )
-                  }
-                ></textarea>
-
-                {/* Siteseen Photos */}
-                <label>Upload Siteseen Photos</label>
-                <input
-                  type="file"
-                  multiple
-                  onChange={(e) => {
-                    const files = Array.from(e.target.files).map((file) =>
-                      URL.createObjectURL(file)
-                    );
-                    handleItineraryChange(
-                      index,
-                      "siteSeen",
-                      {
-                        ...itinerary.siteSeen,
-                        photos: [
-                          ...(itinerary.siteSeen.photos || []),
-                          ...files,
-                        ],
-                      },
-                      "premiumDetails"
-                    );
-                  }}
-                />
-                <div className="preview-photos">
-                  {itinerary.siteSeen.photos?.length > 0 &&
-                    itinerary.siteSeen.photos.map((photo, photoIndex) => (
-                      <div
-                        key={photoIndex}
-                        className="photo-container"
-                        style={{
-                          position: "relative",
-                          display: "inline-block",
-                          margin: "5px",
+                  <>
+                    <h3>siteseen {siteIndex + 1}</h3>
+                    <div key={siteIndex} className="siteseen-entry">
+                      {/* Siteseen Name */}
+                      <input
+                        type="text"
+                        placeholder="Enter Siteseen name"
+                        value={site.name}
+                        onChange={(e) => {
+                          const updatedSites = [...itinerary.siteSeen];
+                          updatedSites[siteIndex].name = e.target.value;
+                          handleItineraryChange(index, "siteSeen", updatedSites, "premiumDetails");
                         }}
-                      >
-                        <img
-                          src={photo} // URL is already created
-                          alt={`Siteseen photo ${photoIndex + 1}`}
-                          width="100"
-                          style={{ display: "block" }}
-                        />
-                        <button
-                          className="delete-photo"
-                          onClick={() => {
-                            const updatedPhotos =
-                              itinerary.siteSeen.photos.filter(
-                                (_, i) => i !== photoIndex
-                              );
-                            handleItineraryChange(
-                              index,
-                              "siteSeen",
-                              { ...itinerary.siteSeen, photos: updatedPhotos },
-                              "premiumDetails"
-                            );
-                          }}
-                        >
-                          &times;
-                        </button>
+                      />
+
+                      {/* Siteseen Description */}
+                      <textarea
+                        placeholder="Enter Siteseen description"
+                        value={site.description}
+                        onChange={(e) => {
+                          const updatedSites = [...itinerary.siteSeen];
+                          updatedSites[siteIndex].description = e.target.value;
+                          handleItineraryChange(index, "siteSeen", updatedSites, "premiumDetails");
+                        }}
+                      ></textarea>
+
+                      {/* Siteseen Photos */}
+                      <label>Upload Siteseen Photos(width: 800px, height:350px)</label>
+                      <input
+                        type="file"
+                        multiple
+                        onChange={(e) => {
+                          const files = Array.from(e.target.files).map((file) => URL.createObjectURL(file));
+                          const updatedSites = [...itinerary.siteSeen];
+                          updatedSites[siteIndex].photos = [...(updatedSites[siteIndex].photos || []), ...files];
+                          handleItineraryChange(index, "siteSeen", updatedSites, "premiumDetails");
+                        }}
+                      />
+
+                      <div className="preview-photos">
+                        {site.photos &&
+                          site.photos.map((photo, photoIndex) => (
+                            <div
+                              key={photoIndex}
+                              style={{
+                                display: "inline-block",
+                                position: "relative",
+                                margin: "5px",
+                              }}
+                            >
+                              <img src={photo} alt={`Siteseen photo ${photoIndex + 1}`} width="100" />
+                              <button
+                                style={{
+                                  position: "absolute",
+                                  top: 0,
+                                  right: 0,
+                                  backgroundColor: "red",
+                                  color: "white",
+                                  border: "none",
+                                  cursor: "pointer",
+                                  padding: "5px",
+                                }}
+                                onClick={() => {
+                                  const updatedPhotos = site.photos.filter((_, i) => i !== photoIndex);
+                                  const updatedSites = [...itinerary.siteSeen];
+                                  updatedSites[siteIndex].photos = updatedPhotos;
+                                  handleItineraryChange(index, "siteSeen", updatedSites, "premiumDetails");
+                                }}
+                              >
+                                ×
+                              </button>
+                            </div>
+                          ))}
                       </div>
-                    ))}
-                </div>
+
+                      {/* Remove Siteseen */}
+                      <button
+                        onClick={() => {
+                          const updatedSites = itinerary.siteSeen.filter((_, i) => i !== siteIndex);
+                          handleItineraryChange(index, "siteSeen", updatedSites, "premiumDetails");
+                        }}
+                        style={{ backgroundColor: "red", color: "white", marginTop: "10px" }}
+                      >
+                        Remove Siteseen
+                      </button>
+                    </div>
+
+                  </>
+
+                ))}
+
+                {/* Add New Siteseen */}
+                <button
+                  onClick={() => {
+                    const updatedSites = [...itinerary.siteSeen, { name: "", description: "", photos: [] }];
+                    handleItineraryChange(index, "siteSeen", updatedSites, "premiumDetails");
+                  }}
+                  style={{ marginTop: "10px", backgroundColor: "green", color: "white" }}
+                >
+                  Add Siteseen
+                </button>
               </div>
             )}
 
@@ -7132,131 +7193,269 @@ console.log(tourData)
                 )}
               </div>
             ) : null}
-            <div className="labels">
-              <label> Include Activity</label>
-              <input
-                type="checkbox"
-                checked={itinerary.activity?.isIncluded || false}
-                onChange={(e) =>
-                  handleItineraryChange(
-                    index,
-                    "activity",
-                    { ...itinerary.activity, isIncluded: e.target.checked },
-                    "premiumDetails"
-                  )
-                }
-              />
-            </div>
-
-            {itinerary.activity?.isIncluded && (
-              <div className="activity-details">
-                <input
-                  type="text"
-                  placeholder="Enter activity name"
-                  value={itinerary.activity.name || ""}
-                  onChange={(e) =>
-                    handleItineraryChange(
-                      index,
-                      "activity",
-                      { ...itinerary.activity, name: e.target.value },
-                      "premiumDetails"
-                    )
-                  }
-                />
-                <textarea
-                  placeholder="Enter activity description"
-                  value={itinerary.activity.description || ""}
-                  onChange={(e) =>
-                    handleItineraryChange(
-                      index,
-                      "activity",
-                      { ...itinerary.activity, description: e.target.value },
-                      "premiumDetails"
-                    )
-                  }
-                />
-
-                <input
-                  type="number"
-                  placeholder="Enter activity price"
-                  value={itinerary.activity.price || ""}
-                  onChange={(e) =>
-                    handleItineraryChange(
-                      index,
-                      "activity",
-                      { ...itinerary.activity, price: e.target.value },
-                      "premiumDetails"
-                    )
-                  }
-                />
-
-                <label>Upload Photos ( width: 800px , height: 350px)</label>
-                <input
-                  type="file"
-                  multiple
-                  onChange={(e) =>
-                    handleActivityPhotos(
-                      index,
-                      "activity",
-                      e.target.files,
-                      "premiumDetails"
-                    )
-                  }
-                />
-                {itinerary.activity.photos.length > 0 ? (
-                  <div className="photo-preview">
-                    {itinerary.activity.photos.map((photo, photoIndex) => (
-                      <div
-                        key={photoIndex}
-                        className="photo-container"
-                        style={{
-                          position: "relative",
-                          display: "inline-block",
-                          margin: "5px",
-                        }}
-                      >
-                        <img
-                          src={photo}
-                          alt={`Activity Photo ${photoIndex + 1}`}
-                          width="100"
-                          height="100"
-                          style={{ display: "block" }}
+              <div className="labels">
+                        <label>Include Activity</label>
+                        <input
+                          type="checkbox"
+                          checked={itinerary.activities?.length > 0}
+                          onChange={(e) =>
+                            handleItineraryChange(
+                              index,
+                              "activities",
+                              e.target.checked ? [{ name: "", description: "", price: "", photos: [] }] : [],
+                              "premiumDetails"
+                            )
+                          }
                         />
+                      </div>
+
+                      {itinerary.activities?.length > 0 && (
+                        <div className="activity-details">
+                          <h4>Activity Details</h4>
+
+                          {itinerary.activities.map((activity, activityIndex) => (
+                            <div key={activityIndex} className="activity-entry">
+                              {/* Activity Name */}
+                              <input
+                                type="text"
+                                placeholder="Enter activity name"
+                                value={activity.name || ""}
+                                onChange={(e) => {
+                                  const updatedActivities = [...itinerary.activities];
+                                  updatedActivities[activityIndex].name = e.target.value;
+                                  handleItineraryChange(index, "activities", updatedActivities, "premiumDetails");
+                                }}
+                              />
+
+                              {/* Activity Description */}
+                              <textarea
+                                placeholder="Enter activity description"
+                                value={activity.description || ""}
+                                onChange={(e) => {
+                                  const updatedActivities = [...itinerary.activities];
+                                  updatedActivities[activityIndex].description = e.target.value;
+                                  handleItineraryChange(index, "activities", updatedActivities, "premiumDetails");
+                                }}
+                              ></textarea>
+
+                              {/* Activity Price */}
+                              <input
+                                type="number"
+                                placeholder="Enter activity price"
+                                value={activity.price || ""}
+                                onChange={(e) => {
+                                  const updatedActivities = [...itinerary.activities];
+                                  updatedActivities[activityIndex].price = e.target.value;
+                                  handleItineraryChange(index, "activities", updatedActivities, "premiumDetails");
+                                }}
+                              />
+
+                              {/* Upload Photos */}
+                              <label>Upload Photos(width: 800px, height:350px)</label>
+                              <input
+                                type="file"
+                                multiple
+                                onChange={(e) => {
+                                  const files = Array.from(e.target.files).map((file) => URL.createObjectURL(file));
+                                  const updatedActivities = [...itinerary.activities];
+                                  updatedActivities[activityIndex].photos = [...(updatedActivities[activityIndex].photos || []), ...files];
+                                  handleItineraryChange(index, "activities", updatedActivities, "premiumDetails");
+                                }}
+                              />
+
+                              {/* Display Uploaded Photos */}
+                              <div className="preview-photos">
+                                {activity.photos &&
+                                  activity.photos.map((photo, photoIndex) => (
+                                    <div
+                                      key={photoIndex}
+                                      style={{
+                                        display: "inline-block",
+                                        position: "relative",
+                                        margin: "5px",
+                                      }}
+                                    >
+                                      <img src={photo} alt={`Activity photo ${photoIndex + 1}`} width="100" />
+                                      <button
+                                        style={{
+                                          position: "absolute",
+                                          top: 0,
+                                          right: 0,
+                                          backgroundColor: "red",
+                                          color: "white",
+                                          border: "none",
+                                          cursor: "pointer",
+                                          padding: "5px",
+                                        }}
+                                        onClick={() => {
+                                          const updatedPhotos = activity.photos.filter((_, i) => i !== photoIndex);
+                                          const updatedActivities = [...itinerary.activities];
+                                          updatedActivities[activityIndex].photos = updatedPhotos;
+                                          handleItineraryChange(index, "activities", updatedActivities, "premiumDetails");
+                                        }}
+                                      >
+                                        ×
+                                      </button>
+                                    </div>
+                                  ))}
+                              </div>
+
+                              {/* Remove Activity Button */}
+                              <button
+                                onClick={() => {
+                                  const updatedActivities = itinerary.activities.filter((_, i) => i !== activityIndex);
+                                  handleItineraryChange(index, "activities", updatedActivities, "premiumDetails");
+                                }}
+                                style={{ backgroundColor: "red", color: "white", marginTop: "10px" }}
+                              >
+                                Remove Activity
+                              </button>
+                            </div>
+                          ))}
+
+                          {/* Add New Activity Button */}
+                          <button
+                            onClick={() => {
+                              const updatedActivities = [...itinerary.activities, { name: "", description: "", price: "", photos: [] }];
+                              handleItineraryChange(index, "activities", updatedActivities, "premiumDetails");
+                            }}
+                            style={{ marginTop: "10px", backgroundColor: "green", color: "white" }}
+                          >
+                            Add Activity
+                          </button>
+                        </div>
+                      )}   <div className="labels">
+                      <label>Include Activity</label>
+                      <input
+                        type="checkbox"
+                        checked={itinerary.activities?.length > 0}
+                        onChange={(e) =>
+                          handleItineraryChange(
+                            index,
+                            "activities",
+                            e.target.checked ? [{ name: "", description: "", price: "", photos: [] }] : [],
+                            "premiumDetails"
+                          )
+                        }
+                      />
+                    </div>
+
+                    {itinerary.activities?.length > 0 && (
+                      <div className="activity-details">
+                        <h4>Activity Details</h4>
+
+                        {itinerary.activities.map((activity, activityIndex) => (
+                          <div key={activityIndex} className="activity-entry">
+                            {/* Activity Name */}
+                            <input
+                              type="text"
+                              placeholder="Enter activity name"
+                              value={activity.name || ""}
+                              onChange={(e) => {
+                                const updatedActivities = [...itinerary.activities];
+                                updatedActivities[activityIndex].name = e.target.value;
+                                handleItineraryChange(index, "activities", updatedActivities, "premiumDetails");
+                              }}
+                            />
+
+                            {/* Activity Description */}
+                            <textarea
+                              placeholder="Enter activity description"
+                              value={activity.description || ""}
+                              onChange={(e) => {
+                                const updatedActivities = [...itinerary.activities];
+                                updatedActivities[activityIndex].description = e.target.value;
+                                handleItineraryChange(index, "activities", updatedActivities, "premiumDetails");
+                              }}
+                            ></textarea>
+
+                            {/* Activity Price */}
+                            <input
+                              type="number"
+                              placeholder="Enter activity price"
+                              value={activity.price || ""}
+                              onChange={(e) => {
+                                const updatedActivities = [...itinerary.activities];
+                                updatedActivities[activityIndex].price = e.target.value;
+                                handleItineraryChange(index, "activities", updatedActivities, "premiumDetails");
+                              }}
+                            />
+
+                            {/* Upload Photos */}
+                            <label>Upload Photos(width: 800px, height:350px)</label>
+                            <input
+                              type="file"
+                              multiple
+                              onChange={(e) => {
+                                const files = Array.from(e.target.files).map((file) => URL.createObjectURL(file));
+                                const updatedActivities = [...itinerary.activities];
+                                updatedActivities[activityIndex].photos = [...(updatedActivities[activityIndex].photos || []), ...files];
+                                handleItineraryChange(index, "activities", updatedActivities, "premiumDetails");
+                              }}
+                            />
+
+                            {/* Display Uploaded Photos */}
+                            <div className="preview-photos">
+                              {activity.photos &&
+                                activity.photos.map((photo, photoIndex) => (
+                                  <div
+                                    key={photoIndex}
+                                    style={{
+                                      display: "inline-block",
+                                      position: "relative",
+                                      margin: "5px",
+                                    }}
+                                  >
+                                    <img src={photo} alt={`Activity photo ${photoIndex + 1}`} width="100" />
+                                    <button
+                                      style={{
+                                        position: "absolute",
+                                        top: 0,
+                                        right: 0,
+                                        backgroundColor: "red",
+                                        color: "white",
+                                        border: "none",
+                                        cursor: "pointer",
+                                        padding: "5px",
+                                      }}
+                                      onClick={() => {
+                                        const updatedPhotos = activity.photos.filter((_, i) => i !== photoIndex);
+                                        const updatedActivities = [...itinerary.activities];
+                                        updatedActivities[activityIndex].photos = updatedPhotos;
+                                        handleItineraryChange(index, "activities", updatedActivities, "premiumDetails");
+                                      }}
+                                    >
+                                      ×
+                                    </button>
+                                  </div>
+                                ))}
+                            </div>
+
+                            {/* Remove Activity Button */}
+                            <button
+                              onClick={() => {
+                                const updatedActivities = itinerary.activities.filter((_, i) => i !== activityIndex);
+                                handleItineraryChange(index, "activities", updatedActivities, "premiumDetails");
+                              }}
+                              style={{ backgroundColor: "red", color: "white", marginTop: "10px" }}
+                            >
+                              Remove Activity
+                            </button>
+                          </div>
+                        ))}
+
+                        {/* Add New Activity Button */}
                         <button
-                          className="delete-photo"
                           onClick={() => {
-                            // Remove the selected photo
-                            const updatedActivityPhotos =
-                              itinerary.activity.photos.filter(
-                                (_, i) => i !== photoIndex
-                              );
-                            const updatedItineraries = [
-                              ...tourData.premiumDetails.itineraries,
-                            ];
-                            updatedItineraries[index] = {
-                              ...itinerary,
-                              activity: {
-                                ...itinerary.activity,
-                                photos: updatedActivityPhotos, // Update activity photos
-                              },
-                            };
-                            setTourData({
-                              ...tourData,
-                              premiumDetails: {
-                                ...tourData.premiumDetails,
-                                itineraries: updatedItineraries,
-                              },
-                            });
+                            const updatedActivities = [...itinerary.activities, { name: "", description: "", price: "", photos: [] }];
+                            handleItineraryChange(index, "activities", updatedActivities, "premiumDetails");
                           }}
+                          style={{ marginTop: "10px", backgroundColor: "green", color: "white" }}
                         >
-                          &times;
+                          Add Activity
                         </button>
                       </div>
-                    ))}
-                  </div>
-                ) : null}
-              </div>
-            )}
+                    )}
             <div className="labels">
               <label> Include Transportation</label>
               <input

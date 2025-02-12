@@ -12,7 +12,7 @@ import CreateCoupon from "./pages/coupon/index";
 import NewFixedTour from './pages/newFixedTour/newFixedTour'
 import EditFixedTour from './pages/editFixedTours/editFixedTours'
 import CouponDetails from "./pages/couponDetails/couponDetails";
-
+import Faqs from "./pages/faqs/faqs";
 import CustomizedQueries from "./pages/customizedQueries/customizedQueries";
 import Orders from "./pages/orders/orders";
 import NewAboutUs from "./pages/about-us/aboutUs";
@@ -258,6 +258,7 @@ function App() {
             />
           </Route>
           
+          
 
           
 
@@ -295,6 +296,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <EditBlog title="Edit Tour" />
+              </ProtectedRoute>
+            }
+          ></Route>
+            <Route
+            path="/admin/faqs"
+            element={
+              <ProtectedRoute>
+                <Faqs title="Edit Tour" />
               </ProtectedRoute>
             }
           ></Route>
