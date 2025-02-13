@@ -91,86 +91,87 @@ const NewDestination = ({ title }) => {
   };
   const uploadImageToCloudinary = async (image) => {
     try {
+      if (typeof image === "string") {
+        return image; // If it's already a Cloudinary URL, return it as is.
+      }
+  
       const cloudinaryURL = "https://api.cloudinary.com/v1_1/drsexfijb/image/upload";
       const formData = new FormData();
-      formData.append("file", image);
+      formData.append("file", image); // Directly append the File object.
       formData.append("upload_preset", "devsthan");
-
+  
       const response = await fetch(cloudinaryURL, {
         method: "POST",
         body: formData,
       });
-
+  
       if (!response.ok) {
         throw new Error("Cloudinary upload failed");
       }
-
+  
       const data = await response.json();
-      return data.secure_url;
+      return data.secure_url; // Return the uploaded image URL.
     } catch (error) {
       console.error("Image upload error:", error);
       throw error;
     }
   };
+  
   const isCloudinaryUrl = (url) =>
     typeof url === "string" && url.startsWith("https://res.cloudinary.com/");
+  
   const handleSubmit = async () => {
     setLoading(true);
-
-    // Prepare a copy of destinationData
+  
+    // Create a copy of the destination data
     const updatedData = { ...destinationData };
-
+  
     try {
       // Upload banner image if needed
-      if (
-        updatedData.bannerImage &&
-        !isCloudinaryUrl(updatedData.bannerImage)
-      ) {
-        updatedData.bannerImage = await uploadImageToCloudinary(
-          updatedData.bannerImage.file
-        );
+      if (updatedData.bannerImage && !isCloudinaryUrl(updatedData.bannerImage)) {
+        updatedData.bannerImage = await uploadImageToCloudinary(updatedData.bannerImage);
       }
-
+  
       // Upload images array if needed
       if (updatedData.images && updatedData.images.length > 0) {
         const imageUploads = await Promise.all(
           updatedData.images.map(async (img) =>
-            isCloudinaryUrl(img) ? img : await uploadImageToCloudinary(img.file)
+            isCloudinaryUrl(img) ? img : await uploadImageToCloudinary(img)
           )
         );
         updatedData.images = imageUploads;
       }
-
-      // Process subDestinations
-      updatedData.subDestinations = await Promise.all(
-        updatedData.subDestinations.map(async (destination) => {
-          if (destination.photos && destination.photos.length > 0) {
-            const uploadedPhotos = await Promise.all(
-              destination.photos.map(async (photo) =>
-                isCloudinaryUrl(photo)
-                  ? photo
-                  : await uploadImageToCloudinary(photo.file)
-              )
-            );
-            return { ...destination, photos: uploadedPhotos };
-          }
-          return destination;
-        })
-      );
-
-      // Process highlights
-      updatedData.highlights = await Promise.all(
-        updatedData.highlights.map(async (highlight) => {
-          if (highlight.image && !isCloudinaryUrl(highlight.image)) {
-            const uploadedImage = await uploadImageToCloudinary(
-              highlight.image.file
-            );
-            return { ...highlight, image: uploadedImage };
-          }
-          return highlight;
-        })
-      );
-
+  
+      // Upload subDestinations' photos
+      if (updatedData.subDestinations && updatedData.subDestinations.length > 0) {
+        updatedData.subDestinations = await Promise.all(
+          updatedData.subDestinations.map(async (destination) => {
+            if (destination.photos && destination.photos.length > 0) {
+              const uploadedPhotos = await Promise.all(
+                destination.photos.map(async (photo) =>
+                  isCloudinaryUrl(photo) ? photo : await uploadImageToCloudinary(photo)
+                )
+              );
+              return { ...destination, photos: uploadedPhotos };
+            }
+            return destination;
+          })
+        );
+      }
+  
+      // Upload highlights' images
+      if (updatedData.highlights && updatedData.highlights.length > 0) {
+        updatedData.highlights = await Promise.all(
+          updatedData.highlights.map(async (highlight) => {
+            if (highlight.image && !isCloudinaryUrl(highlight.image)) {
+              const uploadedImage = await uploadImageToCloudinary(highlight.image);
+              return { ...highlight, image: uploadedImage };
+            }
+            return highlight;
+          })
+        );
+      }
+  
       // Send updated data to backend
       const response = await fetch(`${BASE_URL}/api/createDestination`, {
         method: "POST",
@@ -179,12 +180,12 @@ const NewDestination = ({ title }) => {
         },
         body: JSON.stringify(updatedData),
       });
-
+  
       if (!response.ok) {
         const errorResponse = await response.json();
         throw new Error(`Failed to create destination: ${errorResponse.error}`);
       }
-
+  
       toast.success("Destination created successfully!");
     } catch (error) {
       console.error("Upload failed:", error);
@@ -193,6 +194,7 @@ const NewDestination = ({ title }) => {
       setLoading(false);
     }
   };
+  
   // Handle text and number field changes
   const handleInputChange = (e, field) => {
     setDestinationData({
@@ -438,7 +440,7 @@ const NewDestination = ({ title }) => {
             />
           </div>
           <h2>SEO & Social Media Tags</h2>
-
+{console.log(destinationData)}
 {/* Meta Title */}
 <div className="formGroup">
   <label>Meta Title</label>
@@ -685,55 +687,63 @@ const NewDestination = ({ title }) => {
 
           <h2>Highlights</h2>
           {destinationData?.highlights?.map((highlight, index) => (
-            <div key={index} className="formGroup">
-              <input
-                type="file"
-                accept="image/*"
-                onChange={(e) =>
-                  handleHighlightChange(index, "image", e.target.files[0])
-                }
-              />
-              {highlight.image && typeof highlight.image !== "string" && (
-                <div className="imageContainer">
-                  <img
-                    src={URL.createObjectURL(highlight.image)}
-                    alt="Highlight Preview"
-                    style={{ width: "100px", height: "100px" }}
-                  />
-                  <button
-                    className="deleteImageButton"
-                    onClick={() => removeHighlightImage(index)}
-                  >
-                    Delete Image
-                  </button>
-                </div>
-              )}
-              <input
-                type="text"
-                placeholder="Heading"
-                value={highlight.heading}
-                onChange={(e) =>
-                  handleHighlightChange(index, "heading", e.target.value)
-                }
-              />
-              <input
-                type="text"
-                placeholder="Sub Heading"
-                value={highlight.subHeading}
-                onChange={(e) =>
-                  handleHighlightChange(index, "subHeading", e.target.value)
-                }
-              />
-              {destinationData.highlights.length > 1 ? (
-                <button
-                  onClick={() => removeHighlight(index)}
-                  className="deleteButton"
-                >
-                  Delete Highlight
-                </button>
-              ) : null}
-            </div>
-          ))}
+  <div key={index} className="formGroup">
+    <input
+      type="file"
+      accept="image/*"
+      onChange={(e) =>
+        handleHighlightChange(index, "image", e.target.files[0])
+      }
+    />
+
+    {highlight.image && (
+      <div className="imageContainer">
+        <img
+          src={
+            typeof highlight.image === "string"
+              ? highlight.image // Cloudinary URL
+              : URL.createObjectURL(highlight.image) // Local File Preview
+          }
+          alt="Highlight Preview"
+          style={{ width: "100px", height: "100px" }}
+        />
+        <button
+          className="deleteImageButton"
+          onClick={() => removeHighlightImage(index)}
+        >
+          Delete Image
+        </button>
+      </div>
+    )}
+
+    <input
+      type="text"
+      placeholder="Heading"
+      value={highlight.heading}
+      onChange={(e) =>
+        handleHighlightChange(index, "heading", e.target.value)
+      }
+    />
+    <input
+      type="text"
+      placeholder="Sub Heading"
+      value={highlight.subHeading}
+      onChange={(e) =>
+        handleHighlightChange(index, "subHeading", e.target.value)
+      }
+    />
+
+    {destinationData.highlights.length > 1 ? (
+      <button
+        onClick={() => removeHighlight(index)}
+        className="deleteButton"
+      >
+        Delete Highlight
+      </button>
+    ) : null}
+  </div>
+))}
+
 
           <button onClick={addHighlight}>Add Another Highlight</button>
         </div>
