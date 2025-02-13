@@ -38,8 +38,8 @@ const NewDestination = ({ title }) => {
           minBookingDate: "",
           seatBooked: "",
           doubleSharingPrice: "",
-          quadSharingPrice: "",
-          groupSharingPrice: ""
+          trippleSharingPrice: "",
+          quadSharingPrice: ""
         },
       ],
     });
@@ -70,7 +70,7 @@ const NewDestination = ({ title }) => {
         seatBooked: "",
         doubleSharingPrice: "",
         quadSharingPrice: "",
-        groupSharingPrice: "",
+        trippleSharingPrice: "",
       }
     ],
     metaTitle: "",
@@ -3746,15 +3746,15 @@ const NewDestination = ({ title }) => {
                       />
                       <input
                         type="number"
-                        value={batch.quadSharingPrice}
-                        onChange={(e) => updateBatch(index, "quadSharingPrice", e.target.value)}
-                        placeholder='Quad sharing price'
+                        value={batch.trippleSharingPrice}
+                        onChange={(e) => updateBatch(index, "trippleSharingPrice", e.target.value)}
+                        placeholder='Tripple sharing price'
                       />
                       <input
                         type="number"
-                        value={batch.groupSharingPrice}
-                        onChange={(e) => updateBatch(index, "groupSharingPrice", e.target.value)}
-                        placeholder='Group sharing price'
+                        value={batch.quadSharingPrice}
+                        onChange={(e) => updateBatch(index, "quadSharingPrice", e.target.value)}
+                        placeholder='Quad sharing price'
                       />
                     </div>
                     {tourData.batch.length > 1 && (

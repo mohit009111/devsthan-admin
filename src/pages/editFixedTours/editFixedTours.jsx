@@ -3544,19 +3544,19 @@ const NewDestination = ({ title }) => {
                                                 onChange={(e) => updateBatch(index, "doubleSharingPrice", e.target.value)}
                                                 placeholder='Double sharing price'
                                             />
+                                            <label> Tripple Sharing Price</label>
+                                            <input
+                                                type="number"
+                                                value={batch.trippleSharingPrice}
+                                                onChange={(e) => updateBatch(index, "trippleSharingPrice", e.target.value)}
+                                                placeholder='Tripple sharing price'
+                                            />
                                             <label> Quad Sharing Price</label>
                                             <input
                                                 type="number"
                                                 value={batch.quadSharingPrice}
                                                 onChange={(e) => updateBatch(index, "quadSharingPrice", e.target.value)}
                                                 placeholder='Quad sharing price'
-                                            />
-                                            <label> Group Sharing Price</label>
-                                            <input
-                                                type="number"
-                                                value={batch.groupSharingPrice}
-                                                onChange={(e) => updateBatch(index, "groupSharingPrice", e.target.value)}
-                                                placeholder='Group sharing price'
                                             />
                                         </div>
 
