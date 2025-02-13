@@ -166,7 +166,14 @@ const NewDestination = ({ title }) => {
         }
     };
 
-
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+    
+        setDestinationData((prev) => ({
+          ...prev,
+          [name]: value,
+        }));
+      };
     const handleMultipleImageUpload = (e) => {
         const files = Array.from(e.target.files); // Store actual file objects
         setDestinationData({
@@ -366,7 +373,7 @@ const NewDestination = ({ title }) => {
     type="text"
     name="metaTitle"
     value={destinationData?.metaTitle}
-    onChange={handleInputChange}
+    onChange={handleChange}
     placeholder="Enter meta title"
     required
   />
@@ -378,7 +385,7 @@ const NewDestination = ({ title }) => {
   <textarea
     name="metaDescription"
     value={destinationData?.metaDescription}
-    onChange={handleInputChange}
+    onChange={handleChange}
     placeholder="Enter meta description"
     required
   />
@@ -391,7 +398,7 @@ const NewDestination = ({ title }) => {
     type="text"
     name="metaKeywords"
     value={destinationData?.metaKeywords}
-    onChange={handleInputChange}
+    onChange={handleChange}
     placeholder="Enter keywords (comma separated)"
     required
   />
@@ -404,7 +411,7 @@ const NewDestination = ({ title }) => {
     type="text"
     name="canonicalUrl"
     value={destinationData?.canonicalUrl}
-    onChange={handleInputChange}
+    onChange={handleChange}
     placeholder="Enter canonical URL"
     required
   />
