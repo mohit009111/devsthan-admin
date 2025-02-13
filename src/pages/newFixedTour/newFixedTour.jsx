@@ -16,7 +16,7 @@ const NewDestination = ({ title }) => {
   const [categories, setCategories] = useState([]);
   const [attributes, setAttributes] = useState([]);
   const [destinations, setDestinations] = useState("");
- 
+
   const updateBatch = (index, field, value) => {
     const updatedBatches = [...tourData.batch];
     updatedBatches[index][field] = value;
@@ -30,7 +30,7 @@ const NewDestination = ({ title }) => {
       batch: [
         ...tourData.batch,
         {
-          seasonName:"",
+          seasonName: "",
           minPeople: "",
           tourStartDate: "",
           tourEndDate: "",
@@ -61,7 +61,7 @@ const NewDestination = ({ title }) => {
     name: "",
     batch: [
       {
-        seasonName:"",
+        seasonName: "",
         minPeople: "",
         tourStartDate: '',
         tourEndDate: "",
@@ -81,17 +81,17 @@ const NewDestination = ({ title }) => {
       title: "",
       description: "",
       url: "",
-     
+
       type: "",
     },
     twitter: {
       title: "",
       description: "",
-      
+
     },
     overview: "",
     location: "",
-  
+
     welcomeDrinks: false,
     transportation: false,
     siteSeen: false,
@@ -107,6 +107,7 @@ const NewDestination = ({ title }) => {
     country: "",
     city: "",
     state: "",
+    location:"",
     destinationId: "",
     availableDates: "",
     partialPayment: {
@@ -338,18 +339,18 @@ const NewDestination = ({ title }) => {
   const handleTagsChange = (e) => {
     const { name, value } = e.target;
     const keys = name.split('.');
-  
+
     setTourData((prev) => {
       let updatedData = { ...prev };
       let currentLevel = updatedData;
-  
+
       for (let i = 0; i < keys.length - 1; i++) {
         if (!currentLevel[keys[i]]) {
           currentLevel[keys[i]] = {};
         }
         currentLevel = currentLevel[keys[i]];
       }
-  
+
       currentLevel[keys[keys.length - 1]] = value;
       return updatedData;
     });
@@ -941,7 +942,7 @@ const NewDestination = ({ title }) => {
               }
             }
           }
-          
+
           const mealTypes = ["breakfast", "lunch", "dinner"];
           mealTypes.forEach((mealType) => {
             if (Array.isArray(itinerary.meals?.[mealType]?.photos)) {
@@ -952,7 +953,7 @@ const NewDestination = ({ title }) => {
             }
           });
 
-         
+
           const transportModes = ["car", "bus", "train", "flight", "chopper"];
           transportModes.forEach((mode) => {
             if (Array.isArray(itinerary.transportation?.[mode]?.photos)) {
@@ -962,7 +963,7 @@ const NewDestination = ({ title }) => {
               });
             }
           });
-      
+
           for (const field of uploadFields) {
             if (Array.isArray(field.photos)) {
               const uploadedUrls = await uploadImagesForField(field.photos);
@@ -1166,95 +1167,95 @@ const NewDestination = ({ title }) => {
               </div>
               <h2>SEO & Social Media Tags</h2>
 
-{/* Meta Title */}
-<div className="formGroup">
-  <label>Meta Title</label>
-  <input
-    type="text"
-    name="metaTitle"
-    value={tourData?.metaTitle}
-    onChange={handleChange}
-    placeholder="Enter meta title"
-    required
-  />
-</div>
+              {/* Meta Title */}
+              <div className="formGroup">
+                <label>Meta Title</label>
+                <input
+                  type="text"
+                  name="metaTitle"
+                  value={tourData?.metaTitle}
+                  onChange={handleChange}
+                  placeholder="Enter meta title"
+                  required
+                />
+              </div>
 
-{/* Meta Description */}
-<div className="formGroup">
-  <label>Meta Description</label>
-  <textarea
-    name="metaDescription"
-    value={tourData?.metaDescription}
-    onChange={handleChange}
-    placeholder="Enter meta description"
-    required
-  />
-</div>
+              {/* Meta Description */}
+              <div className="formGroup">
+                <label>Meta Description</label>
+                <textarea
+                  name="metaDescription"
+                  value={tourData?.metaDescription}
+                  onChange={handleChange}
+                  placeholder="Enter meta description"
+                  required
+                />
+              </div>
 
-{/* Meta Keywords */}
-<div className="formGroup">
-  <label>Meta Keywords</label>
-  <input
-    type="text"
-    name="metaKeywords"
-    value={tourData?.metaKeywords}
-    onChange={handleChange}
-    placeholder="Enter keywords (comma separated)"
-    required
-  />
-</div>
+              {/* Meta Keywords */}
+              <div className="formGroup">
+                <label>Meta Keywords</label>
+                <input
+                  type="text"
+                  name="metaKeywords"
+                  value={tourData?.metaKeywords}
+                  onChange={handleChange}
+                  placeholder="Enter keywords (comma separated)"
+                  required
+                />
+              </div>
 
-{/* Canonical URL */}
-<div className="formGroup">
-  <label>Canonical URL</label>
-  <input
-    type="text"
-    name="canonicalUrl"
-    value={tourData?.canonicalUrl}
-    onChange={handleChange}
-    placeholder="Enter canonical URL"
-    required
-  />
-</div>
+              {/* Canonical URL */}
+              <div className="formGroup">
+                <label>Canonical URL</label>
+                <input
+                  type="text"
+                  name="canonicalUrl"
+                  value={tourData?.canonicalUrl}
+                  onChange={handleChange}
+                  placeholder="Enter canonical URL"
+                  required
+                />
+              </div>
 
-{/* Open Graph Tags */}
-<h3>Open Graph (OG) Tags</h3>
+              {/* Open Graph Tags */}
+              <h3>Open Graph (OG) Tags</h3>
 
-<div className="formGroup">
-  <label>OG Title</label>
-  <input
-    type="text"
-    name="openGraph.title"
-    value={tourData?.openGraph?.title}
-    onChange={handleTagsChange}
-    placeholder="Enter OG title"
-    required
-  />
-</div>
+              <div className="formGroup">
+                <label>OG Title</label>
+                <input
+                  type="text"
+                  name="openGraph.title"
+                  value={tourData?.openGraph?.title}
+                  onChange={handleTagsChange}
+                  placeholder="Enter OG title"
+                  required
+                />
+              </div>
 
-<div className="formGroup">
-  <label>OG Description</label>
-  <textarea
-    name="openGraph.description"
-    value={tourData?.openGraph?.description}
-    onChange={handleTagsChange}
-    placeholder="Enter OG description"
-    required
-  />
-</div>
+              <div className="formGroup">
+                <label>OG Description</label>
+                <textarea
+                  name="openGraph.description"
+                  value={tourData?.openGraph?.description}
+                  onChange={handleTagsChange}
+                  placeholder="Enter OG description"
+                  required
+                />
+              </div>
 
-<div className="formGroup">
-  <label>OG URL</label>
-  <input
-    type="text"
-    name="openGraph.url"
-    value={tourData?.openGraph?.url}
-    onChange={handleTagsChange}
-    placeholder="Enter OG URL"
-    required
-  />
-</div>
-{/* 
+              <div className="formGroup">
+                <label>OG URL</label>
+                <input
+                  type="text"
+                  name="openGraph.url"
+                  value={tourData?.openGraph?.url}
+                  onChange={handleTagsChange}
+                  placeholder="Enter OG URL"
+                  required
+                />
+              </div>
+              {/* 
 <div className="formGroup">
   <label>OG Image</label>
   <input
@@ -1267,43 +1268,43 @@ const NewDestination = ({ title }) => {
   />
 </div> */}
 
-<div className="formGroup">
-  <label>OG Type</label>
-  <input
-    type="text"
-    name="openGraph.type"
-    value={tourData?.openGraph?.type}
-    onChange={handleTagsChange}
-    placeholder="Enter OG Type (e.g., website, article)"
-    required
-  />
-</div>
+              <div className="formGroup">
+                <label>OG Type</label>
+                <input
+                  type="text"
+                  name="openGraph.type"
+                  value={tourData?.openGraph?.type}
+                  onChange={handleTagsChange}
+                  placeholder="Enter OG Type (e.g., website, article)"
+                  required
+                />
+              </div>
 
-{/* Twitter Tags */}
-<h3>Twitter Tags</h3>
+              {/* Twitter Tags */}
+              <h3>Twitter Tags</h3>
 
-<div className="formGroup">
-  <label>Twitter Title</label>
-  <input
-    type="text"
-    name="twitter.title"
-    value={tourData?.twitter?.title}
-    onChange={handleTagsChange}
-    placeholder="Enter Twitter title"
-    required
-  />
-</div>
+              <div className="formGroup">
+                <label>Twitter Title</label>
+                <input
+                  type="text"
+                  name="twitter.title"
+                  value={tourData?.twitter?.title}
+                  onChange={handleTagsChange}
+                  placeholder="Enter Twitter title"
+                  required
+                />
+              </div>
 
-<div className="formGroup">
-  <label>Twitter Description</label>
-  <textarea
-    name="twitter.description"
-    value={tourData?.twitter?.description}
-    onChange={handleTagsChange}
-    placeholder="Enter Twitter description"
-    required
-  />
-</div>
+              <div className="formGroup">
+                <label>Twitter Description</label>
+                <textarea
+                  name="twitter.description"
+                  value={tourData?.twitter?.description}
+                  onChange={handleTagsChange}
+                  placeholder="Enter Twitter description"
+                  required
+                />
+              </div>
 
               {/* Languages */}
               <div className="formGroup">
@@ -1565,6 +1566,18 @@ const NewDestination = ({ title }) => {
                     </select>
                   </div>
                 </div>
+                <div className="formGroup">
+              <label>Location</label>
+              <input
+                type="text"
+                name="location"
+                value={tourData?.location}
+                onChange={handleChange}
+                placeholder="Enter location"
+                required
+              />
+            </div>
+
                 <div className="formGroup">
                   <label>Upload Banner Image (width:1350px , height:500px)</label>
                   <input
@@ -3662,13 +3675,13 @@ const NewDestination = ({ title }) => {
                   <div key={index} className="batchContainer">
                     <h4>Batch {index + 1}</h4>
                     <div className="formGroup">
-                                            <label>Season Name</label>
-                                            <input
-                                                type="text"
-                                                value={batch.seasonName}
-                                                onChange={(e) => updateBatch(index, "seasonName", e.target.value)}
-                                            />
-                                        </div>
+                      <label>Season Name</label>
+                      <input
+                        type="text"
+                        value={batch.seasonName}
+                        onChange={(e) => updateBatch(index, "seasonName", e.target.value)}
+                      />
+                    </div>
                     <div className="formGroup">
                       <label>Min People</label>
                       <input

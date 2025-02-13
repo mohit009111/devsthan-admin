@@ -1366,6 +1366,18 @@ const NewDestination = ({ title }) => {
                                     </div>
                                 </div>
                                 <div className="formGroup">
+              <label>Location</label>
+              <input
+                type="text"
+                name="location"
+                value={tourData?.location}
+                onChange={handleChange}
+                placeholder="Enter location"
+                required
+              />
+            </div>
+
+                                <div className="formGroup">
                                     <label>Upload Banner Image (width:1350px , height:500px)</label>
                                     <input
                                         type="file"

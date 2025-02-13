@@ -9225,36 +9225,17 @@ console.log(tourData)
                 </div>
               )}
             </div>
-
             <div className="formGroup">
               <label>Languages</label>
-              {tourData.languages?.map((language, index) => (
-                <div key={index} className="formItem">
-                  <input
-                    type="text"
-                    value={language}
-                    onChange={(e) =>
-                      handleArrayChangeLanguage(index, e.target.value)
-                    }
-                    placeholder="Enter language"
-                  />
-                  <button
-                    type="button"
-                    className="deleteButton"
-                    onClick={() => removeLanguage(index)}
-                  >
-                    Remove
-                  </button>
-                </div>
-              ))}
-
-              <button
-                type="button"
-                className="add-more"
-                onClick={addLanguageField}
-              >
-                Add More Languages
-              </button>
+             
+              <input
+                type="text"
+                name="languages"
+                value={tourData.languages}
+                onChange={handleChange}
+                placeholder="Enter languages"
+                required
+              />
             </div>
             <div className="formGroup">
               <label>Seo content</label>

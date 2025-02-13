@@ -59,7 +59,7 @@ const NewTour = ({ title }) => {
     groupSize: "",
     categories: [],
     attributes: [],
-    languages: [],
+    languages: "",
     termsAndConditions: "",
     country: "",
     city: "",
@@ -973,48 +973,7 @@ const NewTour = ({ title }) => {
       },
     }));
   };
-  const handleSiteSeenPhotoChange = (event, itineraryIndex, detailsType) => {
-    const files = Array.from(event.target.files); // Convert FileList to an array
-    setTourData((prevData) => {
-      const updatedItineraries = [...prevData[detailsType].itineraries];
-      updatedItineraries[itineraryIndex] = {
-        ...updatedItineraries[itineraryIndex],
-        siteSeenPhotos: [
-          ...updatedItineraries[itineraryIndex].siteSeenPhotos,
-          ...files,
-        ], // Append new photos
-      };
-      return {
-        ...prevData,
-        [detailsType]: {
-          ...prevData[detailsType],
-          itineraries: updatedItineraries,
-        },
-      };
-    });
-  };
-  const handleHotelPhotoChange = (event, itineraryIndex, detailsType) => {
-    const files = Array.from(event.target.files); // Convert FileList to an array
-    setTourData((prevData) => {
-      const updatedItineraries = [...prevData[detailsType].itineraries];
-      updatedItineraries[itineraryIndex] = {
-        ...updatedItineraries[itineraryIndex],
-        hotelPhotos: [
-          ...updatedItineraries[itineraryIndex].hotelPhotos,
-          ...files,
-        ], // Append new photos
-      };
-      return {
-        ...prevData,
-        [detailsType]: {
-          ...prevData[detailsType],
-          itineraries: updatedItineraries,
-        },
-      };
-    });
-  };
-
-
+ 
   const handleQuillChange = (value, fieldName) => {
     setTourData((prevState) => ({
       ...prevState,
@@ -1038,27 +997,7 @@ const NewTour = ({ title }) => {
       },
     }));
   };
-  const handleDeleteHotelPhoto = (
-    itineraryIndex,
-    photoIndex,
-    itineraryType
-  ) => {
-    setTourData((prevData) => {
-      const updatedItineraries = [...prevData.standardDetails.itineraries];
-      updatedItineraries[itineraryIndex].hotelPhotos = updatedItineraries[
-        itineraryIndex
-      ].hotelPhotos.filter((_, index) => index !== photoIndex);
-
-      return {
-        ...prevData,
-        standardDetails: {
-          ...prevData.standardDetails,
-          itineraries: updatedItineraries,
-        },
-      };
-    });
-  };
-
+ 
   const handleAttributeSelect = (attributeId) => {
     if (!tourData.attributes.includes(attributeId)) {
       setTourData((prevData) => ({
@@ -1108,44 +1047,10 @@ const NewTour = ({ title }) => {
       };
     });
   };
-  const handleActivityPhotos = (index, type, files, section) => {
-    const validFiles = Array.from(files).filter((file) => file instanceof File);
-    const newPhotos = validFiles.map((file) => URL.createObjectURL(file));
-
-    setTourData((prev) => {
-      const updatedItineraries = [...prev[section].itineraries];
-
-      // Ensure the `photos` array exists
-      const existingPhotos = updatedItineraries[index][type].photos || [];
-
-      // Remove duplicates
-      const uniquePhotos = [...new Set([...existingPhotos, ...newPhotos])];
-
-      // Update the photos
-      updatedItineraries[index][type].photos = uniquePhotos;
-
-      return {
-        ...prev,
-        [section]: { ...prev[section], itineraries: updatedItineraries },
-      };
-    });
-  };
+  
 
   // Function to handle deleting car photos
-  const handleDeleteCarPhoto = (itineraryIndex, photoIndex, packageType) => {
-    const updatedItineraries = [...tourData[packageType].itineraries];
-
-    // Remove the selected photo from carPhotos
-    updatedItineraries[itineraryIndex].carPhotos.splice(photoIndex, 1);
-
-    setTourData((prevState) => ({
-      ...prevState,
-      [packageType]: {
-        ...prevState[packageType],
-        itineraries: updatedItineraries,
-      },
-    }));
-  };
+ 
   const handleTransportationPhotos = (index, type, files, section) => {
     const uploadedPhotos = Array.from(files).map((file) =>
       URL.createObjectURL(file)
@@ -1202,24 +1107,9 @@ const NewTour = ({ title }) => {
     });
   };
 
-  const handleCarPhotosChange = (e, index, packageType) => {
-    const files = Array.from(e.target.files); // Convert the FileList to an array
-    const updatedItineraries = [...tourData[packageType].itineraries];
+ 
 
-    // Append the new files to the existing carPhotos array
-    updatedItineraries[index].carPhotos = [
-      ...updatedItineraries[index].carPhotos,
-      ...files,
-    ];
-
-    setTourData((prevState) => ({
-      ...prevState,
-      [packageType]: {
-        ...prevState[packageType],
-        itineraries: updatedItineraries,
-      },
-    }));
-  };
+ 
 
   const handleHotelImages = (index, files, section) => {
     const newPhotos = Array.from(files).map((file) =>
@@ -1244,21 +1134,7 @@ const NewTour = ({ title }) => {
       };
     });
   };
-  const handleStandardBedPriceChange = (
-    itineraryIndex,
-    bedType,
-    field,
-    value
-  ) => {
-    setTourData((prev) => {
-      const updated = { ...prev };
-      updated.standardDetails.itineraries[itineraryIndex].hotel.beds[bedType][
-        field
-      ] = value;
-      return updated;
-    });
-  };
-
+ 
   const handleDeletePhoto = (index) => {
     setTourData((prevData) => {
       // Revoke the object URL for the deleted image
@@ -1281,20 +1157,6 @@ const NewTour = ({ title }) => {
     }));
   };
 
-  const addLanguageField = () => {
-    setTourData((prevData) => ({
-      ...prevData,
-      languages: [...prevData.languages, ""], // Adds a new empty string to the languages array
-    }));
-  };
-
-  // Function to remove a language field
-  const removeLanguage = (index) => {
-    setTourData((prevData) => ({
-      ...prevData,
-      languages: prevData.languages.filter((_, i) => i !== index),
-    }));
-  };
 
   // Handle input change for text fields
   const handletermsChange = (value, name) => {
@@ -1342,54 +1204,9 @@ const NewTour = ({ title }) => {
     });
   };
 
-  const addArrayField = (field, category) => {
-    setTourData((prev) => ({
-      ...prev,
-      [category]: {
-        ...prev[category],
-        [field]: [...(prev[category][field] || []), ""], // Ensure the field is an array
-      },
-    }));
-  };
-  const addPricingArrayField = (field, category) => {
-    setTourData((prev) => {
-      const updatedCategory = { ...prev[category] };
-      const updatedPricing = [...updatedCategory.pricing];
+ 
+  
 
-      // Determine the next person count
-      const nextPerson =
-        updatedPricing.length > 0 ? updatedPricing.length + 1 : 1;
-
-      // Create a new pricing object
-      const newPricing = {
-        person: nextPerson,
-        price: "",
-      };
-
-      // Add the new pricing entry
-      updatedPricing.push(newPricing);
-
-      return {
-        ...prev,
-        [category]: {
-          ...updatedCategory,
-          pricing: updatedPricing,
-        },
-      };
-    });
-  };
-
-  const removeArrayField = (index, field, category) => {
-    const updatedCategory = { ...tourData[category] };
-    updatedCategory[field] = updatedCategory[field].filter(
-      (_, i) => i !== index
-    );
-
-    setTourData((prevData) => ({
-      ...prevData,
-      [category]: updatedCategory,
-    }));
-  };
   const handleLocationSelect = (field, value) => {
     setTourData((prevTourData) => ({
       ...prevTourData,
@@ -1483,55 +1300,7 @@ const NewTour = ({ title }) => {
     });
   };
 
-  const handleArrayChange = (index, field, value, category) => {
-    setTourData((prevData) => {
-      const updatedCategory = { ...prevData[category] };
 
-      // Ensure the field is an array
-      if (!Array.isArray(updatedCategory[field])) {
-        updatedCategory[field] = [];
-      }
-
-      // Update the specific index in the array
-      updatedCategory[field][index] = value;
-
-      return {
-        ...prevData,
-        [category]: updatedCategory,
-      };
-    });
-  };
-
-  const handlePricingArrayChange = (index, updatedValue, category) => {
-    setTourData((prevData) => {
-      // Clone the current category (standard, deluxe, or premium)
-      const updatedCategory = { ...prevData[category] };
-
-      // Update the specific pricing entry in the category
-      updatedCategory.pricing[index] = updatedValue;
-
-      return {
-        ...prevData,
-        [category]: updatedCategory,
-      };
-    });
-  };
-
-  const handleArrayChangeLanguage = (index, value) => {
-    setTourData((prevData) => {
-      // Create a copy of the languages array
-      const updatedLanguages = [...prevData.languages];
-
-      // Update the specific index in the array
-      updatedLanguages[index] = value;
-
-      // Return the new state
-      return {
-        ...prevData,
-        languages: updatedLanguages,
-      };
-    });
-  };
 
   useEffect(() => {
     // Fetch categories from API
@@ -9682,33 +9451,15 @@ const NewTour = ({ title }) => {
 
             <div className="formGroup">
               <label>Languages</label>
-              {tourData.languages.map((language, index) => (
-                <div key={index} className="formItem">
-                  <input
-                    type="text"
-                    value={language}
-                    onChange={(e) =>
-                      handleArrayChangeLanguage(index, e.target.value)
-                    }
-                    placeholder="Enter language"
-                  />
-                  <button
-                    type="button"
-                    className="deleteButton"
-                    onClick={() => removeLanguage(index)} // Ensure removeLanguage correctly removes from the languages array
-                  >
-                    Remove
-                  </button>
-                </div>
-              ))}
-
-              <button
-                type="button"
-                className="add-more"
-                onClick={addLanguageField} // Function to add a new language field
-              >
-                Add More Languages
-              </button>
+             
+              <input
+                type="text"
+                name="languages"
+                value={tourData.languages}
+                onChange={handleChange}
+                placeholder="Enter languages"
+                required
+              />
             </div>
             <div className="formGroup">
               <label>Seo content</label>
