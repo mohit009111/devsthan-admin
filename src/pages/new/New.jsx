@@ -241,7 +241,7 @@ const NewTour = ({ title }) => {
           startDate: "",
           endDate: "",
           pricing: [
-            { price: "", rooms: "", person: "" } // Pricing per season
+            { price: "", rooms: "", person: 1 } // Pricing per season
           ],
         },
       ],
@@ -410,7 +410,7 @@ const NewTour = ({ title }) => {
           startDate: "",
           endDate: "",
           pricing: [
-            { price: "", rooms: "", person: "" } // Pricing per season
+            { price: "", rooms: "", person: 1 } // Pricing per season
           ],
         },
       ],
@@ -579,7 +579,7 @@ const NewTour = ({ title }) => {
           startDate: "",
           endDate: "",
           pricing: [
-            { price: "", rooms: "", person: "" } // Pricing per season
+            { price: "", rooms: "", person: 1 } // Pricing per season
           ],
         },
       ],

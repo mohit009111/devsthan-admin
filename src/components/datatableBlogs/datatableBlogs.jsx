@@ -34,7 +34,7 @@ const Datatable = () => {
 
       if (data.data) {
         const mappedData = data.data.map((tour) => ({
-          id: tour._id,
+          id: tour.uuid,
           name: tour.title,
           city: tour.city || "N/A",
           state: tour.state || "N/A",

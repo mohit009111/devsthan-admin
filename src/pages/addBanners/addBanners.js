@@ -47,7 +47,7 @@ const NewBlog = ({ title }) => {
 
   const handleFileChange = (e, type, device) => {
     const newFiles = Array.from(e.target.files);
-  
+
     setBanners((prev) => ({
       ...prev,
       [type]: {
@@ -56,7 +56,7 @@ const NewBlog = ({ title }) => {
       },
     }));
   };
-  
+
 
   const handleDeleteImage = (type, device, imageUrl) => {
     setBanners((prev) => ({
@@ -67,7 +67,7 @@ const NewBlog = ({ title }) => {
       },
     }));
   };
-  
+
 
   const handleSubmit = async (type) => {
     setLoading((prev) => ({ ...prev, [type]: true }));
@@ -77,17 +77,17 @@ const NewBlog = ({ title }) => {
         const bannerData = banners[type]?.[device] || [];
         const newImages = bannerData.filter((img) => img instanceof File);
         const existingUrls = bannerData.filter((img) => typeof img === "string");
-  
+
         const uploadedUrls = newImages.length > 0 ? await Promise.all(newImages.map(uploadImageToCloudinary)) : [];
         uploadedImages[device] = [...uploadedUrls, ...existingUrls];
       }
-  
+
       const response = await fetch(`${BASE_URL}/api/addBannerImages?page=${type}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(uploadedImages),
       });
-  
+
       if (response.ok) {
         toast.success(`${type} banners updated successfully!`);
       } else {
@@ -150,23 +150,23 @@ const NewBlog = ({ title }) => {
                       <label htmlFor={`${id}-${device}`}>{`${device} banner`}</label>
                       <input type="file" id={`${id}-${device}`} multiple onChange={(e) => handleFileChange(e, id, device)} />
                       <div className="preview">
-  {banners[id][device]?.map((file, index) => {
-    const imgSrc = file instanceof File ? URL.createObjectURL(file) : file; // Show preview for new uploads
-    return (
-      <div key={index} className="preview-image-container">
-        <img src={imgSrc} alt={`${device} preview`} />
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            handleDeleteImage(id, device, file);
-          }}
-        >
-          <FaTrash />
-        </button>
-      </div>
-    );
-  })}
-</div>
+                        {banners[id][device]?.map((file, index) => {
+                          const imgSrc = file instanceof File ? URL.createObjectURL(file) : file; // Show preview for new uploads
+                          return (
+                            <div key={index} className="preview-image-container">
+                              <img src={imgSrc} alt={`${device} preview`} />
+                              <button
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  handleDeleteImage(id, device, file);
+                                }}
+                              >
+                                <FaTrash />
+                              </button>
+                            </div>
+                          );
+                        })}
+                      </div>
                     </div>
                   ))}
                   <button type="button" onClick={() => handleSubmit(id)}>{loading[id] ? <RotatingLines /> : `Save ${id}`}</button>

@@ -33,10 +33,14 @@ const Datatable = () => {
       
       const mappedData = data.map((tour, index) => ({
         id: tour.uuid || index,
-        name: tour.country.label,
-        location: tour.state.label,
+        name: tour.country?.label || "N/A", // Ensure fallback
+        location: tour.location || "N/A",
+        city: tour.city?.label || "N/A", // Safely access `label`
+        state: tour.state?.label || "N/A",
+        country: tour.country?.label || "N/A",
         date: tour.createdAt,
       }));
+      
 
       setAllTours(mappedData);
       setData(mappedData);
@@ -103,10 +107,11 @@ const Datatable = () => {
 
   const tourColumns = [
     { field: "location", headerName: "Location", width: 200 },
-    { field: "City Name", headerName: "City Name", width: 150 },
-    { field: "State Name", headerName: "State Name", width: 120 },
-    { field: "Country Name", headerName: "Country Name", width: 160 },
+    { field: "city", headerName: "City Name", width: 150 }, // Correct field
+    { field: "state", headerName: "State Name", width: 120 },
+    { field: "country", headerName: "Country Name", width: 160 },
   ];
+  
 
   return (
     <div className="datatable">
