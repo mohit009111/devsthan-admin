@@ -8618,67 +8618,7 @@ console.log(tourData)
               />
             </div>
 
-            <div className="formGroup">
-              <label>
-                <input
-                  type="checkbox"
-                  name="fixedDates"
-                  checked={tourData.fixedDates?.enabled}
-                  onChange={(e) =>
-                    setTourData((prevState) => ({
-                      ...prevState,
-                      fixedDates: {
-                        ...prevState.fixedDates,
-                        enabled: e.target.checked,
-                      },
-                    }))
-                  }
-                />
-                Fixed Dates Tour
-              </label>
-            </div>
-            
 
-            {tourData.fixedDates?.enabled && (
-              <div className="fixedDatesBox">
-                <h4>Fixed Dates Tour Details</h4>
-                <div className="formGroup">
-                  <label>Seats Available</label>
-                  <input
-                    type="number"
-                    value={tourData.fixedDates?.seatsAvailable || ""}
-                    onChange={(e) =>
-                      setTourData((prevState) => ({
-                        ...prevState,
-                        fixedDates: {
-                          ...prevState.fixedDates,
-                          seatsAvailable: e.target.value,
-                        },
-                      }))
-                    }
-                    placeholder="Enter seats available"
-                  />
-                </div>
-
-                <div className="formGroup">
-                  <label>Price Change Per Person</label>
-                  <input
-                    type="number"
-                    value={tourData.fixedDates?.priceChangePerPerson || ""}
-                    onChange={(e) =>
-                      setTourData((prevState) => ({
-                        ...prevState,
-                        fixedDates: {
-                          ...prevState.fixedDates,
-                          priceChangePerPerson: e.target.value,
-                        },
-                      }))
-                    }
-                    placeholder="Enter price change per person"
-                  />
-                </div>
-              </div>
-            )}
             <div className="formGroup">
               <label>
                 <input
@@ -8999,20 +8939,7 @@ console.log(tourData)
     required
   />
 </div>
-            <div className="formGroup">
-              <input
-                type="checkbox"
-                name="welcomeDrinks"
-                checked={tourData.welcomeDrinks}
-                onChange={(e) =>
-                  setTourData((prevData) => ({
-                    ...prevData,
-                    welcomeDrinks: e.target.checked,
-                  }))
-                }
-              />
-              <span> Include Welcome Drinks</span>
-            </div>
+           
 
             <div className="formGroup">
               <label>Departure Details</label>
@@ -9051,26 +8978,7 @@ console.log(tourData)
                 placeholder="Enter any additional information"
               />
             </div>
-            <div className="formGroup">
-              <label>Upload Banner Image (width: 1350px , height: 500px)</label>
-              <input
-                type="file"
-                name="bannerImage"
-                onChange={handleBannerImageChange}
-              />
-
-              {tourData.bannerImage && (
-                <div className="banner-preview">
-                  <img src={tourData.bannerImage} alt="Banner Preview" />
-                  <button
-                    className="delete-banner"
-                    onClick={handleDeleteBanner}
-                  >
-                    &times;
-                  </button>
-                </div>
-              )}
-            </div>
+           
 
             <div className="formGroup" style={{ position: "relative" }}>
               <label htmlFor="categoriesInput">Categories</label>
@@ -9216,6 +9124,26 @@ console.log(tourData)
               </div>
             </div>
             <div className="formGroup">
+              <label>Upload Banner Image (width: 1350px , height: 500px)</label>
+              <input
+                type="file"
+                name="bannerImage"
+                onChange={handleBannerImageChange}
+              />
+
+              {tourData.bannerImage && (
+                <div className="banner-preview">
+                  <img src={tourData.bannerImage} alt="Banner Preview" />
+                  <button
+                    className="delete-banner"
+                    onClick={handleDeleteBanner}
+                  >
+                    &times;
+                  </button>
+                </div>
+              )}
+            </div>
+            <div className="formGroup">
               <label>Upload Photos (width: 1350px , height: 500px)</label>
               <input
                 type="file"
@@ -9253,25 +9181,7 @@ console.log(tourData)
                 required
               />
             </div>
-            <div className="formGroup">
-              <label>Seo content</label>
-              <input
-                type="text"
-                name="metaTitle"
-                value={tourData.metaTitle}
-                onChange={handleChange}
-                placeholder="Enter Meta title"
-                required
-              />
-              <input
-                type="text"
-                name="metaDescription"
-                value={tourData.metaDescription}
-                onChange={handleChange}
-                placeholder="Enter Meta Description"
-                required
-              />
-            </div>
+           
 
             <div className="tourTypeButtons">
               <button

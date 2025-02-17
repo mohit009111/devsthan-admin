@@ -245,7 +245,7 @@ function App() {
               }
             />
             <Route
-              path="edit"
+              path="edit/:whychoose"
               element={
                 <ProtectedRoute>
                   <AboutUsEdit />

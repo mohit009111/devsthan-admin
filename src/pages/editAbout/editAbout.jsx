@@ -9,7 +9,8 @@ import { BASE_URL } from '../../utils/headers';
 import { toast, ToastContainer } from 'react-hot-toast';
 
 const EditBlog = ({ title }) => {
-    const { id } = useParams();
+    const { whychoose } = useParams();
+    console.log(useParams())
     const [imagePreview, setImagePreview] = useState(null);
     const [formData, setFormData] = useState({
         uuid: '',
@@ -21,7 +22,7 @@ const EditBlog = ({ title }) => {
     useEffect(() => {
         const fetchBlogData = async () => {
             try {
-                const response = await axios.get(`${BASE_URL}/api/getWhyChoose/${id}`);
+                const response = await axios.get(`${BASE_URL}/api/getWhyChooseById/${whychoose}`);
                 if (response.status === 200) {
                     const data = response.data;
                     setFormData({
@@ -37,7 +38,7 @@ const EditBlog = ({ title }) => {
             }
         };
         fetchBlogData();
-    }, [id]);
+    }, [whychoose]);
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -97,7 +98,7 @@ const EditBlog = ({ title }) => {
                 description: formData.description,
             };
 
-            const response = await axios.put(`${BASE_URL}/api/updateWhyChoose/${id}`, updatedData);
+            const response = await axios.put(`${BASE_URL}/api/updateWhyChoose/${whychoose}`, updatedData);
 
             if (response.status === 200) {
                 toast.success("Blog updated successfully");
@@ -119,9 +120,13 @@ const EditBlog = ({ title }) => {
                 </div>
                 <div className="bottom">
                     <form onSubmit={handleSubmit}>
-                        <div className="formInput">
+                    <div className="formInput">
                             <label>Banner Image</label>
+                            <label className="uploadButton" htmlFor="fileUpload">
+                                Choose Image
+                            </label>
                             <input
+                                id="fileUpload"
                                 type="file"
                                 name="bannerImage"
                                 onChange={handleImageChange}
@@ -132,6 +137,7 @@ const EditBlog = ({ title }) => {
                                 </div>
                             )}
                         </div>
+                       
                         <div className="formInput">
                             <label>Title</label>
                             <input

@@ -8787,25 +8787,7 @@ const NewTour = ({ title }) => {
               />
             </div>
 
-            <div className="formGroup">
-              <label>
-                <input
-                  type="checkbox"
-                  name="fixedDates"
-                  checked={tourData.fixedDates.enabled}
-                  onChange={(e) =>
-                    setTourData((prevState) => ({
-                      ...prevState,
-                      fixedDates: {
-                        ...prevState.fixedDates,
-                        enabled: e.target.checked,
-                      },
-                    }))
-                  }
-                />
-                Fixed Dates Tour
-              </label>
-            </div>
+           
             <div className="formGroup">
               <input
                 type="checkbox"
@@ -8896,46 +8878,7 @@ const NewTour = ({ title }) => {
               <span> Include Hotel</span>
             </div>
 
-            {tourData.fixedDates.enabled && (
-              <div className="fixedDatesBox">
-                <h4>Fixed Dates Tour Details</h4>
-                <div className="formGroup">
-                  <label>Seats Available</label>
-                  <input
-                    type="number"
-                    value={tourData.fixedDates.seatsAvailable || ""}
-                    onChange={(e) =>
-                      setTourData((prevState) => ({
-                        ...prevState,
-                        fixedDates: {
-                          ...prevState.fixedDates,
-                          seatsAvailable: e.target.value,
-                        },
-                      }))
-                    }
-                    placeholder="Enter seats available"
-                  />
-                </div>
-
-                <div className="formGroup">
-                  <label>Price Change Per Person</label>
-                  <input
-                    type="number"
-                    value={tourData.fixedDates.priceChangePerPerson || ""}
-                    onChange={(e) =>
-                      setTourData((prevState) => ({
-                        ...prevState,
-                        fixedDates: {
-                          ...prevState.fixedDates,
-                          priceChangePerPerson: e.target.value,
-                        },
-                      }))
-                    }
-                    placeholder="Enter price change per person"
-                  />
-                </div>
-              </div>
-            )}
+         
             <div className="formGroup">
               <label>
                 <input
@@ -9193,21 +9136,6 @@ const NewTour = ({ title }) => {
 </div> */}
 
             <div className="formGroup">
-              <input
-                type="checkbox"
-                name="welcomeDrinks"
-                checked={tourData?.welcomeDrinks}
-                onChange={(e) =>
-                  setTourData((prevData) => ({
-                    ...prevData,
-                    welcomeDrinks: e.target.checked,
-                  }))
-                }
-              />
-              <span> Include Welcome Drinks</span>
-            </div>
-
-            <div className="formGroup">
               <label>Departure Details</label>
               <ReactQuill
                 type="text"
@@ -9461,25 +9389,7 @@ const NewTour = ({ title }) => {
                 required
               />
             </div>
-            <div className="formGroup">
-              <label>Seo content</label>
-              <input
-                type="text"
-                name="metaTitle"
-                value={tourData.metaTitle}
-                onChange={handleChange}
-                placeholder="Enter Meta title"
-                required
-              />
-              <input
-                type="text"
-                name="metaDescription"
-                value={tourData.metaDescription}
-                onChange={handleChange}
-                placeholder="Enter Meta Description"
-                required
-              />
-            </div>
+           
 
             <div className="tourTypeButtons">
               <button

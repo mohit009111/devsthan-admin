@@ -27,14 +27,12 @@ const Datatable = () => {
         },
       });
 
-    
-      const data = await response.json();
-      const data1=data.data
+      const responseData = await response.json();
+      const tours = Array.isArray(responseData.data) ? responseData.data : [];
 
-      const mappedData = data1.map((tour, index) => ({
+      const mappedData = tours.map((tour, index) => ({
         id: tour.uuid || index,
         title: tour.title,
-       
       }));
 
       setAllTours(mappedData);
@@ -43,36 +41,38 @@ const Datatable = () => {
       console.error("Error fetching tours:", error);
     }
   };
-console.log(allTours)
+
   useEffect(() => {
     fetchAllTours();
   }, []);
 
-  const handleDeleteClick = () => {
-  
+  const handleDeleteClick = (id) => {
+    setTourIdToDelete(id);
     setOpenDialog(true);
   };
 
   const handleCloseDialog = () => {
-    setOpenDialog(false); // Close the dialog
+    setOpenDialog(false);
+    setTourIdToDelete(null);
   };
 
   const handleConfirmDelete = async () => {
+    if (!tourIdToDelete) return;
+
     try {
-      // Call delete API
-      await fetch(`${BASE_URL}/api/deleteTour/${allTours[0].id}`, {
+      await fetch(`${BASE_URL}/api/deleteTour/${tourIdToDelete}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
       });
 
-      // Fetch all tours again to update the list
       fetchAllTours();
     } catch (error) {
       console.error("Error deleting tour:", error);
     } finally {
-      setOpenDialog(false); // Close the dialog
+      setOpenDialog(false);
+      setTourIdToDelete(null);
     }
   };
 
@@ -81,16 +81,13 @@ console.log(allTours)
       field: "action",
       headerName: "Action",
       width: 200,
-      renderCell: () => {
+      renderCell: (params) => {
         return (
           <div className="cellAction">
-            <Link to={`/admin/about-us/edit`} style={{ textDecoration: "none" }}>
+            <Link to={`/admin/about-us/edit/${params.row.id}`} style={{ textDecoration: "none" }}>
               <div className="viewButton">Edit</div>
             </Link>
-            <div
-              className="deleteButton"
-              onClick={() => handleDeleteClick()} // Pass the ID of the tour to delete
-            >
+            <div className="deleteButton" onClick={() => handleDeleteClick(params.row.id)}>
               Delete
             </div>
           </div>
@@ -99,15 +96,12 @@ console.log(allTours)
     },
   ];
 
-  const tourColumns = [
-    { field: "title", headerName: "title", width: 350 },
-   
-  ];
+  const tourColumns = [{ field: "title", headerName: "Title", width: 350 }];
 
   return (
     <div className="datatable">
       <div className="datatableTitle">
-        Add New Tour
+        Add New Why Choose
         <Link to="/admin/about-us/new" className="link">
           Add New
         </Link>
@@ -124,9 +118,7 @@ console.log(allTours)
       <Dialog open={openDialog} onClose={handleCloseDialog}>
         <DialogTitle>Confirm Deletion</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            Are you sure you want to delete this tour?
-          </DialogContentText>
+          <DialogContentText>Are you sure you want to delete this tour?</DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleCloseDialog} color="primary">
