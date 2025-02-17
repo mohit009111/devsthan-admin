@@ -1145,16 +1145,94 @@ const NewDestination = ({ title }) => {
               </div>
 
               {/* Welcome Drinks */}
+            
               <div className="formGroup">
-                <label>Welcome Drinks</label>
-                <input
-                  type="checkbox"
-                  checked={tourData?.welcomeDrinks}
-                  onChange={(e) => setTourData({ ...tourData, welcomeDrinks: e.target.checked })}
-                />
-              </div>
+              <input
+                type="checkbox"
+                name="transportation"
+                checked={tourData.transportation}
+                onChange={(e) =>
+                  setTourData((prevData) => ({
+                    ...prevData,
+                    transportation: e.target.checked,
+                  }))
+                }
+              />
+              <span> Include Transportation</span>
+            </div>
+            <div className="formGroup">
+              <input
+                type="checkbox"
+                name="activities"
+                checked={tourData.activities}
+                onChange={(e) =>
+                  setTourData((prevData) => ({
+                    ...prevData,
+                    activities: e.target.checked,
+                  }))
+                }
+              />
+              <span> Include activities</span>
+            </div>
+            <div className="formGroup">
+              <input
+                type="checkbox"
+                name="siteSeen"
+                checked={tourData.siteSeen}
+                onChange={(e) =>
+                  setTourData((prevData) => ({
+                    ...prevData,
+                    siteSeen: e.target.checked,
+                  }))
+                }
+              />
+              <span> Include Site Seen</span>
+            </div>
 
+            <div className="formGroup">
+              <input
+                type="checkbox"
+                name="welcomeDrinks"
+                checked={tourData.welcomeDrinks}
+                onChange={(e) =>
+                  setTourData((prevData) => ({
+                    ...prevData,
+                    welcomeDrinks: e.target.checked,
+                  }))
+                }
+              />
+              <span> Include Welcome Drinks</span>
+            </div>
 
+            <div className="formGroup">
+              <input
+                type="checkbox"
+                name="meals"
+                checked={tourData.meals}
+                onChange={(e) =>
+                  setTourData((prevData) => ({
+                    ...prevData,
+                    meals: e.target.checked,
+                  }))
+                }
+              />
+              <span> Include Meal</span>
+            </div>
+
+            <div className="formGroup">
+              <input
+                type="checkbox"
+                name="hotel"
+                checked={tourData.hotel}
+                onChange={(e) =>
+                  setTourData((prevData) => ({
+                    ...prevData,
+                    hotel: e.target.checked,
+                  }))
+                }
+              />
+              <span> Include Hotel</span>
+            </div>
 
               {/* Duration */}
               <div className="formGroup">

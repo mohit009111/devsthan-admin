@@ -370,14 +370,7 @@ const NewDestination = ({ title }) => {
                             onChange={(e) => handleInputChange(e, 'languages')}
                         />
                     </div>
-                    <div className="formGroup">
-                        <label>Capital City</label>
-                        <input
-                            type="text"
-                            value={destinationData.capitalCity}
-                            onChange={(e) => handleInputChange(e, 'capitalCity')}
-                        />
-                    </div>
+                   
 
                     <div className="formGroup">
                         <label>Images </label>
@@ -395,7 +388,7 @@ const NewDestination = ({ title }) => {
                     </div>
                     <h2>SEO & Social Media Tags</h2>
 
-{/* Meta Title */}
+
 <div className="formGroup">
   <label>Meta Title</label>
   <input
@@ -408,7 +401,7 @@ const NewDestination = ({ title }) => {
   />
 </div>
 
-{/* Meta Description */}
+
 <div className="formGroup">
   <label>Meta Description</label>
   <textarea

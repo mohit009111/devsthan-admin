@@ -216,31 +216,31 @@ const NewDestination = ({ title }) => {
     };
     const handleChange = (e) => {
         const { name, value } = e.target;
-    
+
         setTourData((prev) => ({
-          ...prev,
-          [name]: value,
+            ...prev,
+            [name]: value,
         }));
-      };
-      const handleTagsChange = (e) => {
+    };
+    const handleTagsChange = (e) => {
         const { name, value } = e.target;
         const keys = name.split('.');
-      
+
         setTourData((prev) => {
-          let updatedData = { ...prev };
-          let currentLevel = updatedData;
-      
-          for (let i = 0; i < keys.length - 1; i++) {
-            if (!currentLevel[keys[i]]) {
-              currentLevel[keys[i]] = {};
+            let updatedData = { ...prev };
+            let currentLevel = updatedData;
+
+            for (let i = 0; i < keys.length - 1; i++) {
+                if (!currentLevel[keys[i]]) {
+                    currentLevel[keys[i]] = {};
+                }
+                currentLevel = currentLevel[keys[i]];
             }
-            currentLevel = currentLevel[keys[i]];
-          }
-      
-          currentLevel[keys[keys.length - 1]] = value;
-          return updatedData;
+
+            currentLevel[keys[keys.length - 1]] = value;
+            return updatedData;
         });
-      };
+    };
     const handleTransportationChange = (index, type, value, section) => {
         setTourData((prev) => {
             const updatedItineraries = [...prev[section].itineraries];
@@ -945,14 +945,94 @@ const NewDestination = ({ title }) => {
                             </div>
 
                             {/* Welcome Drinks */}
-                            <div className="formGroup">
-                                <label>Welcome Drinks</label>
-                                <input
-                                    type="checkbox"
-                                    checked={tourData?.welcomeDrinks}
-                                    onChange={(e) => setTourData({ ...tourData, welcomeDrinks: e.target.checked })}
-                                />
-                            </div>
+                          
+            <div className="formGroup">
+              <input
+                type="checkbox"
+                name="transportation"
+                checked={tourData.transportation}
+                onChange={(e) =>
+                  setTourData((prevData) => ({
+                    ...prevData,
+                    transportation: e.target.checked,
+                  }))
+                }
+              />
+              <span> Include Transportation</span>
+            </div>
+            <div className="formGroup">
+              <input
+                type="checkbox"
+                name="activities"
+                checked={tourData.activities}
+                onChange={(e) =>
+                  setTourData((prevData) => ({
+                    ...prevData,
+                    activities: e.target.checked,
+                  }))
+                }
+              />
+              <span> Include activities</span>
+            </div>
+            <div className="formGroup">
+              <input
+                type="checkbox"
+                name="siteSeen"
+                checked={tourData.siteSeen}
+                onChange={(e) =>
+                  setTourData((prevData) => ({
+                    ...prevData,
+                    siteSeen: e.target.checked,
+                  }))
+                }
+              />
+              <span> Include Site Seen</span>
+            </div>
+
+            <div className="formGroup">
+              <input
+                type="checkbox"
+                name="welcomeDrinks"
+                checked={tourData.welcomeDrinks}
+                onChange={(e) =>
+                  setTourData((prevData) => ({
+                    ...prevData,
+                    welcomeDrinks: e.target.checked,
+                  }))
+                }
+              />
+              <span> Include Welcome Drinks</span>
+            </div>
+
+            <div className="formGroup">
+              <input
+                type="checkbox"
+                name="meals"
+                checked={tourData.meals}
+                onChange={(e) =>
+                  setTourData((prevData) => ({
+                    ...prevData,
+                    meals: e.target.checked,
+                  }))
+                }
+              />
+              <span> Include Meal</span>
+            </div>
+
+            <div className="formGroup">
+              <input
+                type="checkbox"
+                name="hotel"
+                checked={tourData.hotel}
+                onChange={(e) =>
+                  setTourData((prevData) => ({
+                    ...prevData,
+                    hotel: e.target.checked,
+                  }))
+                }
+              />
+              <span> Include Hotel</span>
+            </div>
 
 
 
@@ -967,95 +1047,95 @@ const NewDestination = ({ title }) => {
                             </div>
                             <h2>SEO & Social Media Tags</h2>
 
-{/* Meta Title */}
-<div className="formGroup">
-  <label>Meta Title</label>
-  <input
-    type="text"
-    name="metaTitle"
-    value={tourData?.metaTitle}
-    onChange={handleChange}
-    placeholder="Enter meta title"
-    required
-  />
-</div>
+                            {/* Meta Title */}
+                            <div className="formGroup">
+                                <label>Meta Title</label>
+                                <input
+                                    type="text"
+                                    name="metaTitle"
+                                    value={tourData?.metaTitle}
+                                    onChange={handleChange}
+                                    placeholder="Enter meta title"
+                                    required
+                                />
+                            </div>
 
-{/* Meta Description */}
-<div className="formGroup">
-  <label>Meta Description</label>
-  <textarea
-    name="metaDescription"
-    value={tourData?.metaDescription}
-    onChange={handleChange}
-    placeholder="Enter meta description"
-    required
-  />
-</div>
+                            {/* Meta Description */}
+                            <div className="formGroup">
+                                <label>Meta Description</label>
+                                <textarea
+                                    name="metaDescription"
+                                    value={tourData?.metaDescription}
+                                    onChange={handleChange}
+                                    placeholder="Enter meta description"
+                                    required
+                                />
+                            </div>
 
-{/* Meta Keywords */}
-<div className="formGroup">
-  <label>Meta Keywords</label>
-  <input
-    type="text"
-    name="metaKeywords"
-    value={tourData?.metaKeywords}
-    onChange={handleChange}
-    placeholder="Enter keywords (comma separated)"
-    required
-  />
-</div>
+                            {/* Meta Keywords */}
+                            <div className="formGroup">
+                                <label>Meta Keywords</label>
+                                <input
+                                    type="text"
+                                    name="metaKeywords"
+                                    value={tourData?.metaKeywords}
+                                    onChange={handleChange}
+                                    placeholder="Enter keywords (comma separated)"
+                                    required
+                                />
+                            </div>
 
-{/* Canonical URL */}
-<div className="formGroup">
-  <label>Canonical URL</label>
-  <input
-    type="text"
-    name="canonicalUrl"
-    value={tourData?.canonicalUrl}
-    onChange={handleChange}
-    placeholder="Enter canonical URL"
-    required
-  />
-</div>
+                            {/* Canonical URL */}
+                            <div className="formGroup">
+                                <label>Canonical URL</label>
+                                <input
+                                    type="text"
+                                    name="canonicalUrl"
+                                    value={tourData?.canonicalUrl}
+                                    onChange={handleChange}
+                                    placeholder="Enter canonical URL"
+                                    required
+                                />
+                            </div>
 
-{/* Open Graph Tags */}
-<h3>Open Graph (OG) Tags</h3>
+                            {/* Open Graph Tags */}
+                            <h3>Open Graph (OG) Tags</h3>
 
-<div className="formGroup">
-  <label>OG Title</label>
-  <input
-    type="text"
-    name="openGraph.title"
-    value={tourData?.openGraph?.title}
-    onChange={handleTagsChange}
-    placeholder="Enter OG title"
-    required
-  />
-</div>
+                            <div className="formGroup">
+                                <label>OG Title</label>
+                                <input
+                                    type="text"
+                                    name="openGraph.title"
+                                    value={tourData?.openGraph?.title}
+                                    onChange={handleTagsChange}
+                                    placeholder="Enter OG title"
+                                    required
+                                />
+                            </div>
 
-<div className="formGroup">
-  <label>OG Description</label>
-  <textarea
-    name="openGraph.description"
-    value={tourData?.openGraph?.description}
-    onChange={handleTagsChange}
-    placeholder="Enter OG description"
-    required
-  />
-</div>
+                            <div className="formGroup">
+                                <label>OG Description</label>
+                                <textarea
+                                    name="openGraph.description"
+                                    value={tourData?.openGraph?.description}
+                                    onChange={handleTagsChange}
+                                    placeholder="Enter OG description"
+                                    required
+                                />
+                            </div>
 
-<div className="formGroup">
-  <label>OG URL</label>
-  <input
-    type="text"
-    name="openGraph.url"
-    value={tourData?.openGraph?.url}
-    onChange={handleTagsChange}
-    placeholder="Enter OG URL"
-    required
-  />
-</div>
-{/* 
+                            <div className="formGroup">
+                                <label>OG URL</label>
+                                <input
+                                    type="text"
+                                    name="openGraph.url"
+                                    value={tourData?.openGraph?.url}
+                                    onChange={handleTagsChange}
+                                    placeholder="Enter OG URL"
+                                    required
+                                />
+                            </div>
+                            {/* 
 <div className="formGroup">
   <label>OG Image</label>
   <input
@@ -1068,43 +1148,43 @@ const NewDestination = ({ title }) => {
   />
 </div> */}
 
-<div className="formGroup">
-  <label>OG Type</label>
-  <input
-    type="text"
-    name="openGraph.type"
-    value={tourData?.openGraph?.type}
-    onChange={handleTagsChange}
-    placeholder="Enter OG Type (e.g., website, article)"
-    required
-  />
-</div>
+                            <div className="formGroup">
+                                <label>OG Type</label>
+                                <input
+                                    type="text"
+                                    name="openGraph.type"
+                                    value={tourData?.openGraph?.type}
+                                    onChange={handleTagsChange}
+                                    placeholder="Enter OG Type (e.g., website, article)"
+                                    required
+                                />
+                            </div>
 
-{/* Twitter Tags */}
-<h3>Twitter Tags</h3>
+                            {/* Twitter Tags */}
+                            <h3>Twitter Tags</h3>
 
-<div className="formGroup">
-  <label>Twitter Title</label>
-  <input
-    type="text"
-    name="twitter.title"
-    value={tourData?.twitter?.title}
-    onChange={handleTagsChange}
-    placeholder="Enter Twitter title"
-    required
-  />
-</div>
+                            <div className="formGroup">
+                                <label>Twitter Title</label>
+                                <input
+                                    type="text"
+                                    name="twitter.title"
+                                    value={tourData?.twitter?.title}
+                                    onChange={handleTagsChange}
+                                    placeholder="Enter Twitter title"
+                                    required
+                                />
+                            </div>
 
-<div className="formGroup">
-  <label>Twitter Description</label>
-  <textarea
-    name="twitter.description"
-    value={tourData?.twitter?.description}
-    onChange={handleTagsChange}
-    placeholder="Enter Twitter description"
-    required
-  />
-</div>
+                            <div className="formGroup">
+                                <label>Twitter Description</label>
+                                <textarea
+                                    name="twitter.description"
+                                    value={tourData?.twitter?.description}
+                                    onChange={handleTagsChange}
+                                    placeholder="Enter Twitter description"
+                                    required
+                                />
+                            </div>
                             {/* Languages */}
                             <div className="formGroup">
                                 <label>Languages</label>
@@ -1148,14 +1228,7 @@ const NewDestination = ({ title }) => {
 
 
                             {/* Pricing */}
-                            <div className="formGroup">
-                                <label>Pricing</label>
-                                <textarea
-                                    value={tourData?.price}
-                                    onChange={(e) => setTourData({ ...tourData, price: e.target.value })}
-                                />
-                            </div>
-
+                         
                             <div className="formGroup" style={{ position: "relative" }}>
                                 <label htmlFor="categoriesInput">Categories</label>
                                 <div>
@@ -1192,7 +1265,7 @@ const NewDestination = ({ title }) => {
                                 </div>
                             </div>
 
-                            {/* Itineraries */}
+                           
                             <div>
                                 {tourData?.itineraries?.map((itinerary, index) => (
                                     <div key={index}>
@@ -1366,16 +1439,16 @@ const NewDestination = ({ title }) => {
                                     </div>
                                 </div>
                                 <div className="formGroup">
-              <label>Location</label>
-              <input
-                type="text"
-                name="location"
-                value={tourData?.location}
-                onChange={handleChange}
-                placeholder="Enter location"
-                required
-              />
-            </div>
+                                    <label>Location</label>
+                                    <input
+                                        type="text"
+                                        name="location"
+                                        value={tourData?.location}
+                                        onChange={handleChange}
+                                        placeholder="Enter location"
+                                        required
+                                    />
+                                </div>
 
                                 <div className="formGroup">
                                     <label>Upload Banner Image (width:1350px , height:500px)</label>

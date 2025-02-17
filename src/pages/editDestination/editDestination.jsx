@@ -52,6 +52,7 @@ const NewDestination = ({ title }) => {
         },
       });
       const data = await response.json();
+      console.log(data)
       setDestinationData(data);
     } catch (error) {
       console.error("Error fetching destination data", error);
@@ -59,6 +60,7 @@ const NewDestination = ({ title }) => {
       setIsLoading(false);  // Stop loading once data is fetched
     }
   };
+  console.log(destinationData)
   const handleTagsChange = (e) => {
     const { name, value } = e.target;
     const keys = name.split('.');
@@ -304,32 +306,40 @@ const NewDestination = ({ title }) => {
     }));
     setCountries(countryOptions);
   }, []);
+  
   useEffect(() => {
     if (destinationData.country) {
-      const stateOptions = State.getStatesOfCountry(
-        destinationData.country.value
-      ).map((state) => ({
+      const stateOptions = State.getStatesOfCountry(destinationData.country.value).map((state) => ({
         value: state.isoCode,
         label: state.name,
       }));
       setStates(stateOptions);
       setCities([]); // Clear cities when country changes
-      setDestinationData({ ...destinationData, state: null, city: null }); // Reset state and city selection
+  
+      setDestinationData((prev) => ({
+        ...prev,
+        state: stateOptions.find((s) => s.value === prev.state?.value) ? prev.state : null, // Retain state if valid
+        city: stateOptions.find((s) => s.value === prev.state?.value) ? prev.city : null, // Retain city if state is unchanged
+      }));
     }
   }, [destinationData.country]);
+  
   useEffect(() => {
     if (destinationData.country && destinationData.state) {
-      const cityOptions = City.getCitiesOfState(
-        destinationData.country.value,
-        destinationData.state.value
-      ).map((city) => ({
+      const cityOptions = City.getCitiesOfState(destinationData.country.value, destinationData.state.value).map((city) => ({
         value: city.name,
         label: city.name,
       }));
       setCities(cityOptions);
-      setDestinationData({ ...destinationData, city: null }); // Reset city selection
+  
+      setDestinationData((prev) => ({
+        ...prev,
+        city: cityOptions.find((c) => c.value === prev.city?.value) ? prev.city : null, // Retain city if valid
+      }));
     }
   }, [destinationData.state]);
+  
+  
   return (
     <div className="new">
       <Sidebar />
@@ -408,6 +418,7 @@ const NewDestination = ({ title }) => {
               className="previewImg"
             />
           </div>
+          {console.log(destinationData)}
           <div className="formGroup">
             <label>Description</label>
             <textarea
@@ -431,16 +442,9 @@ const NewDestination = ({ title }) => {
               onChange={(e) => handleInputChange(e, "languages")}
             />
           </div>
-          <div className="formGroup">
-            <label>Capital City</label>
-            <input
-              type="text"
-              value={destinationData.capitalCity}
-              onChange={(e) => handleInputChange(e, "capitalCity")}
-            />
-          </div>
+         
           <h2>SEO & Social Media Tags</h2>
-{console.log(destinationData)}
+
 {/* Meta Title */}
 <div className="formGroup">
   <label>Meta Title</label>
