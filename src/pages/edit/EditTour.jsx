@@ -9108,61 +9108,77 @@ console.log(tourData)
               </div>
             </div>
             <div className="formGroup" style={{ position: "relative" }}>
-              <label htmlFor="categoriesInput">Country</label>
-              <div>
-                <select
-                  name="country"
-                  onChange={(e) =>
-                    handleLocationSelect("country", e.target.value)
-                  }
-                >
-                  <option value="">Select a country</option>
-                  {destinations &&
-                    destinations.map((d) => (
-                      <option key={d.id} value={d.id}>
-                        {d.country?.label}
-                      </option>
-                    ))}
-                </select>
+                                    <label htmlFor="categoriesInput">Country</label>
+                                    <div>
+                                        <select
+                                            name="country"
+                                            onChange={(e) =>
+                                                handleLocationSelect("country", e.target.value)
+                                            }
+                                        >
+                                            <option value="">Select a country</option>
+                                            {Array.from(
+                                                new Set(
+                                                    (destinations || []).map(
+                                                        (d) => d.country?.label?.toLowerCase() || ""
+                                                    )
+                                                )
+                                            ).map(
+                                                (label, index) =>
+                                                    label && ( // Exclude empty or invalid labels
+                                                        <option key={index} value={label}>
+                                                            {label}
+                                                        </option>
+                                                    )
+                                            )}
+                                        </select>
 
-                <select
-                  name="state"
-                  onChange={(e) => {
-                    handleLocationSelect("state", e.target.value);
-                    handleDestinationSelect(e.target.value);
-                  }}
-                >
-                  <option value="">Select a state</option>
-                  {Array.from(
-                    new Set(
-                      (destinations || []).map(
-                        (d) => d.state?.label?.toLowerCase() || ""
-                      )
-                    )
-                  ).map(
-                    (label, index) =>
-                      label && (
-                        <option key={index} value={label.replace(/\s+/g, "-")}>
-                          {label}
-                        </option>
-                      )
-                  )}
-                </select>
+                                        <select
+                                            name="state"
+                                            onChange={(e) => {
+                                                handleLocationSelect("state", e.target.value);
+                                                handleDestinationSelect(e.target.value);
+                                            }}
+                                        >
+                                            <option value="">Select a state</option>
+                                            {Array.from(
+                                                new Set(
+                                                    (destinations || []).map(
+                                                        (d) => d.state?.label?.toLowerCase() || ""
+                                                    )
+                                                )
+                                            ).map(
+                                                (label, index) =>
+                                                    label && (
+                                                        <option key={index} value={label.replace(/\s+/g, "-")}>
+                                                            {label}
+                                                        </option>
+                                                    )
+                                            )}
+                                        </select>
 
-                <select
-                  name="city"
-                  onChange={(e) => handleLocationSelect("city", e.target.value)}
-                >
-                  <option value="">Select a city</option>
-                  {destinations &&
-                    destinations.map((d) => (
-                      <option key={d.id} value={d.id}>
-                        {d.city?.label}
-                      </option>
-                    ))}
-                </select>
-              </div>
-            </div>
+                                        <select
+                                            name="city"
+                                            onChange={(e) => handleLocationSelect("city", e.target.value)}
+                                        >
+                                            <option value="">Select a city</option>
+                                            {Array.from(
+                                                new Set(
+                                                    (destinations || []).map(
+                                                        (d) => d.city?.label?.toLowerCase() || ""
+                                                    )
+                                                )
+                                            ).map(
+                                                (label, index) =>
+                                                    label && (
+                                                        <option key={index} value={label}>
+                                                            {label}
+                                                        </option>
+                                                    )
+                                            )}
+                                        </select>
+                                    </div>
+                                </div>
 
             <div className="formGroup" style={{ position: "relative" }}>
               <label htmlFor="attributesInput">Attributes</label>

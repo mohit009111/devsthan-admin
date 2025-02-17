@@ -12,7 +12,13 @@
   align-items: center;
   justify-content: space-between;
 }
-
+.MuiDataGrid-cell{
+  max-width: 350px !important;
+}
+.MuiDataGrid-columnHeader{
+width: none !important;
+  max-width: 350px !important;
+}
 .datatable .datatableTitle .link {
   text-decoration: none;
   color: green;

@@ -1,4 +1,4 @@
-import "./datatable.css";
+import "./datatableAbout.css";
 import { DataGrid } from "@mui/x-data-grid";
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -112,7 +112,7 @@ const Datatable = () => {
   return (
     <div className="datatable">
       <div className="datatableTitle">
-        Add New Tour
+        Add New About
         <Link to="/admin/tours/new" className="link">
           Add New
         </Link>

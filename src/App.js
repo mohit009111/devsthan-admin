@@ -11,12 +11,14 @@ import NewDestination from "./pages/newDestination/newDestination";
 import CreateCoupon from "./pages/coupon/index";
 import NewFixedTour from './pages/newFixedTour/newFixedTour'
 import EditFixedTour from './pages/editFixedTours/editFixedTours'
+import AboutUsEdit from './pages/editAbout/editAbout'
+
 import CouponDetails from "./pages/couponDetails/couponDetails";
 import Faqs from "./pages/faqs/faqs";
 import CustomizedQueries from "./pages/customizedQueries/customizedQueries";
 import Orders from "./pages/orders/orders";
 import NewAboutUs from "./pages/about-us/aboutUs";
-import Aboutus from "./pages/about-us/aboutUs";
+import AboutusList from "./pages/about-us/aboutUsList";
 import NewBlog from "./pages/newBlog/newBlog";
 import ContactsList from "./pages/contacts/contactsList";
 import BlogsList from "./pages/blogs/blogsList";
@@ -232,19 +234,21 @@ function App() {
           </Route>
 
           <Route path="/admin/about-us">
+
+
             <Route
               index
               element={
                 <ProtectedRoute>
-                  <Aboutus />
+                  <AboutusList />
                 </ProtectedRoute>
               }
             />
             <Route
-              path=":userId"
+              path="edit"
               element={
                 <ProtectedRoute>
-                  <Single />
+                  <AboutUsEdit />
                 </ProtectedRoute>
               }
             />

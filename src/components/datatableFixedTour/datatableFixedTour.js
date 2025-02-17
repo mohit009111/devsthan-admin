@@ -106,7 +106,7 @@ const Datatable = () => {
   ];
 
   const tourColumns = [
-    { field: "name", headerName: "Tour Name", width: 200 },
+    { field: "name", headerName: "Tour Name", width: 350 },
     { field: "location", headerName: "Location", width: 150 },
     { field: "price", headerName: "Price", width: 120 },
     { field: "date", headerName: "Date", width: 160 },

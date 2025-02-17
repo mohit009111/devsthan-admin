@@ -20,20 +20,21 @@ const Datatable = () => {
 
   const fetchAllTours = async () => {
     try {
-      const response = await fetch(`${BASE_URL}/api/getAllDestinations`, {
+      const response = await fetch(`${BASE_URL}/api/getAllWhyChoose`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
         },
       });
-      const data = await response.json();
 
-      const mappedData = data.map((tour, index) => ({
+    
+      const data = await response.json();
+      const data1=data.data
+
+      const mappedData = data1.map((tour, index) => ({
         id: tour.uuid || index,
-        name: tour.country.label,
-        location: tour.state.label,
-        // price: tour.standardDetails.price,
-        date: tour.createdAt,
+        title: tour.title,
+       
       }));
 
       setAllTours(mappedData);
@@ -83,7 +84,7 @@ console.log(allTours)
       renderCell: () => {
         return (
           <div className="cellAction">
-            <Link to={`/editTour/${allTours[0].id}`} style={{ textDecoration: "none" }}>
+            <Link to={`/admin/about-us/edit`} style={{ textDecoration: "none" }}>
               <div className="viewButton">Edit</div>
             </Link>
             <div
@@ -99,10 +100,8 @@ console.log(allTours)
   ];
 
   const tourColumns = [
-    { field: "location", headerName: "Location", width: 200 },
-    { field: "City Name", headerName: "City Name", width: 150 },
-    { field: "State Name", headerName: "State Name", width: 120 },
-    { field: "Country Name", headerName: "Country Name", width: 160 },
+    { field: "title", headerName: "title", width: 350 },
+   
   ];
 
   return (

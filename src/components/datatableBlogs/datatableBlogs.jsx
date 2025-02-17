@@ -110,10 +110,8 @@ const Datatable = () => {
   ];
 
   const tourColumns = [
-    { field: "name", headerName: "Title", width: 200 },
-    { field: "city", headerName: "City Name", width: 150 },
-    { field: "state", headerName: "State Name", width: 120 },
-    { field: "country", headerName: "Country Name", width: 160 },
+    { field: "name", headerName: "Title", width: 350 },
+   
     { field: "date", headerName: "Date Created", width: 180 },
   ];
 
