@@ -67,7 +67,7 @@ const Datatable = () => {
 
   const handleConfirmDelete = async () => {
     try {
-      await fetch(`${BASE_URL}/api/deleteTour/${tourIdToDelete}`, {
+      await fetch(`${BASE_URL}/api/deleteDestinationById/${tourIdToDelete}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

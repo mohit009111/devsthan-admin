@@ -60,7 +60,7 @@ const Datatable = () => {
     if (!tourIdToDelete) return;
 
     try {
-      await fetch(`${BASE_URL}/api/deleteTour/${tourIdToDelete}`, {
+      await fetch(`${BASE_URL}/api/deleteWhyChoose/${tourIdToDelete}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
